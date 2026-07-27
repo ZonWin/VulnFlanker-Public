@@ -7,6 +7,8 @@ VulnFlanker 是一个面向内部安全运营的漏洞影响评估与受控验�
 ## 功能
 
 - 从 CISA KEV、阿里云 AVD 和内置 WatchVuln 采集器收集并标准化漏洞情报。
+    - WatchVuln 高价值漏洞采集与推送 'https://github.com/zema1/watchvuln'
+    - WatchVuln 项目功能非常好用，初期考虑以此作为采集器，不过效果不佳，但还是感谢原作者。
 - 通过 Agent 接入 API 接收 Linux 主机快照。
 - 跟踪资产、组件、网络暴露情况、Agent 状态和快照新鲜度。
 - 依据产品、版本、操作系统、功能和暴露规则，评估漏洞是否影响资产。
