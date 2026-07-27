@@ -73,9 +73,12 @@ history-scrubbed release process.
     under `agent/` and `tools/watchvuln-collector/`.
 
 - [x] Add basic open source project files.
-  - `SECURITY_EN.md` and `SECURITY_ZH.md` for vulnerability disclosure.
-  - `CONTRIBUTING.md` for local setup, test commands, and contribution rules.
-  - `CHANGELOG.md` for the first release note.
+  - `Documents/SECURITY_EN.md` and `Documents/SECURITY_ZH.md` for vulnerability
+    disclosure.
+  - `Documents/CONTRIBUTING_EN.md` and `Documents/CONTRIBUTING_ZH.md` for local
+    setup, test commands, and contribution rules.
+  - `Documents/CHANGELOG_EN.md` and `Documents/CHANGELOG_ZH.md` for the first
+    release note.
   - GitHub Actions CI for backend, frontend, and Go modules.
   - Dependabot or equivalent dependency update automation.
 
@@ -83,8 +86,9 @@ history-scrubbed release process.
   - Existing project license is Apache-2.0.
   - The built-in WatchVuln collector already has a third-party notice for
     adapted MIT-licensed logic.
-  - Added root `THIRD_PARTY_NOTICES_EN.md` and
-    `THIRD_PARTY_NOTICES_ZH.md`, and linked the English notice from `NOTICE`.
+  - Added `Documents/THIRD_PARTY_NOTICES_EN.md` and
+    `Documents/THIRD_PARTY_NOTICES_ZH.md`, and linked the English notice from
+    `NOTICE`.
   - Added non-blocking CI dependency audit coverage for Python and Go, while
     keeping `npm audit` as a blocking frontend check.
 

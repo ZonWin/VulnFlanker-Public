@@ -51,16 +51,16 @@
   - 根目录的 `go.mod` 声明了 `module vulnflanker/a1`，而实际的 Go 模块位于 `agent/` 和 `tools/watchvuln-collector/` 下。
 
 - [x] 添加基本的开源项目文件。
-  - 使用 `SECURITY.md` 说明漏洞披露方式。
-  - 使用 `CONTRIBUTING.md` 说明本地设置、测试命令和贡献规则。
-  - 使用 `CHANGELOG.md` 记录首个版本的发布说明。
+  - 使用 `Documents/SECURITY_EN.md` 和 `Documents/SECURITY_ZH.md` 说明漏洞披露方式。
+  - 使用 `Documents/CONTRIBUTING_EN.md` 和 `Documents/CONTRIBUTING_ZH.md` 说明本地设置、测试命令和贡献规则。
+  - 使用 `Documents/CHANGELOG_EN.md` 和 `Documents/CHANGELOG_ZH.md` 记录首个版本的发布说明。
   - 为后端、前端和 Go 模块配置 GitHub Actions CI。
   - 配置 Dependabot 或同类依赖更新自动化工具。
 
 - [x] 生成或记录第三方依赖声明。
   - 项目现有许可证为 Apache-2.0。
   - 内置 WatchVuln 采集器已包含针对所改编 MIT 许可逻辑的第三方声明。
-  - 已添加根目录 `THIRD_PARTY_NOTICES.md`，并在 `NOTICE` 中链接到该文件。
+  - 已添加 `Documents/THIRD_PARTY_NOTICES_EN.md` 和 `Documents/THIRD_PARTY_NOTICES_ZH.md`，并在 `NOTICE` 中链接到英文声明。
   - 已为 Python 和 Go 添加非阻塞式 CI 依赖审计，同时将 `npm audit` 保留为阻塞式前端检查。
 
 ## 需要公开保留的安全说明

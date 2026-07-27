@@ -1,5 +1,7 @@
 # VulnFlanker
 
+Chinese version: [README.md](README.md)
+
 VulnFlanker is a vulnerability impact assessment and controlled verification
 platform for internal security operations. It connects vulnerability
 intelligence, host asset snapshots, asset-vulnerability matching, risk
@@ -8,6 +10,17 @@ prioritization, read-only verification tasks, and audit logs into one workflow.
 The first public release is a `v0.1` baseline. It is useful for local demos,
 internal trials, and small controlled environments. It is not a hardened
 internet-facing production stack.
+
+## Documentation
+
+| Document | Chinese | English |
+| --- | --- | --- |
+| Project overview | [README.md](README.md) / [Chinese copy](Documents/README_ZH.md) | [README_EN.md](README_EN.md) |
+| Changelog | [CHANGELOG_ZH.md](Documents/CHANGELOG_ZH.md) | [CHANGELOG_EN.md](Documents/CHANGELOG_EN.md) |
+| Contributing guide | [CONTRIBUTING_ZH.md](Documents/CONTRIBUTING_ZH.md) | [CONTRIBUTING_EN.md](Documents/CONTRIBUTING_EN.md) |
+| Security policy | [SECURITY_ZH.md](Documents/SECURITY_ZH.md) | [SECURITY_EN.md](Documents/SECURITY_EN.md) |
+| Third-party notices | [THIRD_PARTY_NOTICES_ZH.md](Documents/THIRD_PARTY_NOTICES_ZH.md) | [THIRD_PARTY_NOTICES_EN.md](Documents/THIRD_PARTY_NOTICES_EN.md) |
+| Open source release review | [OPEN_SOURCE_RELEASE_REVIEW_ZH.md](Documents/OPEN_SOURCE_RELEASE_REVIEW_ZH.md) | [OPEN_SOURCE_RELEASE_REVIEW_EN.md](Documents/OPEN_SOURCE_RELEASE_REVIEW_EN.md) |
 
 ## What It Does
 
@@ -162,6 +175,7 @@ frontend/                   React console
 agent/                      Linux host Agent
 tools/watchvuln-collector/  Built-in WatchVuln collector
 deploy/                     Demo/development Docker files
+Documents/                  Chinese and English project documentation
 .github/                    CI and dependency update configuration
 ```
 
@@ -183,7 +197,8 @@ captures are intentionally not part of the public release branch.
 - Current verification tasks are read-only. Automatic remediation and intrusive
   proof-of-concept execution are intentionally out of scope for v0.1.
 
-See `SECURITY_EN.md` for vulnerability reporting guidance.
+See [`Documents/SECURITY_EN.md`](Documents/SECURITY_EN.md) for vulnerability
+reporting guidance.
 
 ## License
 

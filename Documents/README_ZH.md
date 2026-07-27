@@ -1,8 +1,21 @@
 # VulnFlanker
 
+文档入口：[默认中文版](../README.md) | [English](../README_EN.md)
+
 VulnFlanker 是一个面向内部安全运营的漏洞影响评估与受控验证平台。它将漏洞情报、主机资产快照、资产与漏洞匹配、风险优先级排序、只读验证任务和审计日志连接为一套完整工作流。
 
 首个公开版本是 `v0.1` 基线版本，适用于本地演示、内部试用和小型受控环境，但并非经过安全加固、可直接面向互联网的生产系统。
+
+## 文档导航
+
+| 文档 | 中文版 | 英文版 |
+| --- | --- | --- |
+| 项目说明 | [README.md](../README.md) / [当前中文副本](README_ZH.md) | [README_EN.md](../README_EN.md) |
+| 变更日志 | [CHANGELOG_ZH.md](CHANGELOG_ZH.md) | [CHANGELOG_EN.md](CHANGELOG_EN.md) |
+| 贡献指南 | [CONTRIBUTING_ZH.md](CONTRIBUTING_ZH.md) | [CONTRIBUTING_EN.md](CONTRIBUTING_EN.md) |
+| 安全策略 | [SECURITY_ZH.md](SECURITY_ZH.md) | [SECURITY_EN.md](SECURITY_EN.md) |
+| 第三方声明 | [THIRD_PARTY_NOTICES_ZH.md](THIRD_PARTY_NOTICES_ZH.md) | [THIRD_PARTY_NOTICES_EN.md](THIRD_PARTY_NOTICES_EN.md) |
+| 开源发布审查 | [OPEN_SOURCE_RELEASE_REVIEW_ZH.md](OPEN_SOURCE_RELEASE_REVIEW_ZH.md) | [OPEN_SOURCE_RELEASE_REVIEW_EN.md](OPEN_SOURCE_RELEASE_REVIEW_EN.md) |
 
 ## 功能
 
@@ -140,6 +153,7 @@ frontend/                   React 控制台
 agent/                      Linux 主机 Agent
 tools/watchvuln-collector/  内置 WatchVuln 采集器
 deploy/                     演示/开发用 Docker 文件
+Documents/                  中英文项目说明文档
 .github/                    CI 和依赖更新配置
 ```
 
@@ -154,8 +168,9 @@ deploy/                     演示/开发用 Docker 文件
 - 系统已支持 Agent Bearer Secret 身份认证，但 HMAC 重放保护和密钥轮换仍是后续安全加固事项。
 - 当前验证任务均为只读。自动修复和侵入式概念验证执行有意不纳入 v0.1 范围。
 
-漏洞报告指引请参阅 `SECURITY_ZH.md`。
+漏洞报告指引请参阅 [`SECURITY_ZH.md`](SECURITY_ZH.md)。
 
 ## 许可证
 
-VulnFlanker 采用 Apache License 2.0 许可证。详情请参阅 `LICENSE` 和 `NOTICE`。
+VulnFlanker 采用 Apache License 2.0 许可证。详情请参阅 `../LICENSE` 和
+`../NOTICE`。
