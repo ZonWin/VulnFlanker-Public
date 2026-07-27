@@ -5,7 +5,7 @@ This product is licensed under the Apache License, Version 2.0.
 See the LICENSE file for the full license text.
 
 Third-party dependency and attribution notes are maintained in
-THIRD_PARTY_NOTICES.md. The built-in WatchVuln collector also keeps a focused
+THIRD_PARTY_NOTICES_EN.md. The built-in WatchVuln collector also keeps a focused
 notice file at tools/watchvuln-collector/THIRD_PARTY_NOTICES.md.
 
 Project home:
