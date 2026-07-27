@@ -1,0 +1,31 @@
+{
+  "schema_version": "ai-enrichment-eval-v1",
+  "stage": "public-synthetic",
+  "created_at": "2026-07-27",
+  "source_corpus": "public_watchvuln_corpus",
+  "sample_count": 2,
+  "selection_summary": {
+    "sources": {
+      "synthetic": 2
+    },
+    "has_cve_count": 1,
+    "non_cve_count": 1,
+    "purpose": "Evaluate deterministic AI enrichment flow with public synthetic fixtures."
+  },
+  "samples": [
+    {
+      "sample_id": "synthetic-ai-0001",
+      "raw_event_ref": "public_watchvuln_corpus/raw_events/synthetic/0003-SYNTH-2026-0003.json",
+      "expected_ref": "expected/synthetic-ai-0001.json",
+      "source": "synthetic",
+      "title": "Example Agent configuration exposure"
+    },
+    {
+      "sample_id": "synthetic-ai-0002",
+      "raw_event_ref": "public_watchvuln_corpus/raw_events/synthetic/0002-SYNTH-2026-0002.json",
+      "expected_ref": "expected/synthetic-ai-0002.json",
+      "source": "synthetic",
+      "title": "Synthetic advisory without match terms"
+    }
+  ]
+}

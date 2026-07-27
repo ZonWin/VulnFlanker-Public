@@ -1,0 +1,369 @@
+{
+  "schema_version": "quality-chain-fixture-v1",
+  "dataset_version": "s3-q1-seed-2026-07-08",
+  "description": "S3-Q1 seed quality-chain dataset covering affected, not_affected, and needs_review.",
+  "samples": [
+    {
+      "id": "q1-clear-nginx-fixed-version",
+      "category": "clear_affected_range",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-clear-nginx-fixed-version.json",
+      "assets": [
+        "assets/q1-nginx-affected.json",
+        "assets/q1-nginx-safe.json"
+      ],
+      "expected": "expected/q1-clear-nginx-fixed-version.json",
+      "labels": ["kev", "fixed_version", "public_exposure"],
+      "notes": "Clear fixed version should split affected and safe nginx assets."
+    },
+    {
+      "id": "q1-clear-apache-alias",
+      "category": "clear_affected_range",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-clear-apache-alias.json",
+      "assets": [
+        "assets/q1-apache-alias-affected.json"
+      ],
+      "expected": "expected/q1-clear-apache-alias.json",
+      "labels": ["alias", "fixed_version"],
+      "notes": "httpd vulnerability should match apache2 package through the product alias table."
+    },
+    {
+      "id": "q1-clear-openssl-safe-version",
+      "category": "clear_affected_range",
+      "enabled": true,
+      "raw_event": "vulnerabilities/aliyun_avd/q1-clear-openssl-safe-version.json",
+      "assets": [
+        "assets/q1-openssl-safe.json"
+      ],
+      "expected": "expected/q1-clear-openssl-safe-version.json",
+      "labels": ["fixed_version", "safe_version"],
+      "notes": "OpenSSL version newer than the fixed version should stay not_affected."
+    },
+    {
+      "id": "q1-clear-postgresql-fixed-version",
+      "category": "clear_affected_range",
+      "enabled": true,
+      "raw_event": "vulnerabilities/aliyun_avd/q1-clear-postgresql-fixed-version.json",
+      "assets": [
+        "assets/q1-postgresql-affected.json",
+        "assets/q1-postgresql-safe.json"
+      ],
+      "expected": "expected/q1-clear-postgresql-fixed-version.json",
+      "labels": ["fixed_version", "database"],
+      "notes": "PostgreSQL fixed version should split affected and safe database assets."
+    },
+    {
+      "id": "q1-clear-mysql-mariadb-alias",
+      "category": "clear_affected_range",
+      "enabled": true,
+      "raw_event": "vulnerabilities/aliyun_avd/q1-clear-mysql-mariadb-alias.json",
+      "assets": [
+        "assets/q1-mariadb-affected.json"
+      ],
+      "expected": "expected/q1-clear-mysql-mariadb-alias.json",
+      "labels": ["alias", "database"],
+      "notes": "MySQL vulnerability should match MariaDB package through the alias table."
+    },
+    {
+      "id": "q1-clear-openssh-fixed-version",
+      "category": "clear_affected_range",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-clear-openssh-fixed-version.json",
+      "assets": [
+        "assets/q1-openssh-affected.json"
+      ],
+      "expected": "expected/q1-clear-openssh-fixed-version.json",
+      "labels": ["fixed_version", "public_exposure"],
+      "notes": "OpenSSH package below fixed version should be affected."
+    },
+    {
+      "id": "q1-clear-apache-safe-version",
+      "category": "clear_affected_range",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-clear-apache-safe-version.json",
+      "assets": [
+        "assets/q1-apache-safe.json"
+      ],
+      "expected": "expected/q1-clear-apache-safe-version.json",
+      "labels": ["alias", "safe_version"],
+      "notes": "Apache httpd safe version should not enter the risk queue."
+    },
+    {
+      "id": "q1-clear-ubuntu-os-version",
+      "category": "clear_affected_range",
+      "enabled": true,
+      "raw_event": "vulnerabilities/aliyun_avd/q1-clear-ubuntu-os-version.json",
+      "assets": [
+        "assets/q1-watchvuln-context.json"
+      ],
+      "expected": "expected/q1-clear-ubuntu-os-version.json",
+      "labels": ["os_version", "affected_versions"],
+      "notes": "Ubuntu affected version text should match the asset OS version."
+    },
+    {
+      "id": "q1-clear-nginx-internal-service",
+      "category": "clear_affected_range",
+      "enabled": true,
+      "raw_event": "vulnerabilities/aliyun_avd/q1-clear-nginx-internal-service.json",
+      "assets": [
+        "assets/q1-kev-internal-nginx.json"
+      ],
+      "expected": "expected/q1-clear-nginx-internal-service.json",
+      "labels": ["fixed_version", "internal_exposure"],
+      "notes": "Internal nginx service should still match when the vulnerability does not require public access."
+    },
+    {
+      "id": "q1-clear-openssl-affected-version",
+      "category": "clear_affected_range",
+      "enabled": true,
+      "raw_event": "vulnerabilities/aliyun_avd/q1-clear-openssl-affected-version.json",
+      "assets": [
+        "assets/q1-watchvuln-context.json"
+      ],
+      "expected": "expected/q1-clear-openssl-affected-version.json",
+      "labels": ["fixed_version", "package_version"],
+      "notes": "OpenSSL package below a newer fixed version should be affected."
+    },
+    {
+      "id": "q1-kev-public-critical",
+      "category": "kev",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-kev-public-critical.json",
+      "assets": [
+        "assets/q1-kev-public-nginx.json"
+      ],
+      "expected": "expected/q1-kev-public-critical.json",
+      "labels": ["kev", "public_exposure"],
+      "notes": "Public KEV match should enter the risk queue with a non-none priority."
+    },
+    {
+      "id": "q1-kev-internal-medium",
+      "category": "kev",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-kev-internal-medium.json",
+      "assets": [
+        "assets/q1-kev-internal-nginx.json"
+      ],
+      "expected": "expected/q1-kev-internal-medium.json",
+      "labels": ["kev", "internal_exposure"],
+      "notes": "Internal KEV match should remain affected but generally score below the public exposure sample."
+    },
+    {
+      "id": "q1-kev-apache-public",
+      "category": "kev",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-kev-apache-public.json",
+      "assets": [
+        "assets/q1-apache-alias-affected.json"
+      ],
+      "expected": "expected/q1-kev-apache-public.json",
+      "labels": ["kev", "alias", "public_exposure"],
+      "notes": "Apache KEV sample should match public apache2 evidence through aliases."
+    },
+    {
+      "id": "q1-kev-nginx-safe-version",
+      "category": "kev",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-kev-nginx-safe-version.json",
+      "assets": [
+        "assets/q1-nginx-safe.json"
+      ],
+      "expected": "expected/q1-kev-nginx-safe-version.json",
+      "labels": ["kev", "safe_version"],
+      "notes": "KEV status should not override a clear not_affected version result."
+    },
+    {
+      "id": "q1-kev-openssh-public",
+      "category": "kev",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-kev-openssh-public.json",
+      "assets": [
+        "assets/q1-openssh-affected.json"
+      ],
+      "expected": "expected/q1-kev-openssh-public.json",
+      "labels": ["kev", "public_exposure", "openssh"],
+      "notes": "OpenSSH KEV sample should match package and public SSH exposure."
+    },
+    {
+      "id": "q1-range-multi-segment-kernel",
+      "category": "complex_version_range",
+      "enabled": true,
+      "raw_event": "vulnerabilities/aliyun_avd/q1-range-multi-segment-kernel.json",
+      "assets": [
+        "assets/q1-kernel-range-affected.json"
+      ],
+      "expected": "expected/q1-range-multi-segment-kernel.json",
+      "labels": ["kernel", "affected_versions", "multi_segment_range"],
+      "notes": "Linux kernel multi-segment affected_versions should match the asset kernel version."
+    },
+    {
+      "id": "q1-range-missing-fixed-version",
+      "category": "complex_version_range",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-range-missing-fixed-version.json",
+      "assets": [
+        "assets/q1-nginx-missing-range.json"
+      ],
+      "expected": "expected/q1-range-missing-fixed-version.json",
+      "labels": ["missing_version", "needs_review"],
+      "notes": "Missing affected and fixed versions should be visible as needs_review."
+    },
+    {
+      "id": "q1-range-postgresql-window",
+      "category": "complex_version_range",
+      "enabled": true,
+      "raw_event": "vulnerabilities/aliyun_avd/q1-range-postgresql-window.json",
+      "assets": [
+        "assets/q1-postgresql-affected.json"
+      ],
+      "expected": "expected/q1-range-postgresql-window.json",
+      "labels": ["database", "affected_versions", "range"],
+      "notes": "PostgreSQL range text should match an in-window observed version."
+    },
+    {
+      "id": "q1-range-openssh-before-safe",
+      "category": "complex_version_range",
+      "enabled": true,
+      "raw_event": "vulnerabilities/aliyun_avd/q1-range-openssh-before-safe.json",
+      "assets": [
+        "assets/q1-openssh-safe.json"
+      ],
+      "expected": "expected/q1-range-openssh-before-safe.json",
+      "labels": ["openssh", "before_range", "safe_version"],
+      "notes": "OpenSSH before-version text should mark newer package versions safe."
+    },
+    {
+      "id": "q1-range-ubuntu-os-text",
+      "category": "complex_version_range",
+      "enabled": true,
+      "raw_event": "vulnerabilities/aliyun_avd/q1-range-ubuntu-os-text.json",
+      "assets": [
+        "assets/q1-watchvuln-context.json"
+      ],
+      "expected": "expected/q1-range-ubuntu-os-text.json",
+      "labels": ["os_version", "natural_language_range"],
+      "notes": "Natural language OS affected text should match Ubuntu 22.04."
+    },
+    {
+      "id": "q1-distro-ubuntu-epoch",
+      "category": "linux_distro_backport",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-distro-ubuntu-epoch.json",
+      "assets": [
+        "assets/q1-nginx-ubuntu-epoch.json"
+      ],
+      "expected": "expected/q1-distro-ubuntu-epoch.json",
+      "labels": ["distro", "backport", "needs_review"],
+      "notes": "Ubuntu epoch package version should remain conservative and require review."
+    },
+    {
+      "id": "q1-distro-backport-suffix",
+      "category": "linux_distro_backport",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-distro-backport-suffix.json",
+      "assets": [
+        "assets/q1-nginx-backport-suffix.json"
+      ],
+      "expected": "expected/q1-distro-backport-suffix.json",
+      "labels": ["distro", "backport", "needs_review"],
+      "notes": "Distro release metadata without matching upstream metadata should require review."
+    },
+    {
+      "id": "q1-distro-debian-suffix",
+      "category": "linux_distro_backport",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-distro-debian-suffix.json",
+      "assets": [
+        "assets/q1-nginx-debian-suffix.json"
+      ],
+      "expected": "expected/q1-distro-debian-suffix.json",
+      "labels": ["distro", "debian", "needs_review"],
+      "notes": "Debian package suffix should be conservatively reviewed."
+    },
+    {
+      "id": "q1-distro-rhel-suffix",
+      "category": "linux_distro_backport",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-distro-rhel-suffix.json",
+      "assets": [
+        "assets/q1-nginx-rhel-suffix.json"
+      ],
+      "expected": "expected/q1-distro-rhel-suffix.json",
+      "labels": ["distro", "rhel", "needs_review"],
+      "notes": "RHEL package release metadata should be conservatively reviewed."
+    },
+    {
+      "id": "q1-distro-tilde-backport",
+      "category": "linux_distro_backport",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-distro-tilde-backport.json",
+      "assets": [
+        "assets/q1-nginx-tilde-backport.json"
+      ],
+      "expected": "expected/q1-distro-tilde-backport.json",
+      "labels": ["distro", "backport", "needs_review"],
+      "notes": "Tilde backport metadata should require review before confident matching."
+    },
+    {
+      "id": "q1-negative-similar-title",
+      "category": "negative",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-negative-similar-title.json",
+      "assets": [
+        "assets/q1-negative-nginx-only.json"
+      ],
+      "expected": "expected/q1-negative-similar-title.json",
+      "labels": ["negative", "product_mismatch"],
+      "notes": "A Tomcat-titled vulnerability should not affect an nginx-only asset."
+    },
+    {
+      "id": "q1-negative-alias-boundary",
+      "category": "negative",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-negative-alias-boundary.json",
+      "assets": [
+        "assets/q1-negative-apache2-only.json"
+      ],
+      "expected": "expected/q1-negative-alias-boundary.json",
+      "labels": ["negative", "alias_boundary"],
+      "notes": "Apache Tomcat should not match apache2/httpd alias evidence."
+    },
+    {
+      "id": "q1-negative-postgres-vs-mysql-asset",
+      "category": "negative",
+      "enabled": true,
+      "raw_event": "vulnerabilities/aliyun_avd/q1-negative-postgres-vs-mysql-asset.json",
+      "assets": [
+        "assets/q1-mariadb-affected.json"
+      ],
+      "expected": "expected/q1-negative-postgres-vs-mysql-asset.json",
+      "labels": ["negative", "database", "product_mismatch"],
+      "notes": "PostgreSQL vulnerability should not match a MariaDB-only asset."
+    },
+    {
+      "id": "q1-negative-openssh-vs-nginx-asset",
+      "category": "negative",
+      "enabled": true,
+      "raw_event": "vulnerabilities/cisa_kev/q1-negative-openssh-vs-nginx-asset.json",
+      "assets": [
+        "assets/q1-nginx-affected.json"
+      ],
+      "expected": "expected/q1-negative-openssh-vs-nginx-asset.json",
+      "labels": ["negative", "openssh", "product_mismatch"],
+      "notes": "OpenSSH vulnerability should not match an nginx-only asset."
+    },
+    {
+      "id": "q1-watchvuln-missing-product",
+      "category": "source_quality",
+      "enabled": true,
+      "raw_event": "vulnerabilities/watchvuln/q1-watchvuln-missing-product.json",
+      "assets": [
+        "assets/q1-watchvuln-context.json"
+      ],
+      "expected": "expected/q1-watchvuln-missing-product.json",
+      "labels": ["watchvuln", "missing_product", "needs_review"],
+      "notes": "Missing normalized product must stay visible as needs_review instead of becoming confident affected."
+    }
+  ]
+}

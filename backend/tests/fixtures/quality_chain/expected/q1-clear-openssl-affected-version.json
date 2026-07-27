@@ -1,0 +1,27 @@
+{
+  "sample_id": "q1-clear-openssl-affected-version",
+  "expected_vulnerability": {
+    "canonical_id": "CVE-2026-10019",
+    "vendor": "OpenSSL",
+    "product": "openssl",
+    "kev_status": false,
+    "affected_versions": "OpenSSL < 3.0.8",
+    "fixed_versions": "3.0.8",
+    "required_references_min_count": 1,
+    "required_fields": ["canonical_id", "title", "product", "affected_versions", "fixed_versions", "remediation"]
+  },
+  "expected_matches": [
+    {
+      "agent_id": "q1-agent-watchvuln-context",
+      "status": "affected",
+      "required_evidence_types": ["product_match", "package_version"],
+      "risk_priority_one_of": ["low", "medium", "high", "critical"],
+      "should_enter_risk_queue": true
+    }
+  ],
+  "quality_expectations": {
+    "normalization_must_succeed": true,
+    "canonical_id_must_not_drift": true,
+    "needs_review_requires_reason": true
+  }
+}

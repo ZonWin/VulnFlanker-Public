@@ -1,0 +1,5357 @@
+{
+  "schema_version": "quality-chain-report-v1",
+  "dataset_version": "s3-q1-seed-2026-07-08",
+  "generated_at": "2026-07-10T01:48:26.557240+00:00",
+  "summary": {
+    "sample_count": 30,
+    "executed_count": 30,
+    "failed_count": 0,
+    "field_completeness_rate": 0.9933,
+    "reference_coverage_rate": 1.0,
+    "needs_ai_enrichment_count": 24,
+    "needs_human_review_count": 0,
+    "source_conflict_count": 0,
+    "issue_code_distribution": {
+      "missing_affected_versions": 19,
+      "missing_exploitation_signal": 12,
+      "missing_fixed_versions": 7,
+      "missing_product": 1,
+      "missing_severity": 18
+    },
+    "readiness_distribution": {
+      "needs_enrichment": 2,
+      "ready": 28
+    },
+    "readiness_reason_distribution": {
+      "missing_affected_versions": 19,
+      "missing_exploitation_signal": 12,
+      "missing_fixed_versions": 7,
+      "missing_product": 1,
+      "missing_severity": 18
+    },
+    "readiness_blocked_count": 2,
+    "expected_match_count": 32,
+    "match_status_accuracy": 1.0,
+    "false_positive_count": 0,
+    "false_negative_count": 0,
+    "needs_review_count": 5,
+    "needs_review_reason_coverage_rate": 1.0,
+    "kev_miss_count": 0,
+    "risk_priority_deviation_count": 0,
+    "category_metrics": {
+      "clear_affected_range": {
+        "sample_count": 10,
+        "expected_match_count": 12,
+        "status_match_count": 12,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 8,
+        "risk_priority_deviation_count": 0
+      },
+      "complex_version_range": {
+        "sample_count": 5,
+        "expected_match_count": 5,
+        "status_match_count": 5,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 3,
+        "risk_priority_deviation_count": 0
+      },
+      "kev": {
+        "sample_count": 5,
+        "expected_match_count": 5,
+        "status_match_count": 5,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 4,
+        "risk_priority_deviation_count": 0
+      },
+      "linux_distro_backport": {
+        "sample_count": 5,
+        "expected_match_count": 5,
+        "status_match_count": 5,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 5,
+        "risk_queue_entry_count": 5,
+        "risk_priority_deviation_count": 0
+      },
+      "negative": {
+        "sample_count": 4,
+        "expected_match_count": 4,
+        "status_match_count": 4,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 0,
+        "risk_priority_deviation_count": 0
+      },
+      "source_quality": {
+        "sample_count": 1,
+        "expected_match_count": 1,
+        "status_match_count": 1,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 0,
+        "risk_priority_deviation_count": 0
+      }
+    },
+    "label_metrics": {
+      "affected_versions": {
+        "sample_count": 3,
+        "expected_match_count": 3,
+        "status_match_count": 3,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 3,
+        "risk_priority_deviation_count": 0
+      },
+      "alias": {
+        "sample_count": 4,
+        "expected_match_count": 4,
+        "status_match_count": 4,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 3,
+        "risk_priority_deviation_count": 0
+      },
+      "alias_boundary": {
+        "sample_count": 1,
+        "expected_match_count": 1,
+        "status_match_count": 1,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 0,
+        "risk_priority_deviation_count": 0
+      },
+      "backport": {
+        "sample_count": 3,
+        "expected_match_count": 3,
+        "status_match_count": 3,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 3,
+        "risk_queue_entry_count": 3,
+        "risk_priority_deviation_count": 0
+      },
+      "before_range": {
+        "sample_count": 1,
+        "expected_match_count": 1,
+        "status_match_count": 1,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 0,
+        "risk_priority_deviation_count": 0
+      },
+      "database": {
+        "sample_count": 4,
+        "expected_match_count": 5,
+        "status_match_count": 5,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 3,
+        "risk_priority_deviation_count": 0
+      },
+      "debian": {
+        "sample_count": 1,
+        "expected_match_count": 1,
+        "status_match_count": 1,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 1,
+        "risk_queue_entry_count": 1,
+        "risk_priority_deviation_count": 0
+      },
+      "distro": {
+        "sample_count": 5,
+        "expected_match_count": 5,
+        "status_match_count": 5,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 5,
+        "risk_queue_entry_count": 5,
+        "risk_priority_deviation_count": 0
+      },
+      "fixed_version": {
+        "sample_count": 7,
+        "expected_match_count": 9,
+        "status_match_count": 9,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 6,
+        "risk_priority_deviation_count": 0
+      },
+      "internal_exposure": {
+        "sample_count": 2,
+        "expected_match_count": 2,
+        "status_match_count": 2,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 2,
+        "risk_priority_deviation_count": 0
+      },
+      "kernel": {
+        "sample_count": 1,
+        "expected_match_count": 1,
+        "status_match_count": 1,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 1,
+        "risk_priority_deviation_count": 0
+      },
+      "kev": {
+        "sample_count": 6,
+        "expected_match_count": 7,
+        "status_match_count": 7,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 5,
+        "risk_priority_deviation_count": 0
+      },
+      "missing_product": {
+        "sample_count": 1,
+        "expected_match_count": 1,
+        "status_match_count": 1,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 0,
+        "risk_priority_deviation_count": 0
+      },
+      "missing_version": {
+        "sample_count": 1,
+        "expected_match_count": 1,
+        "status_match_count": 1,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 0,
+        "risk_priority_deviation_count": 0
+      },
+      "multi_segment_range": {
+        "sample_count": 1,
+        "expected_match_count": 1,
+        "status_match_count": 1,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 1,
+        "risk_priority_deviation_count": 0
+      },
+      "natural_language_range": {
+        "sample_count": 1,
+        "expected_match_count": 1,
+        "status_match_count": 1,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 1,
+        "risk_priority_deviation_count": 0
+      },
+      "needs_review": {
+        "sample_count": 7,
+        "expected_match_count": 7,
+        "status_match_count": 7,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 5,
+        "risk_queue_entry_count": 5,
+        "risk_priority_deviation_count": 0
+      },
+      "negative": {
+        "sample_count": 4,
+        "expected_match_count": 4,
+        "status_match_count": 4,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 0,
+        "risk_priority_deviation_count": 0
+      },
+      "openssh": {
+        "sample_count": 3,
+        "expected_match_count": 3,
+        "status_match_count": 3,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 1,
+        "risk_priority_deviation_count": 0
+      },
+      "os_version": {
+        "sample_count": 2,
+        "expected_match_count": 2,
+        "status_match_count": 2,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 2,
+        "risk_priority_deviation_count": 0
+      },
+      "package_version": {
+        "sample_count": 1,
+        "expected_match_count": 1,
+        "status_match_count": 1,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 1,
+        "risk_priority_deviation_count": 0
+      },
+      "product_mismatch": {
+        "sample_count": 3,
+        "expected_match_count": 3,
+        "status_match_count": 3,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 0,
+        "risk_priority_deviation_count": 0
+      },
+      "public_exposure": {
+        "sample_count": 5,
+        "expected_match_count": 6,
+        "status_match_count": 6,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 5,
+        "risk_priority_deviation_count": 0
+      },
+      "range": {
+        "sample_count": 1,
+        "expected_match_count": 1,
+        "status_match_count": 1,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 1,
+        "risk_priority_deviation_count": 0
+      },
+      "rhel": {
+        "sample_count": 1,
+        "expected_match_count": 1,
+        "status_match_count": 1,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 1,
+        "risk_queue_entry_count": 1,
+        "risk_priority_deviation_count": 0
+      },
+      "safe_version": {
+        "sample_count": 4,
+        "expected_match_count": 4,
+        "status_match_count": 4,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 0,
+        "risk_priority_deviation_count": 0
+      },
+      "watchvuln": {
+        "sample_count": 1,
+        "expected_match_count": 1,
+        "status_match_count": 1,
+        "match_status_accuracy": 1.0,
+        "false_positive_count": 0,
+        "false_negative_count": 0,
+        "needs_review_count": 0,
+        "risk_queue_entry_count": 0,
+        "risk_priority_deviation_count": 0
+      }
+    },
+    "expected_status_distribution": {
+      "affected": 15,
+      "blocked_by_readiness": 2,
+      "needs_review": 5,
+      "not_affected": 10
+    },
+    "actual_status_distribution": {
+      "affected": 15,
+      "blocked_by_readiness": 2,
+      "needs_review": 5,
+      "not_affected": 10
+    },
+    "status_confusion_matrix": {
+      "affected": {
+        "affected": 15
+      },
+      "blocked_by_readiness": {
+        "blocked_by_readiness": 2
+      },
+      "needs_review": {
+        "needs_review": 5
+      },
+      "not_affected": {
+        "not_affected": 10
+      }
+    },
+    "risk_queue_entry_metrics": {
+      "expected_entry_count": 20,
+      "expected_non_entry_count": 12,
+      "actual_entry_count": 20,
+      "matched_count": 32,
+      "mismatch_count": 0,
+      "accuracy": 1.0,
+      "confusion": {
+        "expected_true_actual_true": 20,
+        "expected_true_actual_false": 0,
+        "expected_false_actual_true": 0,
+        "expected_false_actual_false": 12
+      }
+    },
+    "evidence_type_distribution": {
+      "kernel_version": 1,
+      "os_condition": 18,
+      "os_version": 2,
+      "package_version": 27,
+      "product_match": 30,
+      "public_exposure": 17,
+      "rule_trace": 30
+    },
+    "evidence_type_coverage": {
+      "kernel_version": {
+        "expected_count": 1,
+        "present_count": 1,
+        "coverage_rate": 1.0
+      },
+      "os_condition": {
+        "expected_count": 12,
+        "present_count": 12,
+        "coverage_rate": 1.0
+      },
+      "os_version": {
+        "expected_count": 2,
+        "present_count": 2,
+        "coverage_rate": 1.0
+      },
+      "package_version": {
+        "expected_count": 23,
+        "present_count": 23,
+        "coverage_rate": 1.0
+      },
+      "product_match": {
+        "expected_count": 30,
+        "present_count": 30,
+        "coverage_rate": 1.0
+      },
+      "public_exposure": {
+        "expected_count": 11,
+        "present_count": 11,
+        "coverage_rate": 1.0
+      }
+    },
+    "rule_status_distribution": {
+      "exposure_rule": {
+        "affected": 14,
+        "not_affected": 3,
+        "not_applicable": 13
+      },
+      "feature_rule": {
+        "not_applicable": 30
+      },
+      "os_rule": {
+        "affected": 18,
+        "not_applicable": 12
+      },
+      "product_rule": {
+        "affected": 26,
+        "not_affected": 4
+      },
+      "version_rule": {
+        "affected": 15,
+        "needs_review": 9,
+        "not_affected": 6
+      }
+    },
+    "rule_reason_code_distribution": {
+      "exposure_rule.affected.vulnerability_requires_public_access_and_the_asset_has_matching_public_exposure": 14,
+      "exposure_rule.not_affected.vulnerability_requires_public_access_but_no_matching_public_exposure_was_observe": 3,
+      "exposure_rule.not_applicable.no_public_exposure_requirement_is_defined_for_this_vulnerability": 13,
+      "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability": 30,
+      "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction": 18,
+      "os_rule.not_applicable.no_operating_system_restriction_is_defined_for_this_vulnerability": 12,
+      "product_rule.affected.asset_has_observed_evidence_for_product_httpd": 3,
+      "product_rule.affected.asset_has_observed_evidence_for_product_linux_kernel": 1,
+      "product_rule.affected.asset_has_observed_evidence_for_product_mysql": 1,
+      "product_rule.affected.asset_has_observed_evidence_for_product_nginx": 11,
+      "product_rule.affected.asset_has_observed_evidence_for_product_openssh": 3,
+      "product_rule.affected.asset_has_observed_evidence_for_product_openssl": 2,
+      "product_rule.affected.asset_has_observed_evidence_for_product_postgresql": 3,
+      "product_rule.affected.asset_has_observed_evidence_for_product_ubuntu": 2,
+      "product_rule.not_affected.no_asset_component_or_exposure_matched_product_apache_tomcat": 1,
+      "product_rule.not_affected.no_asset_component_or_exposure_matched_product_openssh": 1,
+      "product_rule.not_affected.no_asset_component_or_exposure_matched_product_postgresql": 1,
+      "product_rule.not_affected.no_asset_component_or_exposure_matched_product_tomcat": 1,
+      "version_rule.affected.asset_os_or_kernel_version_is_explicitly_listed_in_the_affected_version_text": 2,
+      "version_rule.affected.at_least_one_matched_component_version_is_inside_the_affected_range": 13,
+      "version_rule.needs_review.no_product_matched_component_has_an_observed_version": 4,
+      "version_rule.needs_review.version_data_exists_but_at_least_one_comparison_was_not_reliable": 5,
+      "version_rule.not_affected.all_matched_component_versions_are_outside_the_affected_range": 6
+    },
+    "needs_review_reason_distribution": {
+      "Version data exists, but at least one comparison was not reliable.": 5
+    },
+    "confidence_summary_by_status": {
+      "affected": {
+        "count": 15,
+        "min": 0.72,
+        "max": 0.78,
+        "avg": 0.752
+      },
+      "blocked_by_readiness": {
+        "count": 2,
+        "min": 0.0,
+        "max": 0.0,
+        "avg": 0.0
+      },
+      "needs_review": {
+        "count": 5,
+        "min": 0.5,
+        "max": 0.5,
+        "avg": 0.5
+      },
+      "not_affected": {
+        "count": 10,
+        "min": 0.82,
+        "max": 0.86,
+        "avg": 0.844
+      }
+    }
+  },
+  "hard_gate_passed": true,
+  "hard_gate_failures": [],
+  "samples": [
+    {
+      "id": "q1-clear-nginx-fixed-version",
+      "category": "clear_affected_range",
+      "labels": [
+        "kev",
+        "fixed_version",
+        "public_exposure"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0001",
+        "actual_canonical_id": "CVE-2026-Q1-0001",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Nginx",
+          "product": "nginx",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "1.25.0"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-nginx-affected",
+          "expected_status": "affected",
+          "actual_status": "affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 5.3,
+          "confidence": 0.72,
+          "reason": "Asset has observed evidence for product nginx.; At least one matched component version is inside the affected range.; Asset operating system matches the vulnerability restriction.; Vulnerability requires public access and the asset has matching public exposure.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version",
+            "os_condition",
+            "public_exposure"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product nginx.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_nginx",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "affected",
+              "confidence": 0.82,
+              "reason": "At least one matched component version is inside the affected range.",
+              "reason_code": "version_rule.affected.at_least_one_matched_component_version_is_inside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "affected",
+              "confidence": 0.76,
+              "reason": "Vulnerability requires public access and the asset has matching public exposure.",
+              "reason_code": "exposure_rule.affected.vulnerability_requires_public_access_and_the_asset_has_matching_public_exposure",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        },
+        {
+          "agent_id": "q1-agent-nginx-safe",
+          "expected_status": "not_affected",
+          "actual_status": "not_affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "none"
+          ],
+          "actual_risk_priority": "none",
+          "risk_priority_matched": true,
+          "risk_score": 0.0,
+          "confidence": 0.86,
+          "reason": "All matched component versions are outside the affected range.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": false,
+          "enters_risk_queue": false,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product nginx.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_nginx",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "not_affected",
+              "confidence": 0.86,
+              "reason": "All matched component versions are outside the affected range.",
+              "reason_code": "version_rule.not_affected.all_matched_component_versions_are_outside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "affected",
+              "confidence": 0.76,
+              "reason": "Vulnerability requires public access and the asset has matching public exposure.",
+              "reason_code": "exposure_rule.affected.vulnerability_requires_public_access_and_the_asset_has_matching_public_exposure",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 2,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-clear-apache-alias",
+      "category": "clear_affected_range",
+      "labels": [
+        "alias",
+        "fixed_version"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0004",
+        "actual_canonical_id": "CVE-2026-Q1-0004",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Apache",
+          "product": "httpd",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "2.4.58"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-apache-alias-affected",
+          "expected_status": "affected",
+          "actual_status": "affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 5.5,
+          "confidence": 0.72,
+          "reason": "Asset has observed evidence for product httpd.; At least one matched component version is inside the affected range.; Asset operating system matches the vulnerability restriction.; Vulnerability requires public access and the asset has matching public exposure.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version",
+            "os_condition",
+            "public_exposure"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product httpd.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_httpd",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "affected",
+              "confidence": 0.82,
+              "reason": "At least one matched component version is inside the affected range.",
+              "reason_code": "version_rule.affected.at_least_one_matched_component_version_is_inside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "affected",
+              "confidence": 0.76,
+              "reason": "Vulnerability requires public access and the asset has matching public exposure.",
+              "reason_code": "exposure_rule.affected.vulnerability_requires_public_access_and_the_asset_has_matching_public_exposure",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-clear-openssl-safe-version",
+      "category": "clear_affected_range",
+      "labels": [
+        "fixed_version",
+        "safe_version"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-10005",
+        "actual_canonical_id": "CVE-2026-10005",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_exploitation_signal"
+        ],
+        "needs_ai_enrichment": false,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "OpenSSL",
+          "product": "openssl",
+          "kev_status": false,
+          "affected_versions": "OpenSSL < 3.0.0",
+          "fixed_versions": "3.0.0"
+        },
+        "readiness": {
+          "information_completeness": "complete",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_exploitation_signal"
+          ],
+          "missing_fields": [],
+          "evidence_score": 0.86,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "complete",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_exploitation_signal"
+        ],
+        "missing_fields": [],
+        "evidence_score": 0.86,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-openssl-safe",
+          "expected_status": "not_affected",
+          "actual_status": "not_affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "none"
+          ],
+          "actual_risk_priority": "none",
+          "risk_priority_matched": true,
+          "risk_score": 0.0,
+          "confidence": 0.86,
+          "reason": "All matched component versions are outside the affected range.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "package_version",
+            "product_match",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": false,
+          "enters_risk_queue": false,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product openssl.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_openssl",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "not_affected",
+              "confidence": 0.86,
+              "reason": "All matched component versions are outside the affected range.",
+              "reason_code": "version_rule.not_affected.all_matched_component_versions_are_outside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No operating system restriction is defined for this vulnerability.",
+              "reason_code": "os_rule.not_applicable.no_operating_system_restriction_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No public exposure requirement is defined for this vulnerability.",
+              "reason_code": "exposure_rule.not_applicable.no_public_exposure_requirement_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": false,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-clear-postgresql-fixed-version",
+      "category": "clear_affected_range",
+      "labels": [
+        "fixed_version",
+        "database"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-10013",
+        "actual_canonical_id": "CVE-2026-10013",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_exploitation_signal"
+        ],
+        "needs_ai_enrichment": false,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "PostgreSQL",
+          "product": "postgresql",
+          "kev_status": false,
+          "affected_versions": "PostgreSQL < 15.0",
+          "fixed_versions": "15.0"
+        },
+        "readiness": {
+          "information_completeness": "complete",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_exploitation_signal"
+          ],
+          "missing_fields": [],
+          "evidence_score": 0.86,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "complete",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_exploitation_signal"
+        ],
+        "missing_fields": [],
+        "evidence_score": 0.86,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-postgresql-affected",
+          "expected_status": "affected",
+          "actual_status": "affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 5.05,
+          "confidence": 0.78,
+          "reason": "Asset has observed evidence for product postgresql.; At least one matched component version is inside the affected range.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "package_version",
+            "product_match",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product postgresql.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_postgresql",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "affected",
+              "confidence": 0.82,
+              "reason": "At least one matched component version is inside the affected range.",
+              "reason_code": "version_rule.affected.at_least_one_matched_component_version_is_inside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No operating system restriction is defined for this vulnerability.",
+              "reason_code": "os_rule.not_applicable.no_operating_system_restriction_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No public exposure requirement is defined for this vulnerability.",
+              "reason_code": "exposure_rule.not_applicable.no_public_exposure_requirement_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            }
+          ]
+        },
+        {
+          "agent_id": "q1-agent-postgresql-safe",
+          "expected_status": "not_affected",
+          "actual_status": "not_affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "none"
+          ],
+          "actual_risk_priority": "none",
+          "risk_priority_matched": true,
+          "risk_score": 0.0,
+          "confidence": 0.86,
+          "reason": "All matched component versions are outside the affected range.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "package_version",
+            "product_match",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": false,
+          "enters_risk_queue": false,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product postgresql.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_postgresql",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "not_affected",
+              "confidence": 0.86,
+              "reason": "All matched component versions are outside the affected range.",
+              "reason_code": "version_rule.not_affected.all_matched_component_versions_are_outside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No operating system restriction is defined for this vulnerability.",
+              "reason_code": "os_rule.not_applicable.no_operating_system_restriction_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No public exposure requirement is defined for this vulnerability.",
+              "reason_code": "exposure_rule.not_applicable.no_public_exposure_requirement_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": false,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 2,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-clear-mysql-mariadb-alias",
+      "category": "clear_affected_range",
+      "labels": [
+        "alias",
+        "database"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-10014",
+        "actual_canonical_id": "CVE-2026-10014",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_exploitation_signal"
+        ],
+        "needs_ai_enrichment": false,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "MySQL",
+          "product": "mysql",
+          "kev_status": false,
+          "affected_versions": "MySQL < 10.6.15",
+          "fixed_versions": "10.6.15"
+        },
+        "readiness": {
+          "information_completeness": "complete",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_exploitation_signal"
+          ],
+          "missing_fields": [],
+          "evidence_score": 0.86,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "complete",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_exploitation_signal"
+        ],
+        "missing_fields": [],
+        "evidence_score": 0.86,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-mariadb-affected",
+          "expected_status": "affected",
+          "actual_status": "affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 4.51,
+          "confidence": 0.78,
+          "reason": "Asset has observed evidence for product mysql.; At least one matched component version is inside the affected range.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "package_version",
+            "product_match",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product mysql.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_mysql",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "affected",
+              "confidence": 0.82,
+              "reason": "At least one matched component version is inside the affected range.",
+              "reason_code": "version_rule.affected.at_least_one_matched_component_version_is_inside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No operating system restriction is defined for this vulnerability.",
+              "reason_code": "os_rule.not_applicable.no_operating_system_restriction_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No public exposure requirement is defined for this vulnerability.",
+              "reason_code": "exposure_rule.not_applicable.no_public_exposure_requirement_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": false,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-clear-openssh-fixed-version",
+      "category": "clear_affected_range",
+      "labels": [
+        "fixed_version",
+        "public_exposure"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0015",
+        "actual_canonical_id": "CVE-2026-Q1-0015",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "OpenSSH",
+          "product": "openssh",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "9.0"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-openssh-affected",
+          "expected_status": "affected",
+          "actual_status": "affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 5.7,
+          "confidence": 0.72,
+          "reason": "Asset has observed evidence for product openssh.; At least one matched component version is inside the affected range.; Asset operating system matches the vulnerability restriction.; Vulnerability requires public access and the asset has matching public exposure.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version",
+            "os_condition",
+            "public_exposure"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product openssh.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_openssh",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "affected",
+              "confidence": 0.82,
+              "reason": "At least one matched component version is inside the affected range.",
+              "reason_code": "version_rule.affected.at_least_one_matched_component_version_is_inside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "affected",
+              "confidence": 0.76,
+              "reason": "Vulnerability requires public access and the asset has matching public exposure.",
+              "reason_code": "exposure_rule.affected.vulnerability_requires_public_access_and_the_asset_has_matching_public_exposure",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-clear-apache-safe-version",
+      "category": "clear_affected_range",
+      "labels": [
+        "alias",
+        "safe_version"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0016",
+        "actual_canonical_id": "CVE-2026-Q1-0016",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Apache",
+          "product": "httpd",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "2.4.58"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-apache-safe",
+          "expected_status": "not_affected",
+          "actual_status": "not_affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "none"
+          ],
+          "actual_risk_priority": "none",
+          "risk_priority_matched": true,
+          "risk_score": 0.0,
+          "confidence": 0.86,
+          "reason": "All matched component versions are outside the affected range.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": false,
+          "enters_risk_queue": false,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product httpd.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_httpd",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "not_affected",
+              "confidence": 0.86,
+              "reason": "All matched component versions are outside the affected range.",
+              "reason_code": "version_rule.not_affected.all_matched_component_versions_are_outside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "affected",
+              "confidence": 0.76,
+              "reason": "Vulnerability requires public access and the asset has matching public exposure.",
+              "reason_code": "exposure_rule.affected.vulnerability_requires_public_access_and_the_asset_has_matching_public_exposure",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-clear-ubuntu-os-version",
+      "category": "clear_affected_range",
+      "labels": [
+        "os_version",
+        "affected_versions"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-10017",
+        "actual_canonical_id": "CVE-2026-10017",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_fixed_versions",
+          "missing_exploitation_signal"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Ubuntu",
+          "product": "Ubuntu",
+          "kev_status": false,
+          "affected_versions": "Ubuntu 20.04 LTS, Ubuntu 22.04 LTS",
+          "fixed_versions": null
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_fixed_versions",
+            "missing_exploitation_signal"
+          ],
+          "missing_fields": [
+            "fixed_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_fixed_versions",
+          "missing_exploitation_signal"
+        ],
+        "missing_fields": [
+          "fixed_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-watchvuln-context",
+          "expected_status": "affected",
+          "actual_status": "affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "low",
+          "risk_priority_matched": true,
+          "risk_score": 3.96,
+          "confidence": 0.78,
+          "reason": "Asset has observed evidence for product Ubuntu.; Asset OS or kernel version is explicitly listed in the affected version text.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_version",
+            "product_match",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "os_version"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product Ubuntu.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_ubuntu",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset OS or kernel version is explicitly listed in the affected version text.",
+              "reason_code": "version_rule.affected.asset_os_or_kernel_version_is_explicitly_listed_in_the_affected_version_text",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No operating system restriction is defined for this vulnerability.",
+              "reason_code": "os_rule.not_applicable.no_operating_system_restriction_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No public exposure requirement is defined for this vulnerability.",
+              "reason_code": "exposure_rule.not_applicable.no_public_exposure_requirement_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-clear-nginx-internal-service",
+      "category": "clear_affected_range",
+      "labels": [
+        "fixed_version",
+        "internal_exposure"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-10018",
+        "actual_canonical_id": "CVE-2026-10018",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_exploitation_signal"
+        ],
+        "needs_ai_enrichment": false,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Nginx",
+          "product": "nginx",
+          "kev_status": false,
+          "affected_versions": "nginx < 1.25.0",
+          "fixed_versions": "1.25.0"
+        },
+        "readiness": {
+          "information_completeness": "complete",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_exploitation_signal"
+          ],
+          "missing_fields": [],
+          "evidence_score": 0.86,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "complete",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_exploitation_signal"
+        ],
+        "missing_fields": [],
+        "evidence_score": 0.86,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-kev-internal-nginx",
+          "expected_status": "affected",
+          "actual_status": "affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 4.37,
+          "confidence": 0.78,
+          "reason": "Asset has observed evidence for product nginx.; At least one matched component version is inside the affected range.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "package_version",
+            "product_match",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product nginx.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_nginx",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "affected",
+              "confidence": 0.82,
+              "reason": "At least one matched component version is inside the affected range.",
+              "reason_code": "version_rule.affected.at_least_one_matched_component_version_is_inside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No operating system restriction is defined for this vulnerability.",
+              "reason_code": "os_rule.not_applicable.no_operating_system_restriction_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No public exposure requirement is defined for this vulnerability.",
+              "reason_code": "exposure_rule.not_applicable.no_public_exposure_requirement_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": false,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-clear-openssl-affected-version",
+      "category": "clear_affected_range",
+      "labels": [
+        "fixed_version",
+        "package_version"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-10019",
+        "actual_canonical_id": "CVE-2026-10019",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_exploitation_signal"
+        ],
+        "needs_ai_enrichment": false,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "OpenSSL",
+          "product": "openssl",
+          "kev_status": false,
+          "affected_versions": "OpenSSL < 3.0.8",
+          "fixed_versions": "3.0.8"
+        },
+        "readiness": {
+          "information_completeness": "complete",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_exploitation_signal"
+          ],
+          "missing_fields": [],
+          "evidence_score": 0.86,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "complete",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_exploitation_signal"
+        ],
+        "missing_fields": [],
+        "evidence_score": 0.86,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-watchvuln-context",
+          "expected_status": "affected",
+          "actual_status": "affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 4.23,
+          "confidence": 0.78,
+          "reason": "Asset has observed evidence for product openssl.; At least one matched component version is inside the affected range.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "package_version",
+            "product_match",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product openssl.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_openssl",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "affected",
+              "confidence": 0.82,
+              "reason": "At least one matched component version is inside the affected range.",
+              "reason_code": "version_rule.affected.at_least_one_matched_component_version_is_inside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No operating system restriction is defined for this vulnerability.",
+              "reason_code": "os_rule.not_applicable.no_operating_system_restriction_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No public exposure requirement is defined for this vulnerability.",
+              "reason_code": "exposure_rule.not_applicable.no_public_exposure_requirement_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": false,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-kev-public-critical",
+      "category": "kev",
+      "labels": [
+        "kev",
+        "public_exposure"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0006",
+        "actual_canonical_id": "CVE-2026-Q1-0006",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Nginx",
+          "product": "nginx",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "1.25.0"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-kev-public-nginx",
+          "expected_status": "affected",
+          "actual_status": "affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 5.84,
+          "confidence": 0.72,
+          "reason": "Asset has observed evidence for product nginx.; At least one matched component version is inside the affected range.; Asset operating system matches the vulnerability restriction.; Vulnerability requires public access and the asset has matching public exposure.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version",
+            "os_condition",
+            "public_exposure"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product nginx.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_nginx",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "affected",
+              "confidence": 0.82,
+              "reason": "At least one matched component version is inside the affected range.",
+              "reason_code": "version_rule.affected.at_least_one_matched_component_version_is_inside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "affected",
+              "confidence": 0.76,
+              "reason": "Vulnerability requires public access and the asset has matching public exposure.",
+              "reason_code": "exposure_rule.affected.vulnerability_requires_public_access_and_the_asset_has_matching_public_exposure",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-kev-internal-medium",
+      "category": "kev",
+      "labels": [
+        "kev",
+        "internal_exposure"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0007",
+        "actual_canonical_id": "CVE-2026-Q1-0007",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Nginx",
+          "product": "nginx",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "1.25.0"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-kev-internal-nginx",
+          "expected_status": "affected",
+          "actual_status": "affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "actual_risk_priority": "low",
+          "risk_priority_matched": true,
+          "risk_score": 3.49,
+          "confidence": 0.72,
+          "reason": "Asset has observed evidence for product nginx.; At least one matched component version is inside the affected range.; Asset operating system matches the vulnerability restriction.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version",
+            "os_condition"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product nginx.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_nginx",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "affected",
+              "confidence": 0.82,
+              "reason": "At least one matched component version is inside the affected range.",
+              "reason_code": "version_rule.affected.at_least_one_matched_component_version_is_inside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No public exposure requirement is defined for this vulnerability.",
+              "reason_code": "exposure_rule.not_applicable.no_public_exposure_requirement_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-kev-apache-public",
+      "category": "kev",
+      "labels": [
+        "kev",
+        "alias",
+        "public_exposure"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0020",
+        "actual_canonical_id": "CVE-2026-Q1-0020",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Apache",
+          "product": "httpd",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "2.4.58"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-apache-alias-affected",
+          "expected_status": "affected",
+          "actual_status": "affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 5.5,
+          "confidence": 0.72,
+          "reason": "Asset has observed evidence for product httpd.; At least one matched component version is inside the affected range.; Asset operating system matches the vulnerability restriction.; Vulnerability requires public access and the asset has matching public exposure.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version",
+            "os_condition",
+            "public_exposure"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product httpd.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_httpd",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "affected",
+              "confidence": 0.82,
+              "reason": "At least one matched component version is inside the affected range.",
+              "reason_code": "version_rule.affected.at_least_one_matched_component_version_is_inside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "affected",
+              "confidence": 0.76,
+              "reason": "Vulnerability requires public access and the asset has matching public exposure.",
+              "reason_code": "exposure_rule.affected.vulnerability_requires_public_access_and_the_asset_has_matching_public_exposure",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-kev-nginx-safe-version",
+      "category": "kev",
+      "labels": [
+        "kev",
+        "safe_version"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0021",
+        "actual_canonical_id": "CVE-2026-Q1-0021",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Nginx",
+          "product": "nginx",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "1.25.0"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-nginx-safe",
+          "expected_status": "not_affected",
+          "actual_status": "not_affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "none"
+          ],
+          "actual_risk_priority": "none",
+          "risk_priority_matched": true,
+          "risk_score": 0.0,
+          "confidence": 0.86,
+          "reason": "All matched component versions are outside the affected range.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": false,
+          "enters_risk_queue": false,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product nginx.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_nginx",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "not_affected",
+              "confidence": 0.86,
+              "reason": "All matched component versions are outside the affected range.",
+              "reason_code": "version_rule.not_affected.all_matched_component_versions_are_outside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "affected",
+              "confidence": 0.76,
+              "reason": "Vulnerability requires public access and the asset has matching public exposure.",
+              "reason_code": "exposure_rule.affected.vulnerability_requires_public_access_and_the_asset_has_matching_public_exposure",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-kev-openssh-public",
+      "category": "kev",
+      "labels": [
+        "kev",
+        "public_exposure",
+        "openssh"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0022",
+        "actual_canonical_id": "CVE-2026-Q1-0022",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "OpenSSH",
+          "product": "openssh",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "9.0"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-openssh-affected",
+          "expected_status": "affected",
+          "actual_status": "affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 5.7,
+          "confidence": 0.72,
+          "reason": "Asset has observed evidence for product openssh.; At least one matched component version is inside the affected range.; Asset operating system matches the vulnerability restriction.; Vulnerability requires public access and the asset has matching public exposure.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version",
+            "os_condition",
+            "public_exposure"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product openssh.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_openssh",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "affected",
+              "confidence": 0.82,
+              "reason": "At least one matched component version is inside the affected range.",
+              "reason_code": "version_rule.affected.at_least_one_matched_component_version_is_inside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "affected",
+              "confidence": 0.76,
+              "reason": "Vulnerability requires public access and the asset has matching public exposure.",
+              "reason_code": "exposure_rule.affected.vulnerability_requires_public_access_and_the_asset_has_matching_public_exposure",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-range-multi-segment-kernel",
+      "category": "complex_version_range",
+      "labels": [
+        "kernel",
+        "affected_versions",
+        "multi_segment_range"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-10008",
+        "actual_canonical_id": "CVE-2026-10008",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_fixed_versions",
+          "missing_exploitation_signal"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Linux",
+          "product": "Linux Kernel",
+          "kev_status": false,
+          "affected_versions": "4.11 <= Linux Kernel < 5.10.255 5.12 <= Linux Kernel < 5.15.205 5.16 <= Linux Kernel < 6.1.171",
+          "fixed_versions": null
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_fixed_versions",
+            "missing_exploitation_signal"
+          ],
+          "missing_fields": [
+            "fixed_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_fixed_versions",
+          "missing_exploitation_signal"
+        ],
+        "missing_fields": [
+          "fixed_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-kernel-range-affected",
+          "expected_status": "affected",
+          "actual_status": "affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 5.36,
+          "confidence": 0.78,
+          "reason": "Asset has observed evidence for product Linux Kernel.; At least one matched component version is inside the affected range.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "kernel_version",
+            "product_match",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "kernel_version"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product Linux Kernel.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_linux_kernel",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "affected",
+              "confidence": 0.82,
+              "reason": "At least one matched component version is inside the affected range.",
+              "reason_code": "version_rule.affected.at_least_one_matched_component_version_is_inside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No operating system restriction is defined for this vulnerability.",
+              "reason_code": "os_rule.not_applicable.no_operating_system_restriction_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No public exposure requirement is defined for this vulnerability.",
+              "reason_code": "exposure_rule.not_applicable.no_public_exposure_requirement_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-range-missing-fixed-version",
+      "category": "complex_version_range",
+      "labels": [
+        "missing_version",
+        "needs_review"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0009",
+        "actual_canonical_id": "CVE-2026-Q1-0009",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_fixed_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Nginx",
+          "product": "nginx",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": null
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "needs_enrichment",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_fixed_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions",
+            "fixed_versions"
+          ],
+          "evidence_score": 0.57,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "needs_enrichment",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_fixed_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions",
+          "fixed_versions"
+        ],
+        "evidence_score": 0.57,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-nginx-missing-range",
+          "expected_status": "blocked_by_readiness",
+          "actual_status": "blocked_by_readiness",
+          "status_matched": true,
+          "readiness": {
+            "information_completeness": "partial",
+            "match_readiness": "needs_enrichment",
+            "reasons": [
+              "missing_affected_versions",
+              "missing_fixed_versions",
+              "missing_severity"
+            ],
+            "missing_fields": [
+              "affected_versions",
+              "fixed_versions"
+            ],
+            "rule_version": "s3-q2.5-readiness-v1"
+          },
+          "reason": "missing_affected_versions; missing_fixed_versions; missing_severity",
+          "expected_risk_priority": [
+            "none"
+          ],
+          "actual_risk_priority": "none",
+          "risk_priority_matched": true,
+          "risk_score": 0.0,
+          "confidence": 0.0,
+          "review_reason_present": true,
+          "evidence_types": [],
+          "required_evidence_types": [],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": false,
+          "enters_risk_queue": false
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-range-postgresql-window",
+      "category": "complex_version_range",
+      "labels": [
+        "database",
+        "affected_versions",
+        "range"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-10023",
+        "actual_canonical_id": "CVE-2026-10023",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_fixed_versions",
+          "missing_exploitation_signal"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "PostgreSQL",
+          "product": "postgresql",
+          "kev_status": false,
+          "affected_versions": "14.0 - 14.9",
+          "fixed_versions": null
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_fixed_versions",
+            "missing_exploitation_signal"
+          ],
+          "missing_fields": [
+            "fixed_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_fixed_versions",
+          "missing_exploitation_signal"
+        ],
+        "missing_fields": [
+          "fixed_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-postgresql-affected",
+          "expected_status": "affected",
+          "actual_status": "affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 5.17,
+          "confidence": 0.78,
+          "reason": "Asset has observed evidence for product postgresql.; At least one matched component version is inside the affected range.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "package_version",
+            "product_match",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product postgresql.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_postgresql",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "affected",
+              "confidence": 0.82,
+              "reason": "At least one matched component version is inside the affected range.",
+              "reason_code": "version_rule.affected.at_least_one_matched_component_version_is_inside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No operating system restriction is defined for this vulnerability.",
+              "reason_code": "os_rule.not_applicable.no_operating_system_restriction_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No public exposure requirement is defined for this vulnerability.",
+              "reason_code": "exposure_rule.not_applicable.no_public_exposure_requirement_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-range-openssh-before-safe",
+      "category": "complex_version_range",
+      "labels": [
+        "openssh",
+        "before_range",
+        "safe_version"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-10024",
+        "actual_canonical_id": "CVE-2026-10024",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_fixed_versions",
+          "missing_exploitation_signal"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "OpenSSH",
+          "product": "openssh",
+          "kev_status": false,
+          "affected_versions": "before 9.0",
+          "fixed_versions": null
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_fixed_versions",
+            "missing_exploitation_signal"
+          ],
+          "missing_fields": [
+            "fixed_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_fixed_versions",
+          "missing_exploitation_signal"
+        ],
+        "missing_fields": [
+          "fixed_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-openssh-safe",
+          "expected_status": "not_affected",
+          "actual_status": "not_affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "none"
+          ],
+          "actual_risk_priority": "none",
+          "risk_priority_matched": true,
+          "risk_score": 0.0,
+          "confidence": 0.86,
+          "reason": "All matched component versions are outside the affected range.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "package_version",
+            "product_match",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": false,
+          "enters_risk_queue": false,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product openssh.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_openssh",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "not_affected",
+              "confidence": 0.86,
+              "reason": "All matched component versions are outside the affected range.",
+              "reason_code": "version_rule.not_affected.all_matched_component_versions_are_outside_the_affected_range",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No operating system restriction is defined for this vulnerability.",
+              "reason_code": "os_rule.not_applicable.no_operating_system_restriction_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No public exposure requirement is defined for this vulnerability.",
+              "reason_code": "exposure_rule.not_applicable.no_public_exposure_requirement_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-range-ubuntu-os-text",
+      "category": "complex_version_range",
+      "labels": [
+        "os_version",
+        "natural_language_range"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-10025",
+        "actual_canonical_id": "CVE-2026-10025",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_fixed_versions",
+          "missing_exploitation_signal"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Ubuntu",
+          "product": "Ubuntu",
+          "kev_status": false,
+          "affected_versions": "Ubuntu 20.04 LTS and Ubuntu 22.04 LTS",
+          "fixed_versions": null
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_fixed_versions",
+            "missing_exploitation_signal"
+          ],
+          "missing_fields": [
+            "fixed_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_fixed_versions",
+          "missing_exploitation_signal"
+        ],
+        "missing_fields": [
+          "fixed_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-watchvuln-context",
+          "expected_status": "affected",
+          "actual_status": "affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "low",
+          "risk_priority_matched": true,
+          "risk_score": 3.93,
+          "confidence": 0.78,
+          "reason": "Asset has observed evidence for product Ubuntu.; Asset OS or kernel version is explicitly listed in the affected version text.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_version",
+            "product_match",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "os_version"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product Ubuntu.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_ubuntu",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset OS or kernel version is explicitly listed in the affected version text.",
+              "reason_code": "version_rule.affected.asset_os_or_kernel_version_is_explicitly_listed_in_the_affected_version_text",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No operating system restriction is defined for this vulnerability.",
+              "reason_code": "os_rule.not_applicable.no_operating_system_restriction_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No public exposure requirement is defined for this vulnerability.",
+              "reason_code": "exposure_rule.not_applicable.no_public_exposure_requirement_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-distro-ubuntu-epoch",
+      "category": "linux_distro_backport",
+      "labels": [
+        "distro",
+        "backport",
+        "needs_review"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0002",
+        "actual_canonical_id": "CVE-2026-Q1-0002",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Nginx",
+          "product": "nginx",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "1.25.0"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-nginx-ubuntu-epoch",
+          "expected_status": "needs_review",
+          "actual_status": "needs_review",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 5.05,
+          "confidence": 0.5,
+          "reason": "Version data exists, but at least one comparison was not reliable.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version",
+            "os_condition",
+            "public_exposure"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product nginx.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_nginx",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "needs_review",
+              "confidence": 0.5,
+              "reason": "Version data exists, but at least one comparison was not reliable.",
+              "reason_code": "version_rule.needs_review.version_data_exists_but_at_least_one_comparison_was_not_reliable",
+              "uncertain_reason": "Version data exists, but at least one comparison was not reliable.",
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "affected",
+              "confidence": 0.76,
+              "reason": "Vulnerability requires public access and the asset has matching public exposure.",
+              "reason_code": "exposure_rule.affected.vulnerability_requires_public_access_and_the_asset_has_matching_public_exposure",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-distro-backport-suffix",
+      "category": "linux_distro_backport",
+      "labels": [
+        "distro",
+        "backport",
+        "needs_review"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0010",
+        "actual_canonical_id": "CVE-2026-Q1-0010",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Nginx",
+          "product": "nginx",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "1.25.0"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-nginx-backport-suffix",
+          "expected_status": "needs_review",
+          "actual_status": "needs_review",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 5.45,
+          "confidence": 0.5,
+          "reason": "Version data exists, but at least one comparison was not reliable.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version",
+            "os_condition",
+            "public_exposure"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product nginx.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_nginx",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "needs_review",
+              "confidence": 0.5,
+              "reason": "Version data exists, but at least one comparison was not reliable.",
+              "reason_code": "version_rule.needs_review.version_data_exists_but_at_least_one_comparison_was_not_reliable",
+              "uncertain_reason": "Version data exists, but at least one comparison was not reliable.",
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "affected",
+              "confidence": 0.76,
+              "reason": "Vulnerability requires public access and the asset has matching public exposure.",
+              "reason_code": "exposure_rule.affected.vulnerability_requires_public_access_and_the_asset_has_matching_public_exposure",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-distro-debian-suffix",
+      "category": "linux_distro_backport",
+      "labels": [
+        "distro",
+        "debian",
+        "needs_review"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0026",
+        "actual_canonical_id": "CVE-2026-Q1-0026",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Nginx",
+          "product": "nginx",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "1.25.0"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-nginx-debian-suffix",
+          "expected_status": "needs_review",
+          "actual_status": "needs_review",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 5.45,
+          "confidence": 0.5,
+          "reason": "Version data exists, but at least one comparison was not reliable.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version",
+            "os_condition",
+            "public_exposure"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product nginx.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_nginx",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "needs_review",
+              "confidence": 0.5,
+              "reason": "Version data exists, but at least one comparison was not reliable.",
+              "reason_code": "version_rule.needs_review.version_data_exists_but_at_least_one_comparison_was_not_reliable",
+              "uncertain_reason": "Version data exists, but at least one comparison was not reliable.",
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "affected",
+              "confidence": 0.76,
+              "reason": "Vulnerability requires public access and the asset has matching public exposure.",
+              "reason_code": "exposure_rule.affected.vulnerability_requires_public_access_and_the_asset_has_matching_public_exposure",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-distro-rhel-suffix",
+      "category": "linux_distro_backport",
+      "labels": [
+        "distro",
+        "rhel",
+        "needs_review"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0027",
+        "actual_canonical_id": "CVE-2026-Q1-0027",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Nginx",
+          "product": "nginx",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "1.25.0"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-nginx-rhel-suffix",
+          "expected_status": "needs_review",
+          "actual_status": "needs_review",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 5.45,
+          "confidence": 0.5,
+          "reason": "Version data exists, but at least one comparison was not reliable.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version",
+            "os_condition",
+            "public_exposure"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product nginx.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_nginx",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "needs_review",
+              "confidence": 0.5,
+              "reason": "Version data exists, but at least one comparison was not reliable.",
+              "reason_code": "version_rule.needs_review.version_data_exists_but_at_least_one_comparison_was_not_reliable",
+              "uncertain_reason": "Version data exists, but at least one comparison was not reliable.",
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "affected",
+              "confidence": 0.76,
+              "reason": "Vulnerability requires public access and the asset has matching public exposure.",
+              "reason_code": "exposure_rule.affected.vulnerability_requires_public_access_and_the_asset_has_matching_public_exposure",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-distro-tilde-backport",
+      "category": "linux_distro_backport",
+      "labels": [
+        "distro",
+        "backport",
+        "needs_review"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0028",
+        "actual_canonical_id": "CVE-2026-Q1-0028",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Nginx",
+          "product": "nginx",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "1.25.0"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-nginx-tilde-backport",
+          "expected_status": "needs_review",
+          "actual_status": "needs_review",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "actual_risk_priority": "medium",
+          "risk_priority_matched": true,
+          "risk_score": 5.45,
+          "confidence": 0.5,
+          "reason": "Version data exists, but at least one comparison was not reliable.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match",
+            "package_version",
+            "os_condition",
+            "public_exposure"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": true,
+          "enters_risk_queue": true,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "affected",
+              "confidence": 0.78,
+              "reason": "Asset has observed evidence for product nginx.",
+              "reason_code": "product_rule.affected.asset_has_observed_evidence_for_product_nginx",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "needs_review",
+              "confidence": 0.5,
+              "reason": "Version data exists, but at least one comparison was not reliable.",
+              "reason_code": "version_rule.needs_review.version_data_exists_but_at_least_one_comparison_was_not_reliable",
+              "uncertain_reason": "Version data exists, but at least one comparison was not reliable.",
+              "executed": true,
+              "evidence_count": 2
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "affected",
+              "confidence": 0.76,
+              "reason": "Vulnerability requires public access and the asset has matching public exposure.",
+              "reason_code": "exposure_rule.affected.vulnerability_requires_public_access_and_the_asset_has_matching_public_exposure",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-negative-similar-title",
+      "category": "negative",
+      "labels": [
+        "negative",
+        "product_mismatch"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0011",
+        "actual_canonical_id": "CVE-2026-Q1-0011",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Apache",
+          "product": "tomcat",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "10.1.20"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-negative-nginx-only",
+          "expected_status": "not_affected",
+          "actual_status": "not_affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "none"
+          ],
+          "actual_risk_priority": "none",
+          "risk_priority_matched": true,
+          "risk_score": 0.0,
+          "confidence": 0.82,
+          "reason": "No asset component or exposure matched product tomcat.; Vulnerability requires public access, but no matching public exposure was observed.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": false,
+          "enters_risk_queue": false,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "not_affected",
+              "confidence": 0.82,
+              "reason": "No asset component or exposure matched product tomcat.",
+              "reason_code": "product_rule.not_affected.no_asset_component_or_exposure_matched_product_tomcat",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "needs_review",
+              "confidence": 0.35,
+              "reason": "No product-matched component has an observed version.",
+              "reason_code": "version_rule.needs_review.no_product_matched_component_has_an_observed_version",
+              "uncertain_reason": "No product-matched component has an observed version.",
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_affected",
+              "confidence": 0.8,
+              "reason": "Vulnerability requires public access, but no matching public exposure was observed.",
+              "reason_code": "exposure_rule.not_affected.vulnerability_requires_public_access_but_no_matching_public_exposure_was_observe",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-negative-alias-boundary",
+      "category": "negative",
+      "labels": [
+        "negative",
+        "alias_boundary"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0012",
+        "actual_canonical_id": "CVE-2026-Q1-0012",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "Apache",
+          "product": "Apache Tomcat",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "10.1.20"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-negative-apache2-only",
+          "expected_status": "not_affected",
+          "actual_status": "not_affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "none"
+          ],
+          "actual_risk_priority": "none",
+          "risk_priority_matched": true,
+          "risk_score": 0.0,
+          "confidence": 0.82,
+          "reason": "No asset component or exposure matched product Apache Tomcat.; Vulnerability requires public access, but no matching public exposure was observed.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": false,
+          "enters_risk_queue": false,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "not_affected",
+              "confidence": 0.82,
+              "reason": "No asset component or exposure matched product Apache Tomcat.",
+              "reason_code": "product_rule.not_affected.no_asset_component_or_exposure_matched_product_apache_tomcat",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "needs_review",
+              "confidence": 0.35,
+              "reason": "No product-matched component has an observed version.",
+              "reason_code": "version_rule.needs_review.no_product_matched_component_has_an_observed_version",
+              "uncertain_reason": "No product-matched component has an observed version.",
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_affected",
+              "confidence": 0.8,
+              "reason": "Vulnerability requires public access, but no matching public exposure was observed.",
+              "reason_code": "exposure_rule.not_affected.vulnerability_requires_public_access_but_no_matching_public_exposure_was_observe",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-negative-postgres-vs-mysql-asset",
+      "category": "negative",
+      "labels": [
+        "negative",
+        "database",
+        "product_mismatch"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-10029",
+        "actual_canonical_id": "CVE-2026-10029",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_exploitation_signal"
+        ],
+        "needs_ai_enrichment": false,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "PostgreSQL",
+          "product": "postgresql",
+          "kev_status": false,
+          "affected_versions": "PostgreSQL < 15.0",
+          "fixed_versions": "15.0"
+        },
+        "readiness": {
+          "information_completeness": "complete",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_exploitation_signal"
+          ],
+          "missing_fields": [],
+          "evidence_score": 0.86,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "complete",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_exploitation_signal"
+        ],
+        "missing_fields": [],
+        "evidence_score": 0.86,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-mariadb-affected",
+          "expected_status": "not_affected",
+          "actual_status": "not_affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "none"
+          ],
+          "actual_risk_priority": "none",
+          "risk_priority_matched": true,
+          "risk_score": 0.0,
+          "confidence": 0.82,
+          "reason": "No asset component or exposure matched product postgresql.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "package_version",
+            "product_match",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": false,
+          "enters_risk_queue": false,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "not_affected",
+              "confidence": 0.82,
+              "reason": "No asset component or exposure matched product postgresql.",
+              "reason_code": "product_rule.not_affected.no_asset_component_or_exposure_matched_product_postgresql",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "needs_review",
+              "confidence": 0.35,
+              "reason": "No product-matched component has an observed version.",
+              "reason_code": "version_rule.needs_review.no_product_matched_component_has_an_observed_version",
+              "uncertain_reason": "No product-matched component has an observed version.",
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No operating system restriction is defined for this vulnerability.",
+              "reason_code": "os_rule.not_applicable.no_operating_system_restriction_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No public exposure requirement is defined for this vulnerability.",
+              "reason_code": "exposure_rule.not_applicable.no_public_exposure_requirement_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": false,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-negative-openssh-vs-nginx-asset",
+      "category": "negative",
+      "labels": [
+        "negative",
+        "openssh",
+        "product_mismatch"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0030",
+        "actual_canonical_id": "CVE-2026-Q1-0030",
+        "field_completeness_rate": 1.0,
+        "missing_fields": [],
+        "quality_issue_codes": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": "OpenSSH",
+          "product": "openssh",
+          "kev_status": true,
+          "affected_versions": null,
+          "fixed_versions": "9.0"
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "ready",
+          "reasons": [
+            "missing_affected_versions",
+            "missing_severity"
+          ],
+          "missing_fields": [
+            "affected_versions"
+          ],
+          "evidence_score": 0.71,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "ready",
+        "reasons": [
+          "missing_affected_versions",
+          "missing_severity"
+        ],
+        "missing_fields": [
+          "affected_versions"
+        ],
+        "evidence_score": 0.71,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-nginx-affected",
+          "expected_status": "not_affected",
+          "actual_status": "not_affected",
+          "status_matched": true,
+          "expected_risk_priority": [
+            "none"
+          ],
+          "actual_risk_priority": "none",
+          "risk_priority_matched": true,
+          "risk_score": 0.0,
+          "confidence": 0.82,
+          "reason": "No asset component or exposure matched product openssh.; Vulnerability requires public access, but no matching public exposure was observed.",
+          "review_reason_present": true,
+          "evidence_types": [
+            "os_condition",
+            "package_version",
+            "product_match",
+            "public_exposure",
+            "rule_trace"
+          ],
+          "required_evidence_types": [
+            "product_match"
+          ],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": false,
+          "enters_risk_queue": false,
+          "rule_trace": [
+            {
+              "rule_name": "product_rule",
+              "status": "not_affected",
+              "confidence": 0.82,
+              "reason": "No asset component or exposure matched product openssh.",
+              "reason_code": "product_rule.not_affected.no_asset_component_or_exposure_matched_product_openssh",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "version_rule",
+              "status": "needs_review",
+              "confidence": 0.35,
+              "reason": "No product-matched component has an observed version.",
+              "reason_code": "version_rule.needs_review.no_product_matched_component_has_an_observed_version",
+              "uncertain_reason": "No product-matched component has an observed version.",
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "os_rule",
+              "status": "affected",
+              "confidence": 0.72,
+              "reason": "Asset operating system matches the vulnerability restriction.",
+              "reason_code": "os_rule.affected.asset_operating_system_matches_the_vulnerability_restriction",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            },
+            {
+              "rule_name": "feature_rule",
+              "status": "not_applicable",
+              "confidence": 0.0,
+              "reason": "No module or feature condition is defined for this vulnerability.",
+              "reason_code": "feature_rule.not_applicable.no_module_or_feature_condition_is_defined_for_this_vulnerability",
+              "uncertain_reason": null,
+              "executed": false,
+              "evidence_count": 0
+            },
+            {
+              "rule_name": "exposure_rule",
+              "status": "not_affected",
+              "confidence": 0.8,
+              "reason": "Vulnerability requires public access, but no matching public exposure was observed.",
+              "reason_code": "exposure_rule.not_affected.vulnerability_requires_public_access_but_no_matching_public_exposure_was_observe",
+              "uncertain_reason": null,
+              "executed": true,
+              "evidence_count": 1
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 1.0,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    },
+    {
+      "id": "q1-watchvuln-missing-product",
+      "category": "source_quality",
+      "labels": [
+        "watchvuln",
+        "missing_product",
+        "needs_review"
+      ],
+      "status": "passed",
+      "issues": [],
+      "normalization": {
+        "expected_canonical_id": "CVE-2026-Q1-0003",
+        "actual_canonical_id": "CVE-2026-Q1-0003",
+        "field_completeness_rate": 0.8,
+        "missing_fields": [
+          "product"
+        ],
+        "quality_issue_codes": [
+          "missing_product",
+          "missing_affected_versions",
+          "missing_fixed_versions",
+          "missing_exploitation_signal"
+        ],
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "conflict_fields": [],
+        "reference_count": 1,
+        "source_url_count": 1,
+        "reference_coverage_satisfied": true,
+        "actual": {
+          "vendor": null,
+          "product": null,
+          "kev_status": false,
+          "affected_versions": null,
+          "fixed_versions": null
+        },
+        "readiness": {
+          "information_completeness": "partial",
+          "match_readiness": "needs_enrichment",
+          "reasons": [
+            "missing_product",
+            "missing_affected_versions",
+            "missing_fixed_versions",
+            "missing_exploitation_signal"
+          ],
+          "missing_fields": [
+            "product",
+            "affected_versions",
+            "fixed_versions"
+          ],
+          "evidence_score": 0.43,
+          "rule_version": "s3-q2.5-readiness-v1"
+        }
+      },
+      "readiness": {
+        "information_completeness": "partial",
+        "match_readiness": "needs_enrichment",
+        "reasons": [
+          "missing_product",
+          "missing_affected_versions",
+          "missing_fixed_versions",
+          "missing_exploitation_signal"
+        ],
+        "missing_fields": [
+          "product",
+          "affected_versions",
+          "fixed_versions"
+        ],
+        "evidence_score": 0.43,
+        "rule_version": "s3-q2.5-readiness-v1"
+      },
+      "matches": [
+        {
+          "agent_id": "q1-agent-watchvuln-context",
+          "expected_status": "blocked_by_readiness",
+          "actual_status": "blocked_by_readiness",
+          "status_matched": true,
+          "readiness": {
+            "information_completeness": "partial",
+            "match_readiness": "needs_enrichment",
+            "reasons": [
+              "missing_product",
+              "missing_affected_versions",
+              "missing_fixed_versions",
+              "missing_exploitation_signal"
+            ],
+            "missing_fields": [
+              "product",
+              "affected_versions",
+              "fixed_versions"
+            ],
+            "rule_version": "s3-q2.5-readiness-v1"
+          },
+          "reason": "missing_product; missing_affected_versions; missing_fixed_versions; missing_exploitation_signal",
+          "expected_risk_priority": [
+            "none"
+          ],
+          "actual_risk_priority": "none",
+          "risk_priority_matched": true,
+          "risk_score": 0.0,
+          "confidence": 0.0,
+          "review_reason_present": true,
+          "evidence_types": [],
+          "required_evidence_types": [],
+          "required_evidence_missing": [],
+          "expected_enters_risk_queue": false,
+          "enters_risk_queue": false
+        }
+      ],
+      "summary": {
+        "field_completeness_rate": 0.8,
+        "reference_coverage_satisfied": true,
+        "needs_ai_enrichment": true,
+        "needs_human_review": false,
+        "source_conflict_count": 0,
+        "expected_match_count": 1,
+        "match_status_accuracy": 1.0
+      },
+      "regression": {
+        "status": "unchanged",
+        "notes": []
+      }
+    }
+  ]
+}

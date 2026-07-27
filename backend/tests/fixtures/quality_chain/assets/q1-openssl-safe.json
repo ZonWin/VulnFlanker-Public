@@ -1,0 +1,28 @@
+{
+  "agent_id": "q1-agent-openssl-safe",
+  "agent_version": "0.1.0",
+  "hostname": "q1-openssl-safe.local",
+  "primary_ip": "10.10.20.22",
+  "platform": "linux",
+  "os_family": "ubuntu",
+  "os_version": "22.04",
+  "kernel_version": "5.15.0-105-generic",
+  "architecture": "x86_64",
+  "environment_type": "production",
+  "exposure_type": "internal",
+  "business_system": "quality-chain",
+  "owner_team": "security",
+  "owner_person": "q1",
+  "criticality": "medium",
+  "allow_auto_verify": true,
+  "components": [
+    {
+      "component_name": "openssl",
+      "component_type": "package",
+      "version": "3.0.2",
+      "source_type": "dpkg"
+    }
+  ],
+  "exposures": [],
+  "collected_at": "2026-07-05T00:00:00Z"
+}

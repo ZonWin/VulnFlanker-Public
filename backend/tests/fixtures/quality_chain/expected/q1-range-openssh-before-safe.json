@@ -1,0 +1,26 @@
+{
+  "sample_id": "q1-range-openssh-before-safe",
+  "expected_vulnerability": {
+    "canonical_id": "CVE-2026-10024",
+    "vendor": "OpenSSH",
+    "product": "openssh",
+    "kev_status": false,
+    "affected_versions": "before 9.0",
+    "required_references_min_count": 1,
+    "required_fields": ["canonical_id", "title", "product", "affected_versions", "remediation"]
+  },
+  "expected_matches": [
+    {
+      "agent_id": "q1-agent-openssh-safe",
+      "status": "not_affected",
+      "required_evidence_types": ["product_match", "package_version"],
+      "risk_priority_one_of": ["none"],
+      "should_enter_risk_queue": false
+    }
+  ],
+  "quality_expectations": {
+    "normalization_must_succeed": true,
+    "canonical_id_must_not_drift": true,
+    "needs_review_requires_reason": true
+  }
+}

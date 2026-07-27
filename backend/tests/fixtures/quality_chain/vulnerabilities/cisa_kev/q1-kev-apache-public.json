@@ -1,0 +1,20 @@
+{
+  "provider": "cisa-kev",
+  "event_type": "cisa-kev-vulnerability",
+  "external_key": "CVE-2026-Q1-0020",
+  "source_url": "https://example.test/cisa-kev/q1-kev-apache-public",
+  "payload": {
+    "record": {
+      "cveID": "CVE-2026-Q1-0020",
+      "vendorProject": "Apache",
+      "product": "httpd",
+      "vulnerabilityName": "Q1 Apache Public KEV Demo Vulnerability",
+      "dateAdded": "2026-07-20",
+      "shortDescription": "Demo Apache KEV vulnerability.",
+      "requiredAction": "Upgrade httpd to version 2.4.58 or later.",
+      "dueDate": "2026-08-09",
+      "knownRansomwareCampaignUse": "Known",
+      "notes": "{\"requires_public_access\": true, \"affected_os\": [\"linux\", \"ubuntu\"]}"
+    }
+  }
+}

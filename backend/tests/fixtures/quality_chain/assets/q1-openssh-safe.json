@@ -1,0 +1,40 @@
+{
+  "agent_id": "q1-agent-openssh-safe",
+  "agent_version": "0.1.0",
+  "hostname": "q1-openssh-safe.local",
+  "primary_ip": "10.10.20.36",
+  "platform": "linux",
+  "os_family": "ubuntu",
+  "os_version": "22.04",
+  "kernel_version": "5.15.0-105-generic",
+  "architecture": "x86_64",
+  "environment_type": "production",
+  "exposure_type": "internet",
+  "business_system": "quality-chain",
+  "owner_team": "security",
+  "owner_person": "q1",
+  "criticality": "medium",
+  "allow_auto_verify": true,
+  "components": [
+    {
+      "component_name": "openssh-server",
+      "component_type": "package",
+      "version": "9.2",
+      "source_type": "dpkg"
+    }
+  ],
+  "exposures": [
+    {
+      "exposure_kind": "network_service",
+      "address": "203.0.113.36",
+      "port": 22,
+      "protocol": "tcp",
+      "service_name": "ssh",
+      "product": "openssh",
+      "version": "9.2",
+      "state": "open",
+      "is_public": true
+    }
+  ],
+  "collected_at": "2026-07-24T00:00:00Z"
+}

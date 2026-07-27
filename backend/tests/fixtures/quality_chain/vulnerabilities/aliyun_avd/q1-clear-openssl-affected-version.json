@@ -1,0 +1,25 @@
+{
+  "provider": "aliyun-avd",
+  "event_type": "aliyun-avd-high-risk",
+  "external_key": "AVD-2026-Q1-0019",
+  "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0019",
+  "payload": {
+    "record": {
+      "avd_id": "AVD-2026-Q1-0019",
+      "cve_id": "CVE-2026-10019",
+      "title": "Q1 OpenSSL Affected Version Demo Vulnerability",
+      "vendor": "OpenSSL",
+      "product": "openssl",
+      "description": "Demo OpenSSL vulnerability where observed 3.0.2 is affected.",
+      "severity": "high",
+      "score": "8.4",
+      "affected_versions": "OpenSSL < 3.0.8",
+      "fixed_versions": "3.0.8",
+      "remediation": "Upgrade OpenSSL to 3.0.8 or later.",
+      "published_at": "2026-07-19",
+      "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0019",
+      "references": ["https://openssl.example.test/advisory/q1-0019"],
+      "tags": ["high-risk"]
+    }
+  }
+}

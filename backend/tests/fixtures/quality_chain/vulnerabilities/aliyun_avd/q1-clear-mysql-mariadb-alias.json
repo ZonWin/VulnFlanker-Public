@@ -1,0 +1,25 @@
+{
+  "provider": "aliyun-avd",
+  "event_type": "aliyun-avd-high-risk",
+  "external_key": "AVD-2026-Q1-0014",
+  "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0014",
+  "payload": {
+    "record": {
+      "avd_id": "AVD-2026-Q1-0014",
+      "cve_id": "CVE-2026-10014",
+      "title": "Q1 MySQL MariaDB Alias Demo Vulnerability",
+      "vendor": "MySQL",
+      "product": "mysql",
+      "description": "Demo MySQL vulnerability that should match MariaDB alias evidence.",
+      "severity": "high",
+      "score": "8.0",
+      "affected_versions": "MySQL < 10.6.15",
+      "fixed_versions": "10.6.15",
+      "remediation": "Upgrade compatible MySQL/MariaDB packages to 10.6.15 or later.",
+      "published_at": "2026-07-14",
+      "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0014",
+      "references": ["https://mysql.example.test/advisory/q1-0014"],
+      "tags": ["high-risk"]
+    }
+  }
+}

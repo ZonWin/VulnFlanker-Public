@@ -1,0 +1,25 @@
+{
+  "provider": "aliyun-avd",
+  "event_type": "aliyun-avd-high-risk",
+  "external_key": "AVD-2026-Q1-0008",
+  "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0008",
+  "payload": {
+    "record": {
+      "avd_id": "AVD-2026-Q1-0008",
+      "cve_id": "CVE-2026-10008",
+      "title": "Q1 Linux Kernel Multi Segment Range Demo Vulnerability",
+      "vendor": "Linux",
+      "product": "Linux Kernel",
+      "description": "Demo vulnerability with multiple affected kernel ranges.",
+      "severity": "critical",
+      "score": "9.8",
+      "affected_versions": "4.11 <= Linux Kernel < 5.10.255 5.12 <= Linux Kernel < 5.15.205 5.16 <= Linux Kernel < 6.1.171",
+      "fixed_versions": "",
+      "remediation": "Upgrade to a kernel version outside the affected ranges.",
+      "published_at": "2026-07-08",
+      "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0008",
+      "references": ["https://kernel.example.test/advisory/q1-0008"],
+      "tags": ["critical"]
+    }
+  }
+}

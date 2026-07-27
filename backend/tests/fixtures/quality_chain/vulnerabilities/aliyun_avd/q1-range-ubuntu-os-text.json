@@ -1,0 +1,25 @@
+{
+  "provider": "aliyun-avd",
+  "event_type": "aliyun-avd-high-risk",
+  "external_key": "AVD-2026-Q1-0025",
+  "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0025",
+  "payload": {
+    "record": {
+      "avd_id": "AVD-2026-Q1-0025",
+      "cve_id": "CVE-2026-10025",
+      "title": "Q1 Ubuntu Natural Language Range Demo Vulnerability",
+      "vendor": "Ubuntu",
+      "product": "Ubuntu",
+      "description": "Demo Ubuntu natural-language affected text.",
+      "severity": "high",
+      "score": "7.4",
+      "affected_versions": "Ubuntu 20.04 LTS and Ubuntu 22.04 LTS",
+      "fixed_versions": "",
+      "remediation": "Apply the Ubuntu security update.",
+      "published_at": "2026-07-25",
+      "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0025",
+      "references": ["https://ubuntu.example.test/security/q1-0025"],
+      "tags": ["high-risk"]
+    }
+  }
+}

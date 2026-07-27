@@ -1,0 +1,27 @@
+{
+  "sample_id": "q1-range-multi-segment-kernel",
+  "expected_vulnerability": {
+    "canonical_id": "CVE-2026-10008",
+    "vendor": "Linux",
+    "product": "Linux Kernel",
+    "kev_status": false,
+    "affected_versions": "4.11 <= Linux Kernel < 5.10.255 5.12 <= Linux Kernel < 5.15.205 5.16 <= Linux Kernel < 6.1.171",
+    "required_references_min_count": 1,
+    "required_fields": ["canonical_id", "title", "product", "affected_versions", "remediation"]
+  },
+  "expected_matches": [
+    {
+      "agent_id": "q1-agent-kernel-range-affected",
+      "status": "affected",
+      "min_confidence": 0.7,
+      "required_evidence_types": ["product_match", "kernel_version"],
+      "risk_priority_one_of": ["medium", "high", "critical"],
+      "should_enter_risk_queue": true
+    }
+  ],
+  "quality_expectations": {
+    "normalization_must_succeed": true,
+    "canonical_id_must_not_drift": true,
+    "needs_review_requires_reason": true
+  }
+}

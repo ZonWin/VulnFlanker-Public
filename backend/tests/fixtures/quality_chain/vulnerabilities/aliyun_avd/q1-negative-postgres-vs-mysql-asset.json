@@ -1,0 +1,25 @@
+{
+  "provider": "aliyun-avd",
+  "event_type": "aliyun-avd-high-risk",
+  "external_key": "AVD-2026-Q1-0029",
+  "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0029",
+  "payload": {
+    "record": {
+      "avd_id": "AVD-2026-Q1-0029",
+      "cve_id": "CVE-2026-10029",
+      "title": "Q1 PostgreSQL Negative MariaDB Asset Demo Vulnerability",
+      "vendor": "PostgreSQL",
+      "product": "postgresql",
+      "description": "Demo PostgreSQL vulnerability for a MariaDB-only negative asset.",
+      "severity": "high",
+      "score": "8.0",
+      "affected_versions": "PostgreSQL < 15.0",
+      "fixed_versions": "15.0",
+      "remediation": "Upgrade PostgreSQL to 15.0 or later.",
+      "published_at": "2026-07-29",
+      "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0029",
+      "references": ["https://postgresql.example.test/advisory/q1-0029"],
+      "tags": ["high-risk"]
+    }
+  }
+}

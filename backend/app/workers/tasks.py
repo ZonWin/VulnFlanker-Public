@@ -1,0 +1,255 @@
+from app.db.models import IntelCollectionRun
+from app.db.session import SessionLocal
+from app.services.cisa_kev_monitor import (
+    get_cisa_kev_monitor_config,
+    should_run_cisa_kev_monitor,
+)
+from app.services.intel_ingestion import collect_aliyun_avd, collect_cisa_kev
+from app.services.intel_normalization import normalize_raw_event
+from app.services.intel_tracking import complete_collection_run, fail_collection_run
+from app.services.vulnerability_ai_enrichment import (
+    BASIC_EXTRACTION_PROFILE_KEY,
+    EXISTING_DATA_LAYER,
+    WEB_ENRICHMENT_LAYER,
+    WEB_ENRICHMENT_PROFILE_KEY,
+    AUTO_LAYER,
+    enrich_vulnerability_auto,
+    enrich_vulnerability_from_existing_data,
+    enrich_vulnerability_with_web_search,
+    run_vulnerability_ai_enrichment_batch,
+)
+from app.services.verification_orchestrator import run_local_verification_task
+from app.services.watchvuln_builtin import collect_watchvuln_builtin
+from app.services.watchvuln_monitor import (
+    get_watchvuln_monitor_config,
+    should_run_watchvuln_monitor,
+)
+from app.workers.celery_app import celery_app
+
+
+@celery_app.task(name="vulnflanker.collect_vulnerability_source")
+def collect_vulnerability_source(
+    source_name: str,
+    limit: int | None = None,
+    run_id: str | None = None,
+    min_score: float | None = None,
+    latest_only: bool = False,
+) -> dict[str, str | int]:
+    if source_name == "cisa-kev":
+        collector = collect_cisa_kev
+        collect_kwargs = {"limit": limit, "run_id": run_id, "latest_only": latest_only}
+    elif source_name == "aliyun-avd":
+        collector = collect_aliyun_avd
+        collect_kwargs = {"limit": limit, "run_id": run_id, "min_score": min_score}
+    elif source_name == "watchvuln":
+        collector = collect_watchvuln_builtin
+        collect_kwargs = {"limit": limit, "run_id": run_id}
+    else:
+        return {
+            "status": "unsupported",
+            "source_name": source_name,
+            "message": "当前仅支持 cisa-kev、aliyun-avd 与 watchvuln 漏洞源采集。",
+        }
+
+    with SessionLocal() as db:
+        stats = collector(db, **collect_kwargs)
+        return {
+            "status": "completed",
+            "source_name": stats.source_name,
+            "run_id": stats.run_id or "",
+            "fetched_count": stats.fetched_count,
+            "stored_count": stats.stored_count,
+            "processed_count": stats.processed_count,
+            "skipped_count": stats.skipped_count,
+            "failed_count": stats.failed_count,
+        }
+
+
+@celery_app.task(name="vulnflanker.collect_cisa_kev_monitor")
+def collect_cisa_kev_monitor() -> dict[str, str | int]:
+    with SessionLocal() as db:
+        config = get_cisa_kev_monitor_config(db)
+        if not config.enabled:
+            return {
+                "status": "disabled",
+                "source_name": "cisa-kev",
+                "message": "CISA KEV 定时采集未启用。",
+            }
+        if not should_run_cisa_kev_monitor(db, config=config):
+            return {
+                "status": "skipped",
+                "source_name": "cisa-kev",
+                "message": "CISA KEV 定时采集尚未到达下次执行时间。",
+            }
+        stats = collect_cisa_kev(
+            db,
+            limit=config.limit,
+            latest_only=config.latest_only,
+            trigger_type="scheduled",
+        )
+        return {
+            "status": "completed",
+            "source_name": stats.source_name,
+            "run_id": stats.run_id or "",
+            "fetched_count": stats.fetched_count,
+            "stored_count": stats.stored_count,
+            "processed_count": stats.processed_count,
+            "skipped_count": stats.skipped_count,
+            "failed_count": stats.failed_count,
+        }
+
+
+@celery_app.task(name="vulnflanker.collect_watchvuln_monitor")
+def collect_watchvuln_monitor() -> dict[str, str | int]:
+    with SessionLocal() as db:
+        config = get_watchvuln_monitor_config(db)
+        if not config.enabled:
+            return {
+                "status": "disabled",
+                "source_name": "watchvuln",
+                "message": "内置 WatchVuln 定时监测未启用。",
+            }
+        if not should_run_watchvuln_monitor(db, config=config):
+            return {
+                "status": "skipped",
+                "source_name": "watchvuln",
+                "message": "内置 WatchVuln 定时监测尚未到达下次执行时间。",
+            }
+        stats = collect_watchvuln_builtin(
+            db,
+            limit=config.limit,
+            trigger_type="scheduled",
+        )
+        return {
+            "status": "completed",
+            "source_name": stats.source_name,
+            "run_id": stats.run_id or "",
+            "fetched_count": stats.fetched_count,
+            "stored_count": stats.stored_count,
+            "processed_count": stats.processed_count,
+            "skipped_count": stats.skipped_count,
+            "failed_count": stats.failed_count,
+        }
+
+
+@celery_app.task(name="vulnflanker.process_watchvuln_raw_event")
+def process_watchvuln_raw_event(
+    raw_event_id: str,
+    run_id: str | None = None,
+) -> dict[str, str | None]:
+    with SessionLocal() as db:
+        try:
+            result = normalize_raw_event(db, raw_event_id)
+        except Exception as exc:
+            if run_id:
+                run = db.get(IntelCollectionRun, run_id)
+                if run is not None:
+                    fail_collection_run(db, run, exc)
+                    db.commit()
+            raise
+        if run_id:
+            run = db.get(IntelCollectionRun, run_id)
+            if run is not None:
+                complete_collection_run(
+                    db,
+                    run,
+                    fetched_count=1,
+                    processed_count=1 if result.status == "processed" else 0,
+                    skipped_count=1 if result.status == "skipped" else 0,
+                    status="completed",
+                )
+                db.commit()
+        return {
+            "status": result.status,
+            "raw_event_id": result.raw_event_id,
+            "vulnerability_id": result.vulnerability_id,
+            "canonical_id": result.canonical_id,
+        }
+
+
+@celery_app.task(name="vulnflanker.normalize_vulnerability_record")
+def normalize_vulnerability_record(raw_event_id: str) -> dict[str, str | None]:
+    return process_watchvuln_raw_event(raw_event_id)
+
+
+@celery_app.task(name="vulnflanker.recompute_match_result")
+def recompute_match_result(match_result_id: str) -> dict[str, str]:
+    return {
+        "status": "queued",
+        "match_result_id": match_result_id,
+        "message": "匹配重算任务骨架已预留。",
+    }
+
+
+@celery_app.task(name="vulnflanker.ai_enrich_vulnerability")
+def ai_enrich_vulnerability(
+    vulnerability_id: str,
+    layer: str = EXISTING_DATA_LAYER,
+    profile_key: str = BASIC_EXTRACTION_PROFILE_KEY,
+    allow_web_enrichment: bool = False,
+    force_refresh: bool = False,
+) -> dict[str, str | float | None]:
+    if layer not in {EXISTING_DATA_LAYER, WEB_ENRICHMENT_LAYER, AUTO_LAYER}:
+        return {
+            "status": "unsupported",
+            "vulnerability_id": vulnerability_id,
+            "message": "不支持的 AI 补全层级。",
+        }
+    with SessionLocal() as db:
+        if layer == WEB_ENRICHMENT_LAYER:
+            enrichment = enrich_vulnerability_with_web_search(
+                db,
+                vulnerability_id,
+                profile_key=profile_key or WEB_ENRICHMENT_PROFILE_KEY,
+                force_refresh=force_refresh,
+            )
+        elif layer == AUTO_LAYER:
+            enrichment = enrich_vulnerability_auto(
+                db,
+                vulnerability_id,
+                allow_web_enrichment=allow_web_enrichment,
+                force_refresh=force_refresh,
+            )
+        else:
+            enrichment = enrich_vulnerability_from_existing_data(
+                db,
+                vulnerability_id,
+                profile_key=profile_key,
+                force_refresh=force_refresh,
+            )
+        return {
+            "status": enrichment.status,
+            "vulnerability_id": enrichment.vulnerability_id,
+            "enrichment_id": enrichment.id,
+            "confidence": enrichment.confidence,
+        }
+
+
+@celery_app.task(name="vulnflanker.ai_enrich_missing_vulnerabilities")
+def ai_enrich_missing_vulnerabilities(batch_run_id: str) -> dict[str, str | int | None]:
+    with SessionLocal() as db:
+        result = run_vulnerability_ai_enrichment_batch(db, batch_run_id)
+        return {
+            "status": result.status,
+            "batch_run_id": result.batch_run_id,
+            "selected_count": result.selected_count,
+            "skipped_count": result.skipped_count,
+            "message": result.message,
+        }
+
+
+@celery_app.task(name="vulnflanker.run_non_intrusive_verification")
+def run_non_intrusive_verification(task_id: str) -> dict[str, str | int]:
+    with SessionLocal() as db:
+        result = run_local_verification_task(db, task_id)
+        if result is None:
+            return {
+                "status": "not_found",
+                "task_id": task_id,
+                "message": "验证任务不存在。",
+            }
+        return {
+            "status": str(result["status"]),
+            "task_id": str(result["task_id"]),
+            "evidence_count": int(result["evidence_count"]),
+        }

@@ -1,0 +1,20 @@
+{
+  "provider": "cisa-kev",
+  "event_type": "cisa-kev-vulnerability",
+  "external_key": "CVE-2026-Q1-0021",
+  "source_url": "https://example.test/cisa-kev/q1-kev-nginx-safe-version",
+  "payload": {
+    "record": {
+      "cveID": "CVE-2026-Q1-0021",
+      "vendorProject": "Nginx",
+      "product": "nginx",
+      "vulnerabilityName": "Q1 Nginx Safe KEV Demo Vulnerability",
+      "dateAdded": "2026-07-21",
+      "shortDescription": "Demo KEV vulnerability with a safe observed version.",
+      "requiredAction": "Upgrade nginx to version 1.25.0 or later.",
+      "dueDate": "2026-08-10",
+      "knownRansomwareCampaignUse": "Known",
+      "notes": "{\"requires_public_access\": true, \"affected_os\": [\"linux\", \"ubuntu\"]}"
+    }
+  }
+}

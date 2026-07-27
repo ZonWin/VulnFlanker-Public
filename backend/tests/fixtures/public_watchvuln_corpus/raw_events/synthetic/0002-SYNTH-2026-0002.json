@@ -1,0 +1,21 @@
+{
+  "provider": "watchvuln",
+  "event_type": "watchvuln-vulninfo",
+  "external_key": "SYNTH-2026-0002",
+  "source_url": "https://example.test/vulns/SYNTH-2026-0002",
+  "payload": {
+    "type": "watchvuln-vulninfo",
+    "content": {
+      "unique_key": "SYNTH-2026-0002",
+      "title": "Synthetic Advisory Without Match Terms",
+      "severity": "medium",
+      "disclosure": "2026-07-02",
+      "references": [],
+      "tags": [],
+      "from": "https://example.test/vulns/SYNTH-2026-0002",
+      "reason": ["public synthetic fixture"],
+      "watchvuln_source": "synthetic",
+      "watchvuln_source_display_name": "Synthetic Public Fixture"
+    }
+  }
+}

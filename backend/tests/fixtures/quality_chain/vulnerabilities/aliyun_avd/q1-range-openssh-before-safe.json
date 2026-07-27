@@ -1,0 +1,25 @@
+{
+  "provider": "aliyun-avd",
+  "event_type": "aliyun-avd-high-risk",
+  "external_key": "AVD-2026-Q1-0024",
+  "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0024",
+  "payload": {
+    "record": {
+      "avd_id": "AVD-2026-Q1-0024",
+      "cve_id": "CVE-2026-10024",
+      "title": "Q1 OpenSSH Before Range Safe Demo Vulnerability",
+      "vendor": "OpenSSH",
+      "product": "openssh",
+      "description": "Demo before-version range where observed package is safe.",
+      "severity": "high",
+      "score": "7.8",
+      "affected_versions": "before 9.0",
+      "fixed_versions": "",
+      "remediation": "Upgrade OpenSSH to 9.0 or later.",
+      "published_at": "2026-07-24",
+      "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0024",
+      "references": ["https://openssh.example.test/advisory/q1-0024"],
+      "tags": ["high-risk"]
+    }
+  }
+}

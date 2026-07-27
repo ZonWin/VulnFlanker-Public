@@ -1,0 +1,28 @@
+from celery import Celery
+
+from app.core.config import get_settings
+
+settings = get_settings()
+
+celery_app = Celery(
+    "vulnflanker",
+    broker=settings.celery_broker_url,
+    backend=settings.celery_result_backend,
+    include=["app.workers.tasks"],
+)
+
+celery_app.conf.task_default_queue = "vulnflanker.default"
+celery_app.conf.task_serializer = "json"
+celery_app.conf.result_serializer = "json"
+celery_app.conf.accept_content = ["json"]
+
+celery_app.conf.beat_schedule = {
+    "vulnflanker-cisa-kev-monitor": {
+        "task": "vulnflanker.collect_cisa_kev_monitor",
+        "schedule": settings.cisa_kev_monitor_tick_seconds,
+    },
+    "vulnflanker-watchvuln-monitor": {
+        "task": "vulnflanker.collect_watchvuln_monitor",
+        "schedule": settings.watchvuln_monitor_tick_seconds,
+    }
+}

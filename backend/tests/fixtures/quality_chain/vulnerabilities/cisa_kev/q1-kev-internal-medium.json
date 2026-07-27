@@ -1,0 +1,20 @@
+{
+  "provider": "cisa-kev",
+  "event_type": "cisa-kev-vulnerability",
+  "external_key": "CVE-2026-Q1-0007",
+  "source_url": "https://example.test/cisa-kev/q1-kev-internal-medium",
+  "payload": {
+    "record": {
+      "cveID": "CVE-2026-Q1-0007",
+      "vendorProject": "Nginx",
+      "product": "nginx",
+      "vulnerabilityName": "Q1 Internal KEV Nginx Demo Vulnerability",
+      "dateAdded": "2026-07-07",
+      "shortDescription": "Demo internal KEV vulnerability.",
+      "requiredAction": "Upgrade nginx to version 1.25.0 or later.",
+      "dueDate": "2026-07-27",
+      "knownRansomwareCampaignUse": "Known",
+      "notes": "{\"affected_os\": [\"linux\", \"ubuntu\"]}"
+    }
+  }
+}

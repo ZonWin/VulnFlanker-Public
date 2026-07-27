@@ -1,0 +1,20 @@
+{
+  "sample_id": "synthetic-ai-0002",
+  "expected": {
+    "vendor": null,
+    "product": null,
+    "affected_versions": null,
+    "fixed_versions": null,
+    "remediation": null
+  },
+  "acceptable": {
+    "product_aliases": [],
+    "affected_versions_natural_language": []
+  },
+  "judgement": {
+    "allow_auto_accept": false,
+    "expected_readiness_after_accept": "not_matchable",
+    "expected_quality_gate_status": "not_applicable",
+    "review_notes": "Synthetic record intentionally lacks enough match terms for AI extraction."
+  }
+}

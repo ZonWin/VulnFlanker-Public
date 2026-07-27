@@ -1,0 +1,25 @@
+{
+  "provider": "aliyun-avd",
+  "event_type": "aliyun-avd-high-risk",
+  "external_key": "AVD-2026-Q1-0018",
+  "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0018",
+  "payload": {
+    "record": {
+      "avd_id": "AVD-2026-Q1-0018",
+      "cve_id": "CVE-2026-10018",
+      "title": "Q1 Nginx Internal Service Demo Vulnerability",
+      "vendor": "Nginx",
+      "product": "nginx",
+      "description": "Demo nginx vulnerability that does not require public exposure.",
+      "severity": "high",
+      "score": "8.2",
+      "affected_versions": "nginx < 1.25.0",
+      "fixed_versions": "1.25.0",
+      "remediation": "Upgrade nginx to 1.25.0 or later.",
+      "published_at": "2026-07-18",
+      "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0018",
+      "references": ["https://nginx.example.test/advisory/q1-0018"],
+      "tags": ["high-risk"]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "provider": "cisa-kev",
+  "event_type": "cisa-kev-vulnerability",
+  "external_key": "CVE-2026-Q1-0012",
+  "source_url": "https://example.test/cisa-kev/q1-negative-alias-boundary",
+  "payload": {
+    "record": {
+      "cveID": "CVE-2026-Q1-0012",
+      "vendorProject": "Apache",
+      "product": "Apache Tomcat",
+      "vulnerabilityName": "Q1 Apache Tomcat Alias Boundary Demo Vulnerability",
+      "dateAdded": "2026-07-12",
+      "shortDescription": "Demo negative sample that should not match apache2/httpd.",
+      "requiredAction": "Upgrade Apache Tomcat to version 10.1.20 or later.",
+      "dueDate": "2026-08-01",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "{\"requires_public_access\": true, \"affected_os\": [\"linux\", \"ubuntu\"]}"
+    }
+  }
+}

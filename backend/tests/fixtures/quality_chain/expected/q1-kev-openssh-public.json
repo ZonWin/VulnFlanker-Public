@@ -1,0 +1,26 @@
+{
+  "sample_id": "q1-kev-openssh-public",
+  "expected_vulnerability": {
+    "canonical_id": "CVE-2026-Q1-0022",
+    "vendor": "OpenSSH",
+    "product": "openssh",
+    "kev_status": true,
+    "fixed_versions": "9.0",
+    "required_references_min_count": 0,
+    "required_fields": ["canonical_id", "title", "product", "fixed_versions", "remediation"]
+  },
+  "expected_matches": [
+    {
+      "agent_id": "q1-agent-openssh-affected",
+      "status": "affected",
+      "required_evidence_types": ["product_match", "package_version", "os_condition", "public_exposure"],
+      "risk_priority_one_of": ["low", "medium", "high", "critical"],
+      "should_enter_risk_queue": true
+    }
+  ],
+  "quality_expectations": {
+    "normalization_must_succeed": true,
+    "canonical_id_must_not_drift": true,
+    "needs_review_requires_reason": true
+  }
+}

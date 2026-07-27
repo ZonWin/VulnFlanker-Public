@@ -1,0 +1,7 @@
+{
+  "sample_id": "synthetic-ai-0001",
+  "raw_event_ref": "public_watchvuln_corpus/raw_events/synthetic/0003-SYNTH-2026-0003.json",
+  "selection_reason": "Public synthetic sample with product present and version range only in description.",
+  "missing_fields": ["affected_versions", "fixed_versions"],
+  "evaluation_focus": ["affected_versions", "fixed_versions", "evidence"]
+}

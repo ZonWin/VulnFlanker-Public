@@ -1,0 +1,48 @@
+{
+  "sample_id": "q1-clear-nginx-fixed-version",
+  "expected_vulnerability": {
+    "canonical_id": "CVE-2026-Q1-0001",
+    "vendor": "Nginx",
+    "product": "nginx",
+    "kev_status": true,
+    "fixed_versions": "1.25.0",
+    "required_references_min_count": 0,
+    "required_fields": [
+      "canonical_id",
+      "title",
+      "product",
+      "fixed_versions",
+      "remediation"
+    ]
+  },
+  "expected_matches": [
+    {
+      "agent_id": "q1-agent-nginx-affected",
+      "status": "affected",
+      "min_confidence": 0.7,
+      "required_evidence_types": [
+        "product_match",
+        "package_version",
+        "os_condition",
+        "public_exposure"
+      ],
+      "risk_priority_one_of": ["medium", "high", "critical"],
+      "should_enter_risk_queue": true
+    },
+    {
+      "agent_id": "q1-agent-nginx-safe",
+      "status": "not_affected",
+      "required_evidence_types": [
+        "product_match",
+        "package_version"
+      ],
+      "risk_priority_one_of": ["none"],
+      "should_enter_risk_queue": false
+    }
+  ],
+  "quality_expectations": {
+    "normalization_must_succeed": true,
+    "canonical_id_must_not_drift": true,
+    "needs_review_requires_reason": true
+  }
+}

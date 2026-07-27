@@ -1,0 +1,300 @@
+name: VulnFlanker
+
+# Demo/development compose file.
+#
+# This stack is intentionally optimized for local evaluation: backend services
+# run with reload enabled and bind mount the repository into containers. For
+# shared or production-like deployments, build immutable images, remove reload
+# flags and source bind mounts, rotate all credentials, and place HTTPS/access
+# control in front of the console and Agent ingress.
+services:
+  postgres:
+    image: postgres:16
+    container_name: vulnflanker-postgres
+    environment:
+      POSTGRES_DB: vulnflanker
+      POSTGRES_USER: vulnflanker
+      POSTGRES_PASSWORD: vulnflanker
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vulnflanker -d vulnflanker"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  redis:
+    image: redis:7
+    container_name: vulnflanker-redis
+    command:
+      [
+        "redis-server",
+        "--requirepass",
+        "${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}",
+      ]
+    ports:
+      - "${VULNFLANKER_REDIS_BIND:-127.0.0.1}:${VULNFLANKER_REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "redis-cli",
+          "--no-auth-warning",
+          "-a",
+          "${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}",
+          "ping",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
+
+  migrate:
+    build:
+      context: ..
+      dockerfile: deploy/backend.Dockerfile
+    container_name: vulnflanker-migrate
+    working_dir: /workspace
+    command: ["python", "-m", "alembic", "upgrade", "head"]
+    env_file:
+      - ../.env
+    environment:
+      PYTHONPATH: /workspace/backend
+      VULNFLANKER_DATABASE_URL: postgresql+psycopg://vulnflanker:vulnflanker@postgres:5432/vulnflanker
+      VULNFLANKER_REDIS_URL: "redis://:${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}@redis:6379/0"
+      VULNFLANKER_CELERY_BROKER_URL: "redis://:${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}@redis:6379/0"
+      VULNFLANKER_CELERY_RESULT_BACKEND: "redis://:${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}@redis:6379/1"
+      VULNFLANKER_WATCHVULN_COLLECTOR_PATH: /usr/local/bin/watchvuln-collector
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ..:/workspace
+    restart: "no"
+
+  console-api:
+    build:
+      context: ..
+      dockerfile: deploy/backend.Dockerfile
+    container_name: vulnflanker-console-api
+    working_dir: /workspace
+    command:
+      [
+        "python",
+        "-m",
+        "uvicorn",
+        "app.main_console:app",
+        "--reload",
+        "--reload-dir",
+        "/workspace/backend",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8000",
+      ]
+    env_file:
+      - ../.env
+    environment:
+      PYTHONPATH: /workspace/backend
+      VULNFLANKER_DATABASE_URL: postgresql+psycopg://vulnflanker:vulnflanker@postgres:5432/vulnflanker
+      VULNFLANKER_REDIS_URL: "redis://:${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}@redis:6379/0"
+      VULNFLANKER_CELERY_BROKER_URL: "redis://:${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}@redis:6379/0"
+      VULNFLANKER_CELERY_RESULT_BACKEND: "redis://:${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}@redis:6379/1"
+      VULNFLANKER_WATCHVULN_COLLECTOR_PATH: /usr/local/bin/watchvuln-collector
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    ports:
+      - "${VULNFLANKER_API_BIND:-127.0.0.1}:${VULNFLANKER_API_PORT:-8000}:8000"
+    volumes:
+      - ..:/workspace
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "from urllib.request import urlopen; import sys; sys.exit(0 if urlopen('http://127.0.0.1:8000/api/v1/health/live').status == 200 else 1)",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  agent-ingress:
+    build:
+      context: ..
+      dockerfile: deploy/backend.Dockerfile
+    container_name: vulnflanker-agent-ingress
+    working_dir: /workspace
+    command:
+      [
+        "python",
+        "-m",
+        "uvicorn",
+        "app.main_agent:app",
+        "--reload",
+        "--reload-dir",
+        "/workspace/backend",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8001",
+      ]
+    env_file:
+      - ../.env
+    environment:
+      PYTHONPATH: /workspace/backend
+      VULNFLANKER_DATABASE_URL: postgresql+psycopg://vulnflanker:vulnflanker@postgres:5432/vulnflanker
+      VULNFLANKER_REDIS_URL: "redis://:${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}@redis:6379/0"
+      VULNFLANKER_CELERY_BROKER_URL: "redis://:${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}@redis:6379/0"
+      VULNFLANKER_CELERY_RESULT_BACKEND: "redis://:${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}@redis:6379/1"
+      VULNFLANKER_WATCHVULN_COLLECTOR_PATH: /usr/local/bin/watchvuln-collector
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    ports:
+      - "${VULNFLANKER_AGENT_INGRESS_BIND:-127.0.0.1}:${VULNFLANKER_AGENT_INGRESS_PORT:-8001}:8001"
+    volumes:
+      - ..:/workspace
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "from urllib.request import urlopen; import sys; sys.exit(0 if urlopen('http://127.0.0.1:8001/agent/v1/health/live').status == 200 else 1)",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: deploy/frontend.Dockerfile
+    container_name: vulnflanker-frontend
+    depends_on:
+      console-api:
+        condition: service_healthy
+      agent-ingress:
+        condition: service_healthy
+    ports:
+      - "${VULNFLANKER_FRONTEND_BIND:-127.0.0.1}:${VULNFLANKER_FRONTEND_PORT:-8100}:80"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -qO- http://127.0.0.1/ >/dev/null 2>&1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  frontend-prebuilt:
+    profiles:
+      - prebuilt-frontend
+    image: nginx:1.27-alpine
+    container_name: vulnflanker-frontend-prebuilt
+    depends_on:
+      console-api:
+        condition: service_healthy
+      agent-ingress:
+        condition: service_healthy
+    ports:
+      - "${VULNFLANKER_FRONTEND_BIND:-127.0.0.1}:${VULNFLANKER_FRONTEND_PORT:-8100}:80"
+    volumes:
+      - ../frontend/dist:/usr/share/nginx/html:ro
+      - ./frontend.nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -qO- http://127.0.0.1/ >/dev/null 2>&1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  worker:
+    build:
+      context: ..
+      dockerfile: deploy/backend.Dockerfile
+    container_name: vulnflanker-worker
+    working_dir: /workspace
+    command:
+      [
+        "python",
+        "-m",
+        "celery",
+        "-A",
+        "app.workers.celery_app:celery_app",
+        "worker",
+        "--pool=solo",
+        "--loglevel=INFO",
+      ]
+    env_file:
+      - ../.env
+    environment:
+      PYTHONPATH: /workspace/backend
+      VULNFLANKER_DATABASE_URL: postgresql+psycopg://vulnflanker:vulnflanker@postgres:5432/vulnflanker
+      VULNFLANKER_REDIS_URL: "redis://:${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}@redis:6379/0"
+      VULNFLANKER_CELERY_BROKER_URL: "redis://:${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}@redis:6379/0"
+      VULNFLANKER_CELERY_RESULT_BACKEND: "redis://:${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}@redis:6379/1"
+      VULNFLANKER_WATCHVULN_COLLECTOR_PATH: /usr/local/bin/watchvuln-collector
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    volumes:
+      - ..:/workspace
+
+  beat:
+    build:
+      context: ..
+      dockerfile: deploy/backend.Dockerfile
+    container_name: vulnflanker-beat
+    working_dir: /workspace
+    command:
+      [
+        "python",
+        "-m",
+        "celery",
+        "-A",
+        "app.workers.celery_app:celery_app",
+        "beat",
+        "--loglevel=INFO",
+      ]
+    env_file:
+      - ../.env
+    environment:
+      PYTHONPATH: /workspace/backend
+      VULNFLANKER_DATABASE_URL: postgresql+psycopg://vulnflanker:vulnflanker@postgres:5432/vulnflanker
+      VULNFLANKER_REDIS_URL: "redis://:${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}@redis:6379/0"
+      VULNFLANKER_CELERY_BROKER_URL: "redis://:${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}@redis:6379/0"
+      VULNFLANKER_CELERY_RESULT_BACKEND: "redis://:${VULNFLANKER_REDIS_PASSWORD:?Set VULNFLANKER_REDIS_PASSWORD in .env}@redis:6379/1"
+      VULNFLANKER_WATCHVULN_COLLECTOR_PATH: /usr/local/bin/watchvuln-collector
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    volumes:
+      - ..:/workspace
+
+volumes:
+  postgres-data:
+  redis-data:

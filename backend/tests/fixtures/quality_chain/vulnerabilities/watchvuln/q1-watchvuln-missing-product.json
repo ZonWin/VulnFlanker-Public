@@ -1,0 +1,24 @@
+{
+  "provider": "watchvuln",
+  "event_type": "watchvuln-vulninfo",
+  "external_key": "q1-watchvuln-missing-product",
+  "source_url": "https://watch.example/vuln/q1-watchvuln-missing-product",
+  "payload": {
+    "type": "watchvuln-vulninfo",
+    "content": {
+      "unique_key": "q1-watchvuln-missing-product",
+      "title": "Q1 Missing Product Advisory",
+      "description": "The advisory intentionally omits a normalized product field.",
+      "severity": "high",
+      "cve": "CVE-2026-Q1-0003",
+      "disclosure": "2026-07-03",
+      "solutions": "Review the vendor advisory and apply the recommended update.",
+      "references": [
+        "https://watch.example/advisory/q1-watchvuln-missing-product"
+      ],
+      "tags": ["valuable"],
+      "from": "https://watch.example/vuln/q1-watchvuln-missing-product",
+      "reason": ["new"]
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "agent_id": "q1-agent-postgresql-affected",
+  "agent_version": "0.1.0",
+  "hostname": "q1-postgresql-affected.local",
+  "primary_ip": "10.10.20.31",
+  "platform": "linux",
+  "os_family": "ubuntu",
+  "os_version": "22.04",
+  "kernel_version": "5.15.0-105-generic",
+  "architecture": "x86_64",
+  "environment_type": "production",
+  "exposure_type": "internal",
+  "business_system": "quality-chain",
+  "owner_team": "security",
+  "owner_person": "q1",
+  "criticality": "high",
+  "allow_auto_verify": true,
+  "components": [
+    {
+      "component_name": "postgresql",
+      "component_type": "package",
+      "version": "14.8",
+      "source_type": "dpkg"
+    }
+  ],
+  "exposures": [
+    {
+      "exposure_kind": "network_service",
+      "address": "10.10.20.31",
+      "port": 5432,
+      "protocol": "tcp",
+      "service_name": "postgresql",
+      "product": "postgresql",
+      "version": "14.8",
+      "state": "open",
+      "is_public": false
+    }
+  ],
+  "collected_at": "2026-07-13T00:00:00Z"
+}

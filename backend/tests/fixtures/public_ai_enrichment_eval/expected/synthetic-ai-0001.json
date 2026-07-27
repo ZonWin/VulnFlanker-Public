@@ -1,0 +1,20 @@
+{
+  "sample_id": "synthetic-ai-0001",
+  "expected": {
+    "vendor": null,
+    "product": "Example Agent",
+    "affected_versions": "< 3.5.0",
+    "fixed_versions": ">= 3.5.0",
+    "remediation": "Upgrade to 3.5.0 or later."
+  },
+  "acceptable": {
+    "product_aliases": [],
+    "affected_versions_natural_language": ["before 3.5.0"]
+  },
+  "judgement": {
+    "allow_auto_accept": false,
+    "expected_readiness_after_accept": "ready",
+    "expected_quality_gate_status": "needs_review",
+    "review_notes": "Synthetic description provides version evidence, but fake provider confidence remains below auto-accept threshold."
+  }
+}

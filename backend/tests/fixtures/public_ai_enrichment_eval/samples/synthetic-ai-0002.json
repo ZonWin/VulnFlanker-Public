@@ -1,0 +1,7 @@
+{
+  "sample_id": "synthetic-ai-0002",
+  "raw_event_ref": "public_watchvuln_corpus/raw_events/synthetic/0002-SYNTH-2026-0002.json",
+  "selection_reason": "Public synthetic sample with too little information for reliable enrichment.",
+  "missing_fields": ["product", "affected_versions", "fixed_versions"],
+  "evaluation_focus": ["insufficient_information", "quality_gate"]
+}

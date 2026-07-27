@@ -1,0 +1,25 @@
+{
+  "provider": "aliyun-avd",
+  "event_type": "aliyun-avd-high-risk",
+  "external_key": "AVD-2026-Q1-0023",
+  "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0023",
+  "payload": {
+    "record": {
+      "avd_id": "AVD-2026-Q1-0023",
+      "cve_id": "CVE-2026-10023",
+      "title": "Q1 PostgreSQL Version Window Demo Vulnerability",
+      "vendor": "PostgreSQL",
+      "product": "postgresql",
+      "description": "Demo PostgreSQL range vulnerability.",
+      "severity": "high",
+      "score": "8.5",
+      "affected_versions": "14.0 - 14.9",
+      "fixed_versions": "",
+      "remediation": "Upgrade PostgreSQL outside the affected window.",
+      "published_at": "2026-07-23",
+      "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0023",
+      "references": ["https://postgresql.example.test/advisory/q1-0023"],
+      "tags": ["high-risk"]
+    }
+  }
+}

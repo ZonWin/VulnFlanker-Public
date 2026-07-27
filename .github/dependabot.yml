@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule:
+      interval: weekly
+  - package-ecosystem: gomod
+    directory: /agent
+    schedule:
+      interval: weekly
+  - package-ecosystem: gomod
+    directory: /tools/watchvuln-collector
+    schedule:
+      interval: weekly

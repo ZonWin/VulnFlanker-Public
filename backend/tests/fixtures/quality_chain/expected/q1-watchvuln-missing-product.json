@@ -1,0 +1,30 @@
+{
+  "sample_id": "q1-watchvuln-missing-product",
+  "expected_vulnerability": {
+    "canonical_id": "CVE-2026-Q1-0003",
+    "product": null,
+    "kev_status": false,
+    "required_references_min_count": 1,
+    "required_fields": [
+      "canonical_id",
+      "title",
+      "description",
+      "remediation",
+      "product"
+    ]
+  },
+  "expected_matches": [
+    {
+      "agent_id": "q1-agent-watchvuln-context",
+      "status": "blocked_by_readiness",
+      "required_evidence_types": [],
+      "risk_priority_one_of": ["none"],
+      "should_enter_risk_queue": false
+    }
+  ],
+  "quality_expectations": {
+    "normalization_must_succeed": true,
+    "canonical_id_must_not_drift": true,
+    "needs_review_requires_reason": true
+  }
+}

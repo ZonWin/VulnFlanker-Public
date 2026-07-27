@@ -1,0 +1,25 @@
+{
+  "provider": "aliyun-avd",
+  "event_type": "aliyun-avd-high-risk",
+  "external_key": "AVD-2026-Q1-0005",
+  "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0005",
+  "payload": {
+    "record": {
+      "avd_id": "AVD-2026-Q1-0005",
+      "cve_id": "CVE-2026-10005",
+      "title": "Q1 OpenSSL Safe Version Demo Vulnerability",
+      "vendor": "OpenSSL",
+      "product": "openssl",
+      "description": "Demo vulnerability with a fixed OpenSSL version.",
+      "severity": "high",
+      "score": "8.8",
+      "affected_versions": "OpenSSL < 3.0.0",
+      "fixed_versions": "3.0.0",
+      "remediation": "Upgrade OpenSSL to 3.0.0 or later.",
+      "published_at": "2026-07-05",
+      "source_url": "https://avd.example.test/detail?id=AVD-2026-Q1-0005",
+      "references": ["https://openssl.example.test/advisory/q1-0005"],
+      "tags": ["high-risk"]
+    }
+  }
+}

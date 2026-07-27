@@ -1,0 +1,27 @@
+{
+  "sample_id": "q1-negative-postgres-vs-mysql-asset",
+  "expected_vulnerability": {
+    "canonical_id": "CVE-2026-10029",
+    "vendor": "PostgreSQL",
+    "product": "postgresql",
+    "kev_status": false,
+    "affected_versions": "PostgreSQL < 15.0",
+    "fixed_versions": "15.0",
+    "required_references_min_count": 1,
+    "required_fields": ["canonical_id", "title", "product", "affected_versions", "fixed_versions", "remediation"]
+  },
+  "expected_matches": [
+    {
+      "agent_id": "q1-agent-mariadb-affected",
+      "status": "not_affected",
+      "required_evidence_types": ["product_match"],
+      "risk_priority_one_of": ["none"],
+      "should_enter_risk_queue": false
+    }
+  ],
+  "quality_expectations": {
+    "normalization_must_succeed": true,
+    "canonical_id_must_not_drift": true,
+    "needs_review_requires_reason": true
+  }
+}

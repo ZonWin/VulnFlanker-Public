@@ -1,0 +1,34 @@
+{
+  "sample_id": "q1-clear-postgresql-fixed-version",
+  "expected_vulnerability": {
+    "canonical_id": "CVE-2026-10013",
+    "vendor": "PostgreSQL",
+    "product": "postgresql",
+    "kev_status": false,
+    "affected_versions": "PostgreSQL < 15.0",
+    "fixed_versions": "15.0",
+    "required_references_min_count": 1,
+    "required_fields": ["canonical_id", "title", "product", "affected_versions", "fixed_versions", "remediation"]
+  },
+  "expected_matches": [
+    {
+      "agent_id": "q1-agent-postgresql-affected",
+      "status": "affected",
+      "required_evidence_types": ["product_match", "package_version"],
+      "risk_priority_one_of": ["low", "medium", "high", "critical"],
+      "should_enter_risk_queue": true
+    },
+    {
+      "agent_id": "q1-agent-postgresql-safe",
+      "status": "not_affected",
+      "required_evidence_types": ["product_match", "package_version"],
+      "risk_priority_one_of": ["none"],
+      "should_enter_risk_queue": false
+    }
+  ],
+  "quality_expectations": {
+    "normalization_must_succeed": true,
+    "canonical_id_must_not_drift": true,
+    "needs_review_requires_reason": true
+  }
+}

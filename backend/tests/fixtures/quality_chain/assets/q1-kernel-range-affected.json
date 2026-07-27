@@ -1,0 +1,21 @@
+{
+  "agent_id": "q1-agent-kernel-range-affected",
+  "agent_version": "0.1.0",
+  "hostname": "q1-kernel-range-affected.local",
+  "primary_ip": "10.10.20.25",
+  "platform": "linux",
+  "os_family": "ubuntu",
+  "os_version": "22.04",
+  "kernel_version": "5.15.0-119-generic",
+  "architecture": "x86_64",
+  "environment_type": "production",
+  "exposure_type": "internal",
+  "business_system": "quality-chain",
+  "owner_team": "security",
+  "owner_person": "q1",
+  "criticality": "high",
+  "allow_auto_verify": true,
+  "components": [],
+  "exposures": [],
+  "collected_at": "2026-07-08T00:00:00Z"
+}

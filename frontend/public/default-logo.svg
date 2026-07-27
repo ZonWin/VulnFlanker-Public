@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="VulnFlanker logo">
+  <defs>
+    <linearGradient id="bg" x1="24" y1="16" x2="104" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2f7df6"/>
+      <stop offset="1" stop-color="#145bd7"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+  <path d="M64 21c11 8 25 13 41 16v27c0 23-13 39-41 49-28-10-41-26-41-49V37c16-3 30-8 41-16Z" fill="none" stroke="#ffffff" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M36 66h17l8-16 13 31 8-15h10" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="92" cy="39" r="7" fill="#5eead4" stroke="#ffffff" stroke-width="4"/>
+</svg>

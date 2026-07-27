@@ -1,0 +1,40 @@
+{
+  "agent_id": "q1-agent-negative-apache2-only",
+  "agent_version": "0.1.0",
+  "hostname": "q1-negative-apache2-only.local",
+  "primary_ip": "10.10.20.29",
+  "platform": "linux",
+  "os_family": "ubuntu",
+  "os_version": "22.04",
+  "kernel_version": "5.15.0-105-generic",
+  "architecture": "x86_64",
+  "environment_type": "production",
+  "exposure_type": "internet",
+  "business_system": "quality-chain",
+  "owner_team": "security",
+  "owner_person": "q1",
+  "criticality": "high",
+  "allow_auto_verify": true,
+  "components": [
+    {
+      "component_name": "apache2",
+      "component_type": "package",
+      "version": "2.4.57",
+      "source_type": "dpkg"
+    }
+  ],
+  "exposures": [
+    {
+      "exposure_kind": "network_service",
+      "address": "203.0.113.29",
+      "port": 443,
+      "protocol": "tcp",
+      "service_name": "https",
+      "product": "apache2",
+      "version": "2.4.57",
+      "state": "open",
+      "is_public": true
+    }
+  ],
+  "collected_at": "2026-07-12T00:00:00Z"
+}

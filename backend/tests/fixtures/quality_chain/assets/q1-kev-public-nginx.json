@@ -1,0 +1,40 @@
+{
+  "agent_id": "q1-agent-kev-public-nginx",
+  "agent_version": "0.1.0",
+  "hostname": "q1-kev-public-nginx.local",
+  "primary_ip": "10.10.20.23",
+  "platform": "linux",
+  "os_family": "ubuntu",
+  "os_version": "22.04",
+  "kernel_version": "5.15.0-105-generic",
+  "architecture": "x86_64",
+  "environment_type": "production",
+  "exposure_type": "internet",
+  "business_system": "quality-chain",
+  "owner_team": "security",
+  "owner_person": "q1",
+  "criticality": "critical",
+  "allow_auto_verify": true,
+  "components": [
+    {
+      "component_name": "nginx",
+      "component_type": "package",
+      "version": "1.24.0",
+      "source_type": "dpkg"
+    }
+  ],
+  "exposures": [
+    {
+      "exposure_kind": "network_service",
+      "address": "203.0.113.23",
+      "port": 443,
+      "protocol": "tcp",
+      "service_name": "https",
+      "product": "nginx",
+      "version": "1.24.0",
+      "state": "open",
+      "is_public": true
+    }
+  ],
+  "collected_at": "2026-07-06T00:00:00Z"
+}

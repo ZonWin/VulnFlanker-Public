@@ -1,0 +1,13 @@
+# Example external WatchVuln webhook config.
+# Use this only when an independently managed WatchVuln instance should push
+# findings into VulnFlanker through the compatibility webhook.
+db_conn: sqlite3://watchvuln.sqlite3
+sources:
+  - kev
+interval: 30m
+enable_cve_filter: true
+no_github_search: true
+no_sleep: true
+pusher:
+  - type: webhook
+    url: http://vulnflanker-host:8000/api/v1/intel/watchvuln/webhook?token=change-me

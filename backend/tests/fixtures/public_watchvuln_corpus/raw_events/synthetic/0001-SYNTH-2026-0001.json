@@ -1,0 +1,27 @@
+{
+  "provider": "watchvuln",
+  "event_type": "watchvuln-vulninfo",
+  "external_key": "SYNTH-2026-0001",
+  "source_url": "https://example.test/vulns/SYNTH-2026-0001",
+  "payload": {
+    "type": "watchvuln-vulninfo",
+    "content": {
+      "unique_key": "SYNTH-2026-0001",
+      "title": "Example Gateway Path Traversal Vulnerability",
+      "description": "Example Gateway versions before 2.4.1 allow path traversal. The issue is fixed in version 2.4.1.",
+      "severity": "high",
+      "cve": "CVE-2026-90001",
+      "disclosure": "2026-07-01",
+      "solutions": "Upgrade to version 2.4.1 or later.",
+      "references": ["https://example.test/advisories/SYNTH-2026-0001"],
+      "tags": ["POC"],
+      "from": "https://example.test/vulns/SYNTH-2026-0001",
+      "reason": ["public synthetic fixture"],
+      "watchvuln_source": "synthetic",
+      "watchvuln_source_display_name": "Synthetic Public Fixture",
+      "product": "Example Gateway",
+      "affected_versions": "< 2.4.1",
+      "fixed_versions": "2.4.1"
+    }
+  }
+}

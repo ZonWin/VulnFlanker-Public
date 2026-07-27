@@ -1,0 +1,20 @@
+{
+  "provider": "cisa-kev",
+  "event_type": "cisa-kev-vulnerability",
+  "external_key": "CVE-2026-Q1-0015",
+  "source_url": "https://example.test/cisa-kev/q1-clear-openssh-fixed-version",
+  "payload": {
+    "record": {
+      "cveID": "CVE-2026-Q1-0015",
+      "vendorProject": "OpenSSH",
+      "product": "openssh",
+      "vulnerabilityName": "Q1 OpenSSH Fixed Version Demo Vulnerability",
+      "dateAdded": "2026-07-15",
+      "shortDescription": "Demo OpenSSH vulnerability with fixed version.",
+      "requiredAction": "Upgrade OpenSSH to version 9.0 or later.",
+      "dueDate": "2026-08-04",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "{\"requires_public_access\": true, \"affected_os\": [\"linux\", \"ubuntu\"]}"
+    }
+  }
+}
