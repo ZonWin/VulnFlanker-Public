@@ -31,6 +31,11 @@ VulnFlanker 是一个面向内部安全运营的漏洞影响评估与受控验�
 - 提供 React 控制台，用于管理资产、漏洞、匹配结果、风险处置、验证任务、AI 设置、平台设置和审计日志。
 - 支持通过可配置的服务提供商，使用 AI 辅助补充漏洞信息。
 
+<img width="2492" height="918" alt="image" src="https://github.com/user-attachments/assets/40974fc6-e041-486c-88bd-189bcbe11237" />
+<img width="2492" height="875" alt="image" src="https://github.com/user-attachments/assets/8a3c2ceb-b6ef-4d1f-a752-6c689e2f216c" />
+<img width="2492" height="801" alt="image" src="https://github.com/user-attachments/assets/76290b68-c981-4da9-9ba5-a26ad030608f" />
+
+
 ## 架构
 
 ```text
