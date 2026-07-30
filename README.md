@@ -103,14 +103,50 @@ http://127.0.0.1:8100/
 
 Linux 主机 Agent 位于 `agent/`，使用 Go 编写。它负责收集本地资产信息、上报心跳、拉取只读验证任务并返回验证证据。
 
-构建 Agent：
+使用 Agent 前必须先编译 Linux 二进制。公开仓库不默认附带预编译的 Agent
+可执行文件；控制台生成的安装命令也依赖这些二进制产物已经准备好。
+
+在 Windows/PowerShell 环境中构建 Linux amd64 和 arm64 Agent：
+
+```powershell
+.\scripts\build-agent-artifacts.ps1
+```
+
+在 Linux、macOS 或 Bash 环境中构建 Linux amd64 和 arm64 Agent：
+
+```bash
+./scripts/build-agent-artifacts.sh
+```
+
+构建完成后，二进制文件会写入：
+
+```text
+agent/bin/vulnflanker-agent-linux-amd64
+agent/bin/vulnflanker-agent-linux-arm64
+```
+
+如果只想在当前平台做本地开发调试，也可以直接构建当前系统架构的 Agent：
 
 ```powershell
 cd agent
 go build ./cmd/vulnflanker-agent
 ```
 
-控制台可以生成注册令牌和安装命令。新部署应使用 `/agent/v1`；旧版 Agent API 兼容开关仅在 v0.1 中保留。
+控制台可以生成注册令牌和安装命令。将 Agent 部署到 Linux 主机时，请选择匹配
+CPU 架构的二进制文件，并确保命令中的 Agent 接入地址是该主机可以访问的平台
+地址；不要在远程主机上继续使用默认的 `127.0.0.1:8001`。
+
+Linux 主机上的一次性连通性验证示例：
+
+```bash
+chmod +x ./vulnflanker-agent-linux-amd64
+./vulnflanker-agent-linux-amd64 \
+  -agent-ingress-url http://<平台IP或域名>:8001 \
+  -enrollment-token <控制台生成的注册令牌> \
+  -once=true
+```
+
+新部署应使用 `/agent/v1`；旧版 Agent API 兼容开关仅在 v0.1 中保留。
 
 ## AI 信息补充
 
