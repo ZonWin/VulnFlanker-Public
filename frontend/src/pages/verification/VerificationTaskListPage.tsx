@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Button,
   Card,
@@ -47,13 +48,13 @@ const defaultFilters: VerificationTasksQuery = {};
 const DEFAULT_PAGE_SIZE = 10;
 
 const statusOptions = [
-  { label: "排队中", value: "queued" },
-  { label: "执行中", value: "in_progress" },
-  { label: "请求取消", value: "cancel_requested" },
-  { label: "已取消", value: "cancelled" },
-  { label: "已完成", value: "completed" },
-  { label: "失败", value: "failed" },
-  { label: "已拒绝", value: "rejected" }
+  { label: t("排队中"), value: "queued" },
+  { label: t("执行中"), value: "in_progress" },
+  { label: t("请求取消"), value: "cancel_requested" },
+  { label: t("已取消"), value: "cancelled" },
+  { label: t("已完成"), value: "completed" },
+  { label: t("失败"), value: "failed" },
+  { label: t("已拒绝"), value: "rejected" }
 ];
 
 const taskTypeOptions = [{ label: "package_version_check", value: "package_version_check" }];
@@ -100,24 +101,24 @@ export default function VerificationTaskListPage() {
   const cancelMutation = useMutation({
     mutationFn: (taskId: string) => cancelVerificationTask(taskId),
     onSuccess: () => {
-      messageApi.success("验证任务已更新");
+      messageApi.success(t("验证任务已更新"));
       void queryClient.invalidateQueries({ queryKey: ["verification-tasks"] });
       void queryClient.invalidateQueries({ queryKey: ["match-results"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "取消任务失败");
+      messageApi.error(error instanceof Error ? error.message : t("取消任务失败"));
     }
   });
 
   const retryMutation = useMutation({
     mutationFn: (taskId: string) => retryVerificationTask(taskId),
     onSuccess: (task) => {
-      messageApi.success("重试任务已创建");
+      messageApi.success(t("重试任务已创建"));
       void queryClient.invalidateQueries({ queryKey: ["verification-tasks"] });
       navigate(`/verification-tasks/${task.id}`);
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "重试任务失败");
+      messageApi.error(error instanceof Error ? error.message : t("重试任务失败"));
     }
   });
 
@@ -143,7 +144,7 @@ export default function VerificationTaskListPage() {
 
   const columns: ColumnsType<VerificationTaskSummary> = [
     {
-      title: "任务",
+      title: t("任务"),
       dataIndex: "id",
       minWidth: 270,
       render: (_: string, record) => (
@@ -156,13 +157,13 @@ export default function VerificationTaskListPage() {
       )
     },
     {
-      title: "状态",
+      title: t("状态"),
       dataIndex: "status",
       width: 120,
       render: (value: string) => <VerificationTaskStatusTag value={value} />
     },
     {
-      title: "漏洞",
+      title: t("漏洞"),
       key: "vulnerability",
       minWidth: 260,
       render: (_, record) => (
@@ -183,7 +184,7 @@ export default function VerificationTaskListPage() {
       )
     },
     {
-      title: "资产",
+      title: t("资产"),
       key: "asset",
       width: 180,
       render: (_, record) => (
@@ -198,24 +199,24 @@ export default function VerificationTaskListPage() {
       )
     },
     {
-      title: "证据",
+      title: t("证据"),
       dataIndex: "evidence_count",
       width: 90
     },
     {
-      title: "创建时间",
+      title: t("创建时间"),
       dataIndex: "created_at",
       width: 190,
       render: (value: string) => formatDateTime(value)
     },
     {
-      title: "完成时间",
+      title: t("完成时间"),
       dataIndex: "completed_at",
       width: 190,
       render: (value: string | null) => formatDateTime(value)
     },
     {
-      title: "错误",
+      title: t("错误"),
       key: "error",
       minWidth: 240,
       render: (_, record) => (
@@ -228,7 +229,7 @@ export default function VerificationTaskListPage() {
       )
     },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       fixed: "right",
       width: 220,
@@ -239,10 +240,9 @@ export default function VerificationTaskListPage() {
             icon={<Eye size={15} />}
             onClick={() => navigate(`/verification-tasks/${record.id}`)}
           >
-            详情
-          </Button>
+            {t("详情")}</Button>
           <Popconfirm
-            title="取消验证任务"
+            title={t("取消验证任务")}
             onConfirm={() => cancelMutation.mutate(record.id)}
             disabled={!canCancel(record)}
           >
@@ -252,8 +252,7 @@ export default function VerificationTaskListPage() {
               icon={<Ban size={15} />}
               disabled={!canCancel(record)}
             >
-              取消
-            </Button>
+              {t("取消")}</Button>
           </Popconfirm>
           <Button
             type="link"
@@ -261,8 +260,7 @@ export default function VerificationTaskListPage() {
             onClick={() => retryMutation.mutate(record.id)}
             disabled={!canRetry(record)}
           >
-            重试
-          </Button>
+            {t("重试")}</Button>
         </Space>
       )
     }
@@ -272,28 +270,27 @@ export default function VerificationTaskListPage() {
     <Space className="page-stack" orientation="vertical" size={16}>
       {contextHolder}
       <PageHeader
-        title="验证中心"
+        title={t("验证中心")}
         extra={
           <Button
             icon={<RefreshCw size={16} />}
             onClick={() => tasksQuery.refetch()}
             loading={tasksQuery.isFetching}
           >
-            刷新
-          </Button>
+            {t("刷新")}</Button>
         }
       />
 
       <Row gutter={[16, 16]}>
         <Col xs={24} lg={6}>
           <Card className="metric-card">
-            <Statistic title="任务数" value={metrics.total} prefix={<ClipboardCheck size={26} />} />
+            <Statistic title={t("任务数")} value={metrics.total} prefix={<ClipboardCheck size={26} />} />
           </Card>
         </Col>
         <Col xs={24} lg={6}>
           <Card className="metric-card">
             <Statistic
-              title="排队/执行"
+              title={t("排队/执行")}
               value={metrics.active}
               prefix={<RefreshCw size={26} />}
             />
@@ -302,7 +299,7 @@ export default function VerificationTaskListPage() {
         <Col xs={24} lg={6}>
           <Card className="metric-card metric-card-red">
             <Statistic
-              title="失败/拒绝"
+              title={t("失败/拒绝")}
               value={metrics.failed}
               prefix={<ShieldAlert size={26} />}
             />
@@ -311,7 +308,7 @@ export default function VerificationTaskListPage() {
         <Col xs={24} lg={6}>
           <Card className="metric-card metric-card-green">
             <Statistic
-              title="证据数"
+              title={t("证据数")}
               value={metrics.evidence}
               prefix={<ShieldCheck size={26} />}
             />
@@ -328,16 +325,16 @@ export default function VerificationTaskListPage() {
           onFinish={(values) => setFilters(normalizeFilters(values))}
         >
           <div className="filter-row filter-row-primary">
-            <Form.Item label="状态" name="status">
-              <Select allowClear options={statusOptions} placeholder="全部状态" />
+            <Form.Item label={t("状态")} name="status">
+              <Select allowClear options={statusOptions} placeholder={t("全部状态")} />
             </Form.Item>
-            <Form.Item label="任务类型" name="task_type">
-              <Select allowClear options={taskTypeOptions} placeholder="全部类型" />
+            <Form.Item label={t("任务类型")} name="task_type">
+              <Select allowClear options={taskTypeOptions} placeholder={t("全部类型")} />
             </Form.Item>
             <Form.Item label="Agent" name="agent_id">
               <Input placeholder="agent_id" />
             </Form.Item>
-            <Form.Item label="资产" name="asset_id">
+            <Form.Item label={t("资产")} name="asset_id">
               <Input placeholder="asset_id" />
             </Form.Item>
             <Form.Item className="filter-actions">
@@ -349,26 +346,24 @@ export default function VerificationTaskListPage() {
                     setFilters(defaultFilters);
                   }}
                 >
-                  重置
-                </Button>
+                  {t("重置")}</Button>
                 <Button
                   icon={filtersExpanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
                   onClick={() => setFiltersExpanded((current) => !current)}
                 >
-                  {filtersExpanded ? "收起筛选" : "更多筛选"}
+                  {filtersExpanded ? t("收起筛选") : t("更多筛选")}
                 </Button>
                 <Button type="primary" htmlType="submit">
-                  查询
-                </Button>
+                  {t("查询")}</Button>
               </Space>
             </Form.Item>
           </div>
           {filtersExpanded ? (
             <div className="filter-row filter-row-extra">
-              <Form.Item label="漏洞" name="vulnerability_id">
-                <Input placeholder="CVE 或漏洞 ID" />
+              <Form.Item label={t("漏洞")} name="vulnerability_id">
+                <Input placeholder={t("CVE 或漏洞 ID")} />
               </Form.Item>
-              <Form.Item label="匹配结果" name="match_result_id">
+              <Form.Item label={t("匹配结果")} name="match_result_id">
                 <Input placeholder="match_result_id" />
               </Form.Item>
             </div>
@@ -376,7 +371,7 @@ export default function VerificationTaskListPage() {
         </Form>
       </Card>
 
-      <Card className="content-card" title="验证任务">
+      <Card className="content-card" title={t("验证任务")}>
         {tasksQuery.isError ? <ErrorState error={tasksQuery.error} /> : null}
         <ResizableTable<VerificationTaskSummary>
           storageKey="verification-tasks"
@@ -387,10 +382,9 @@ export default function VerificationTaskListPage() {
           pagination={false}
           locale={{
             emptyText: (
-              <EmptyState title="暂无验证任务">
+              <EmptyState title={t("暂无验证任务")}>
                 <Button type="primary" onClick={() => navigate("/risk-queue")}>
-                  去风险队列
-                </Button>
+                  {t("去风险队列")}</Button>
               </EmptyState>
             )
           }}
@@ -402,7 +396,7 @@ export default function VerificationTaskListPage() {
             pageSize={pageSize}
             total={total}
             showSizeChanger
-            showTotal={(value) => `共 ${value} 条`}
+            showTotal={(value) => t("共 {{v0}} 条", { v0: value })}
             onChange={(nextPage, nextPageSize) => {
               if (nextPageSize !== pageSize) {
                 setPageSize(nextPageSize);

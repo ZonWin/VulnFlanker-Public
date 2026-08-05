@@ -8,6 +8,7 @@ from app.db.models import (
     Asset,
     MatchEvidence,
     MatchResult,
+    RiskQueueEvent,
     Vulnerability,
     VulnerabilityAffectedScope,
 )
@@ -25,6 +26,12 @@ from app.services.rule_numeric_config import (
 )
 from app.services.risk_snapshot import apply_risk_snapshot
 from app.services.risk_codes import RISK_CODE_STATUSES, allocate_risk_code
+from app.services.risk_notifications import (
+    capture_risk_state,
+    classify_risk_change,
+    enqueue_evaluation_deliveries,
+    process_risk_evaluation_changes,
+)
 from app.services.vulnerability_readiness import (
     MATCH_READY,
     VulnerabilityReadiness,
@@ -53,11 +60,13 @@ def evaluate_matches(
     asset_id: str | None = None,
     vulnerability_id: str | None = None,
     raise_if_vulnerability_blocked: bool | None = None,
+    trigger_type: str = "manual",
 ) -> list[MatchResult]:
     assets = _load_assets(db, asset_id)
     vulnerabilities = _load_vulnerabilities(db, vulnerability_id)
     numeric_config = get_rule_numeric_config_values(db)
     results: list[MatchResult] = []
+    changes = []
     should_raise_if_blocked = (
         bool(vulnerability_id)
         if raise_if_vulnerability_blocked is None
@@ -74,18 +83,35 @@ def evaluate_matches(
         ):
             continue
         for asset in assets:
-            results.append(
-                evaluate_asset_vulnerability(
-                    db,
-                    asset,
-                    vulnerability,
-                    numeric_config=numeric_config,
+            previous_result = db.scalar(
+                select(MatchResult).where(
+                    and_(
+                        MatchResult.asset_id == asset.id,
+                        MatchResult.vulnerability_id == vulnerability.id,
+                    )
                 )
             )
+            previous = capture_risk_state(previous_result)
+            result = evaluate_asset_vulnerability(
+                db,
+                asset,
+                vulnerability,
+                numeric_config=numeric_config,
+            )
+            results.append(result)
+            change = classify_risk_change(result, previous)
+            if change is not None:
+                changes.append(change)
 
+    outcome = process_risk_evaluation_changes(
+        db,
+        changes=changes,
+        trigger_type=trigger_type,
+    )
     db.commit()
     for result in results:
         db.refresh(result)
+    enqueue_evaluation_deliveries(outcome.delivery_ids)
     return results
 
 
@@ -130,6 +156,7 @@ def evaluate_asset_vulnerability(
         context = build_match_context(asset, vulnerability, numeric_config=numeric_config)
         pipeline_result = evaluate_pipeline(context)
     match_result = _get_or_create_match_result(db, asset, vulnerability)
+    previous_status = match_result.status
     match_result.asset = asset
     match_result.vulnerability = vulnerability
     _apply_pipeline_result(
@@ -137,8 +164,35 @@ def evaluate_asset_vulnerability(
         pipeline_result,
         numeric_config=numeric_config,
     )
-    if match_result.risk_code is None and match_result.status in RISK_CODE_STATUSES:
-        match_result.risk_code = allocate_risk_code(db)
+    transition_at = utcnow()
+    previously_in_queue = previous_status in RISK_CODE_STATUSES
+    currently_in_queue = match_result.status in RISK_CODE_STATUSES
+    if not previously_in_queue and currently_in_queue:
+        if match_result.risk_entered_at is None:
+            match_result.risk_entered_at = transition_at
+        db.add(
+            RiskQueueEvent(
+                match_result=match_result,
+                event_type="entered",
+                from_status=previous_status,
+                to_status=match_result.status,
+                created_at=transition_at,
+                updated_at=transition_at,
+            )
+        )
+    elif previously_in_queue and not currently_in_queue:
+        db.add(
+            RiskQueueEvent(
+                match_result=match_result,
+                event_type="exited",
+                from_status=previous_status,
+                to_status=match_result.status,
+                created_at=transition_at,
+                updated_at=transition_at,
+            )
+        )
+    if match_result.risk_code is None and currently_in_queue:
+        match_result.risk_code = allocate_risk_code(db, created_at=transition_at)
     _replace_evidence(match_result, pipeline_result)
     db.add(match_result)
     db.flush()
@@ -170,12 +224,20 @@ def reevaluate_match_result(
 
     previous_status = match_result.status
     previous_risk_score = match_result.risk_score
+    previous_risk_priority = match_result.risk_priority
+    previous = capture_risk_state(match_result)
     numeric_config = get_rule_numeric_config_values(db)
     result = evaluate_asset_vulnerability(
         db,
         match_result.asset,
         match_result.vulnerability,
         numeric_config=numeric_config,
+    )
+    change = classify_risk_change(result, previous)
+    outcome = process_risk_evaluation_changes(
+        db,
+        changes=[change] if change is not None else [],
+        trigger_type="manual",
     )
     create_audit_log(
         db,
@@ -194,11 +256,14 @@ def reevaluate_match_result(
             "new_status": result.status,
             "previous_risk_score": previous_risk_score,
             "new_risk_score": result.risk_score,
+            "previous_risk_priority": previous_risk_priority,
+            "new_risk_priority": result.risk_priority,
             "rule_version": result.rule_version,
         },
     )
     db.commit()
     db.refresh(result)
+    enqueue_evaluation_deliveries(outcome.delivery_ids)
     return result
 
 

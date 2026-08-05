@@ -15,10 +15,13 @@ from app.db.models.asset import (
 from app.db.models.cisa_kev_monitor_config import CisaKevMonitorConfig
 from app.db.models.intel_collection_run import IntelCollectionRun
 from app.db.models.intel_raw_event import IntelRawEvent
+from app.db.models.notification import AdminNotification, SystemEvent
+from app.db.models.email_alert import EmailDelivery, EmailDeliveryAttempt, EmailSettings
 from app.db.models.match_result import (
     MatchEvidence,
     MatchResult,
     MatchResultHandlingRecord,
+    RiskQueueEvent,
     RiskCodeCounter,
 )
 from app.db.models.ownership import BusinessSystem, Person, ResponsibilityTeam
@@ -51,10 +54,16 @@ __all__ = [
     "CisaKevMonitorConfig",
     "IntelCollectionRun",
     "IntelRawEvent",
+    "AdminNotification",
+    "SystemEvent",
+    "EmailDelivery",
+    "EmailDeliveryAttempt",
+    "EmailSettings",
     "MatchEvidence",
     "MatchResult",
     "MatchResultHandlingRecord",
     "RiskCodeCounter",
+    "RiskQueueEvent",
     "BusinessSystem",
     "Person",
     "ResponsibilityTeam",

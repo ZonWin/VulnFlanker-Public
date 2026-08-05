@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import { Alert, Button, Card, Form, Input, Typography } from "antd";
 import {
   LockKeyhole,
@@ -42,7 +43,7 @@ export default function LoginPage() {
 
   return (
     <main className="login-shell">
-      <section className="login-panel" aria-label={`${settings.platform_name} 登录`}>
+      <section className="login-panel" aria-label={t("{{v0}} 登录", { v0: settings.platform_name })}>
         <div className="login-brand">
           <span className="login-brand-mark">
             <img
@@ -60,7 +61,7 @@ export default function LoginPage() {
         <Card className="login-card">
           {needsSetup ? (
             <>
-              <Typography.Title level={2}>初始化管理员</Typography.Title>
+              <Typography.Title level={2}>{t("初始化管理员")}</Typography.Title>
               <Form
                 form={setupForm}
                 layout="vertical"
@@ -78,7 +79,7 @@ export default function LoginPage() {
                     })
                     .catch((error: unknown) => {
                       setErrorMessage(
-                        error instanceof Error ? error.message : "初始化失败"
+                        error instanceof Error ? error.message : t("初始化失败")
                       );
                     })
                     .finally(() => {
@@ -97,11 +98,11 @@ export default function LoginPage() {
 
                 <Form.Item
                   name="username"
-                  label="用户名"
+                  label={t("用户名")}
                   initialValue="admin"
                   rules={[
-                    { required: true, message: "请输入用户名" },
-                    { whitespace: true, message: "用户名不能只包含空格" }
+                    { required: true, message: t("请输入用户名") },
+                    { whitespace: true, message: t("用户名不能只包含空格") }
                   ]}
                 >
                   <Input
@@ -111,41 +112,41 @@ export default function LoginPage() {
                   />
                 </Form.Item>
 
-                <Form.Item name="display_name" label="显示名称">
+                <Form.Item name="display_name" label={t("显示名称")}>
                   <Input
                     autoComplete="name"
                     prefix={<ShieldCheck size={17} />}
-                    placeholder="系统管理员"
+                    placeholder={t("系统管理员")}
                   />
                 </Form.Item>
 
                 <Form.Item
                   name="password"
-                  label="密码"
+                  label={t("密码")}
                   rules={[
-                    { required: true, message: "请输入密码" },
-                    { min: 8, message: "密码至少 8 位" }
+                    { required: true, message: t("请输入密码") },
+                    { min: 8, message: t("密码至少 8 位") }
                   ]}
                 >
                   <Input.Password
                     autoComplete="new-password"
                     prefix={<LockKeyhole size={17} />}
-                    placeholder="设置管理员密码"
+                    placeholder={t("设置管理员密码")}
                   />
                 </Form.Item>
 
                 <Form.Item
                   name="confirmPassword"
-                  label="确认密码"
+                  label={t("确认密码")}
                   dependencies={["password"]}
                   rules={[
-                    { required: true, message: "请再次输入密码" },
+                    { required: true, message: t("请再次输入密码") },
                     ({ getFieldValue }) => ({
                       validator(_, value) {
                         if (!value || getFieldValue("password") === value) {
                           return Promise.resolve();
                         }
-                        return Promise.reject(new Error("两次输入的密码不一致"));
+                        return Promise.reject(new Error(t("两次输入的密码不一致")));
                       }
                     })
                   ]}
@@ -153,7 +154,7 @@ export default function LoginPage() {
                   <Input.Password
                     autoComplete="new-password"
                     prefix={<LockKeyhole size={17} />}
-                    placeholder="再次输入管理员密码"
+                    placeholder={t("再次输入管理员密码")}
                   />
                 </Form.Item>
 
@@ -166,8 +167,7 @@ export default function LoginPage() {
                       icon={<UserPlus size={17} />}
                       loading={submitting}
                     >
-                      创建管理员并进入系统
-                    </Button>
+                      {t("创建管理员并进入系统")}</Button>
                   )}
                 </Form.Item>
               </Form>
@@ -175,12 +175,12 @@ export default function LoginPage() {
               <Alert
                 type="info"
                 showIcon
-                message="仅在系统不存在活跃超级管理员时开放初始化"
+                message={t("仅在系统不存在活跃超级管理员时开放初始化")}
               />
             </>
           ) : (
             <>
-              <Typography.Title level={2}>管理员登录</Typography.Title>
+              <Typography.Title level={2}>{t("管理员登录")}</Typography.Title>
               <Form
                 form={form}
                 layout="vertical"
@@ -194,7 +194,7 @@ export default function LoginPage() {
                     })
                     .catch((error: unknown) => {
                       setErrorMessage(
-                        error instanceof Error ? error.message : "登录失败"
+                        error instanceof Error ? error.message : t("登录失败")
                       );
                     })
                     .finally(() => {
@@ -213,8 +213,8 @@ export default function LoginPage() {
 
                 <Form.Item
                   name="username"
-                  label="用户名"
-                  rules={[{ required: true, message: "请输入用户名" }]}
+                  label={t("用户名")}
+                  rules={[{ required: true, message: t("请输入用户名") }]}
                 >
                   <Input
                     autoComplete="username"
@@ -225,13 +225,13 @@ export default function LoginPage() {
 
                 <Form.Item
                   name="password"
-                  label="密码"
-                  rules={[{ required: true, message: "请输入密码" }]}
+                  label={t("密码")}
+                  rules={[{ required: true, message: t("请输入密码") }]}
                 >
                   <Input.Password
                     autoComplete="current-password"
                     prefix={<LockKeyhole size={17} />}
-                    placeholder="输入管理员密码"
+                    placeholder={t("输入管理员密码")}
                   />
                 </Form.Item>
 
@@ -244,8 +244,7 @@ export default function LoginPage() {
                       icon={<LogIn size={17} />}
                       loading={submitting}
                     >
-                      登录
-                    </Button>
+                      {t("登录")}</Button>
                   )}
                 </Form.Item>
               </Form>

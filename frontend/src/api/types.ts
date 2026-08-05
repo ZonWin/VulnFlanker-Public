@@ -1374,3 +1374,173 @@ export interface TaskCenterItemsQuery {
   keyword?: string;
   limit?: number;
 }
+
+export type SystemEventCategory = "asset" | "intel" | "risk";
+export type SystemEventLevel = "info" | "success" | "warning" | "error";
+
+export interface SystemEvent {
+  id: string;
+  event_key: string;
+  category: SystemEventCategory;
+  event_type: string;
+  level: SystemEventLevel;
+  title: string;
+  summary: string;
+  details: Record<string, unknown>;
+  target_type: string | null;
+  target_id: string | null;
+  target_query: Record<string, unknown>;
+  occurred_at: string;
+  created_at: string;
+}
+
+export interface AdminNotification {
+  id: string;
+  read_at: string | null;
+  expires_at: string;
+  created_at: string;
+  event: SystemEvent;
+}
+
+export interface NotificationListPage {
+  items: AdminNotification[];
+  total: number;
+  offset: number;
+  limit: number;
+}
+
+export interface SystemEventListPage {
+  items: SystemEvent[];
+  total: number;
+  offset: number;
+  limit: number;
+}
+
+export interface NotificationHistoryQuery {
+  category?: SystemEventCategory;
+  event_type?: string;
+  offset?: number;
+  limit?: number;
+}
+
+export type SmtpSecurity = "starttls" | "ssl_tls" | "none";
+export type EmailDeliveryStatus =
+  | "queued"
+  | "sending"
+  | "retry_scheduled"
+  | "sent"
+  | "failed"
+  | "skipped";
+export type EmailTriggerType = "automatic" | "manual" | "test" | "manual_retry";
+
+export interface EmailSettings {
+  id: string;
+  enabled: boolean;
+  automatic_enabled: boolean;
+  risk_threshold: Exclude<RiskPriority, "none">;
+  retry_enabled: boolean;
+  retry_delays_seconds: number[];
+  smtp_host: string | null;
+  smtp_port: number;
+  smtp_security: SmtpSecurity;
+  smtp_username: string | null;
+  has_password: boolean;
+  sender_name: string | null;
+  sender_email: string | null;
+  reply_to: string | null;
+  timeout_seconds: number;
+  subject_template: string;
+  text_body_template: string;
+  html_body_template: string;
+  supported_template_variables: string[];
+  version: number;
+  updated_at: string;
+}
+
+export interface EmailSettingsUpdate {
+  enabled?: boolean;
+  automatic_enabled?: boolean;
+  risk_threshold?: Exclude<RiskPriority, "none">;
+  retry_enabled?: boolean;
+  smtp_host?: string | null;
+  smtp_port?: number;
+  smtp_security?: SmtpSecurity;
+  smtp_username?: string | null;
+  smtp_password?: string | null;
+  clear_password?: boolean;
+  sender_name?: string | null;
+  sender_email?: string | null;
+  reply_to?: string | null;
+  timeout_seconds?: number;
+  subject_template?: string;
+  text_body_template?: string;
+  html_body_template?: string;
+  expected_version?: number;
+}
+
+export interface EmailTemplatePreview {
+  subject: string;
+  text_body: string;
+  html_body: string;
+}
+
+export interface EmailDeliveryAttempt {
+  id: string;
+  attempt_number: number;
+  status: "sent" | "failed";
+  error_message: string | null;
+  started_at: string;
+  finished_at: string;
+}
+
+export interface EmailDelivery {
+  id: string;
+  trigger_type: EmailTriggerType;
+  status: EmailDeliveryStatus;
+  source_event_id: string | null;
+  retry_of_id: string | null;
+  recipient_person_id: string | null;
+  recipient_name: string | null;
+  recipient_email: string | null;
+  subject: string;
+  risk_count: number;
+  match_result_ids: string[];
+  context: Record<string, unknown>;
+  skip_reason: string | null;
+  last_error: string | null;
+  attempt_count: number;
+  max_retries: number;
+  next_attempt_at: string | null;
+  last_attempt_at: string | null;
+  sent_at: string | null;
+  requested_by_user_id: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface EmailDeliveryDetail extends EmailDelivery {
+  text_body: string;
+  html_body: string;
+  attempts: EmailDeliveryAttempt[];
+}
+
+export interface EmailDeliveryListPage {
+  items: EmailDelivery[];
+  total: number;
+  offset: number;
+  limit: number;
+}
+
+export interface EmailDeliveryQuery {
+  status?: EmailDeliveryStatus;
+  trigger_type?: EmailTriggerType;
+  recipient_email?: string;
+  offset?: number;
+  limit?: number;
+}
+
+export interface EmailAction {
+  delivery_id: string;
+  status: EmailDeliveryStatus;
+  message: string;
+}

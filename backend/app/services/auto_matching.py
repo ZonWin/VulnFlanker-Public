@@ -32,6 +32,7 @@ def _run_auto_match(
             asset_id=asset_id,
             vulnerability_id=vulnerability_id,
             raise_if_vulnerability_blocked=False,
+            trigger_type="automatic",
         )
     except VulnerabilityNotReadyForMatching:
         return 0

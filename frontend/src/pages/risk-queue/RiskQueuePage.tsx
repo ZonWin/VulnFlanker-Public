@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Alert,
   Button,
@@ -8,6 +9,7 @@ import {
   InputNumber,
   message,
   Pagination,
+  Popconfirm,
   Row,
   Select,
   Space,
@@ -23,6 +25,7 @@ import {
   ChevronUp,
   ClipboardCheck,
   Eye,
+  Mail,
   RefreshCw,
   ShieldAlert,
   ShieldCheck,
@@ -36,6 +39,7 @@ import {
   getRiskConfig,
   getRiskQueue,
   reopenMatchResultHandling,
+  sendMatchResultEmailAlert,
   updateMatchResultHandling
 } from "@/api/matchResults";
 import {
@@ -73,49 +77,49 @@ const defaultFilters: RiskQueueQuery = {
 const DEFAULT_PAGE_SIZE = 10;
 
 const statusOptions = [
-  { label: "受影响", value: "affected" },
-  { label: "已验证", value: "verified" },
-  { label: "待复核", value: "needs_review" }
+  { label: t("受影响"), value: "affected" },
+  { label: t("已验证"), value: "verified" },
+  { label: t("待复核"), value: "needs_review" }
 ];
 
 const priorityOptions = [
-  { label: "严重", value: "critical" },
-  { label: "高危", value: "high" },
-  { label: "中危", value: "medium" },
-  { label: "低危", value: "low" },
-  { label: "无风险", value: "none" }
+  { label: t("严重"), value: "critical" },
+  { label: t("高危"), value: "high" },
+  { label: t("中危"), value: "medium" },
+  { label: t("低危"), value: "low" },
+  { label: t("无风险"), value: "none" }
 ];
 
 const criticalityOptions = [
-  { label: "极高", value: "critical" },
-  { label: "高", value: "high" },
-  { label: "中", value: "medium" },
-  { label: "低", value: "low" }
+  { label: t("极高"), value: "critical" },
+  { label: t("高"), value: "high" },
+  { label: t("中"), value: "medium" },
+  { label: t("低"), value: "low" }
 ];
 
 const exposureOptions = [
-  { label: "公网暴露", value: "internet" },
-  { label: "内网可达", value: "internal" },
+  { label: t("公网暴露"), value: "internet" },
+  { label: t("内网可达"), value: "internal" },
   { label: "DMZ", value: "dmz" },
-  { label: "私有", value: "private" }
+  { label: t("私有"), value: "private" }
 ];
 
 const verificationOptions = [
-  { label: "已验证", value: "verified" },
-  { label: "未验证", value: "unverified" },
-  { label: "已有任务", value: "has_task" },
-  { label: "无任务", value: "no_task" }
+  { label: t("已验证"), value: "verified" },
+  { label: t("未验证"), value: "unverified" },
+  { label: t("已有任务"), value: "has_task" },
+  { label: t("无任务"), value: "no_task" }
 ];
 
 const agentStatusOptions = [
-  { label: "在线", value: "online" },
-  { label: "离线", value: "offline" },
-  { label: "未知", value: "unknown" }
+  { label: t("在线"), value: "online" },
+  { label: t("离线"), value: "offline" },
+  { label: t("未知"), value: "unknown" }
 ];
 
 const freshnessOptions = [
-  { label: "新鲜", value: "fresh" },
-  { label: "过期", value: "stale" }
+  { label: t("新鲜"), value: "fresh" },
+  { label: t("过期"), value: "stale" }
 ];
 
 function normalizeFilters(values: RiskQueueQuery): RiskQueueQuery {
@@ -207,13 +211,13 @@ export default function RiskQueuePage() {
       values: MatchResultHandlingUpdate;
     }) => updateMatchResultHandling(matchResultId, values),
     onSuccess: () => {
-      messageApi.success("处置状态已更新");
+      messageApi.success(t("处置状态已更新"));
       setHandlingTarget(null);
       void queryClient.invalidateQueries({ queryKey: ["match-results"] });
       void queryClient.invalidateQueries({ queryKey: ["task-center"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "处置状态更新失败");
+      messageApi.error(error instanceof Error ? error.message : t("处置状态更新失败"));
     }
   });
 
@@ -226,13 +230,28 @@ export default function RiskQueuePage() {
       note?: string | null;
     }) => reopenMatchResultHandling(matchResultId, { note }),
     onSuccess: () => {
-      messageApi.success("风险项已重新打开");
+      messageApi.success(t("风险项已重新打开"));
       setHandlingTarget(null);
       void queryClient.invalidateQueries({ queryKey: ["match-results"] });
       void queryClient.invalidateQueries({ queryKey: ["task-center"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "重新打开失败");
+      messageApi.error(error instanceof Error ? error.message : t("重新打开失败"));
+    }
+  });
+
+  const emailAlertMutation = useMutation({
+    mutationFn: sendMatchResultEmailAlert,
+    onSuccess: (result) => {
+      if (result.status === "skipped") {
+        messageApi.warning(result.message);
+      } else {
+        messageApi.success(result.message);
+      }
+      void queryClient.invalidateQueries({ queryKey: ["email-deliveries"] });
+    },
+    onError: (error) => {
+      messageApi.error(error instanceof Error ? error.message : t("邮件告警发起失败"));
     }
   });
 
@@ -285,7 +304,7 @@ export default function RiskQueuePage() {
 
   const columns: ColumnsType<MatchResultSummary> = [
     {
-      title: "风险编号",
+      title: t("风险编号"),
       dataIndex: "risk_code",
       width: 205,
       render: (value: string | null) =>
@@ -301,7 +320,7 @@ export default function RiskQueuePage() {
         )
     },
     {
-      title: "优先级",
+      title: t("优先级"),
       dataIndex: "risk_priority",
       width: 100,
       render: (value: MatchResultSummary["risk_priority"]) => (
@@ -309,14 +328,14 @@ export default function RiskQueuePage() {
       )
     },
     {
-      title: "风险分",
+      title: t("风险分"),
       dataIndex: "risk_score",
       width: 100,
       sorter: (a, b) => a.risk_score - b.risk_score,
       render: (value: number) => <span className="risk-score">{formatScore(value)}</span>
     },
     {
-      title: "漏洞",
+      title: t("漏洞"),
       dataIndex: "vulnerability_title",
       minWidth: 320,
       render: (_: string, record) => (
@@ -325,7 +344,7 @@ export default function RiskQueuePage() {
             {record.vulnerability_canonical_id}
           </Typography.Link>
           <Tag color={record.vulnerability_kev_status ? "red" : "default"}>
-            {record.vulnerability_kev_status ? "KEV" : "非 KEV"}
+            {record.vulnerability_kev_status ? "KEV" : t("非 KEV")}
           </Tag>
           <Typography.Text className="table-subtitle" ellipsis>
             {record.vulnerability_title}
@@ -334,7 +353,7 @@ export default function RiskQueuePage() {
       )
     },
     {
-      title: "资产",
+      title: t("资产"),
       dataIndex: "asset_hostname",
       width: 250,
       render: (_: string, record) => (
@@ -345,7 +364,7 @@ export default function RiskQueuePage() {
           <Space size={4} wrap>
             <AgentStatusTag value={record.asset_agent_status ?? "unknown"} />
             <Tag color={record.asset_is_stale ? "red" : "green"}>
-              {record.asset_is_stale ? "快照过期" : "快照新鲜"}
+              {record.asset_is_stale ? t("快照过期") : t("快照新鲜")}
             </Tag>
           </Space>
           <Typography.Text className="table-subtitle">
@@ -355,26 +374,26 @@ export default function RiskQueuePage() {
       )
     },
     {
-      title: "匹配状态",
+      title: t("匹配状态"),
       dataIndex: "status",
       width: 120,
       render: (value: MatchResultSummary["status"]) => <StatusTag value={value} />
     },
     {
-      title: "处置状态",
+      title: t("处置状态"),
       dataIndex: "handling_status",
       width: 160,
       render: (_: MatchResultSummary["handling_status"], record) => (
         <Space orientation="vertical" size={0}>
           <HandlingStatusTag value={record.handling_status} />
           <Typography.Text className="table-subtitle">
-            {record.handling_updated_at ? formatDateTime(record.handling_updated_at) : "暂无处置"}
+            {record.handling_updated_at ? formatDateTime(record.handling_updated_at) : t("暂无处置")}
           </Typography.Text>
         </Space>
       )
     },
     {
-      title: "验证",
+      title: t("验证"),
       key: "verification",
       width: 150,
       render: (_, record) => (
@@ -382,51 +401,50 @@ export default function RiskQueuePage() {
           {record.latest_verification_task_status ? (
             <VerificationTaskStatusTag value={record.latest_verification_task_status} />
           ) : (
-            <Tag>无任务</Tag>
+            <Tag>{t("无任务")}</Tag>
           )}
           <Typography.Text className="table-subtitle">
-            {record.verification_evidence_count} 证据 / {record.verification_task_count} 任务
-          </Typography.Text>
+            {record.verification_evidence_count} {t("证据 /")}{record.verification_task_count} {t("任务")}</Typography.Text>
         </Space>
       )
     },
     {
-      title: "资产线索",
+      title: t("资产线索"),
       key: "assetSignals",
       width: 170,
       render: (_, record) => (
         <Space orientation="vertical" size={0}>
           <Tag color={record.asset_has_public_exposure ? "red" : "blue"}>
-            {record.asset_has_public_exposure ? "公网监听" : record.asset_exposure_type ?? "-"}
+            {record.asset_has_public_exposure ? t("公网监听") : record.asset_exposure_type ?? "-"}
           </Tag>
           <Typography.Text className="table-subtitle">
-            快照年龄 {formatDurationSeconds(record.asset_snapshot_age_seconds)}
+            {t("快照年龄")}{formatDurationSeconds(record.asset_snapshot_age_seconds)}
           </Typography.Text>
         </Space>
       )
     },
     {
-      title: "置信度",
+      title: t("置信度"),
       dataIndex: "confidence",
       width: 150,
       render: (value: number) => <ConfidenceBar value={value} />
     },
     {
-      title: "最近评估时间",
+      title: t("最近评估时间"),
       dataIndex: "last_evaluated_at",
       width: 190,
       render: (value: string | null) => formatDateTime(value)
     },
     {
-      title: "模型",
+      title: t("模型"),
       dataIndex: "risk_model_version",
       width: 130
     },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       fixed: "right",
-      width: 200,
+      width: 290,
       render: (_, record) => (
         <Space className="table-actions" size={2}>
           <Button
@@ -434,8 +452,7 @@ export default function RiskQueuePage() {
             icon={<Eye size={15} />}
             onClick={() => navigate(`/matching/${record.id}`)}
           >
-            详情
-          </Button>
+            {t("详情")}</Button>
           <Button
             type="link"
             onClick={() =>
@@ -444,15 +461,24 @@ export default function RiskQueuePage() {
                 : navigate(`/matching/${record.id}?verify=1`)
             }
           >
-            验证
-          </Button>
+            {t("验证")}</Button>
           <Button
             type="link"
             icon={<ClipboardCheck size={15} />}
             onClick={() => setHandlingTarget(record)}
           >
-            处置
-          </Button>
+            {t("处置")}</Button>
+          <Popconfirm
+            title={t("确认发送风险邮件告警？")}
+            description={t("手动发送受风险阈值和邮件总开关限制，允许重复发送。")}
+            okText={t("确认发送")}
+            cancelText={t("取消")}
+            onConfirm={() => emailAlertMutation.mutate(record.id)}
+          >
+            <Button type="link" icon={<Mail size={15} />} loading={emailAlertMutation.isPending}>
+              {t("邮件告警")}
+            </Button>
+          </Popconfirm>
         </Space>
       )
     }
@@ -462,15 +488,14 @@ export default function RiskQueuePage() {
     <Space className="page-stack" orientation="vertical" size={16}>
       {contextHolder}
       <PageHeader
-        title="风险队列"
+        title={t("风险队列")}
         extra={
           <Space>
             <Button
               icon={<BookOpen size={16} />}
               onClick={() => navigate("/rules#risk-factors")}
             >
-              规则说明
-            </Button>
+              {t("规则说明")}</Button>
             <Button
               icon={<RefreshCw size={16} />}
               onClick={() => {
@@ -484,8 +509,7 @@ export default function RiskQueuePage() {
                 riskQueueQuery.isFetching
               }
             >
-              刷新
-            </Button>
+              {t("刷新")}</Button>
           </Space>
         }
       />
@@ -493,13 +517,13 @@ export default function RiskQueuePage() {
       <Row gutter={[16, 16]}>
         <Col xs={24} lg={6}>
           <Card className="metric-card">
-            <Statistic title="风险项" value={queueMetrics.total} prefix={<Signal size={28} />} />
+            <Statistic title={t("风险项")} value={queueMetrics.total} prefix={<Signal size={28} />} />
           </Card>
         </Col>
         <Col xs={24} lg={6}>
           <Card className="metric-card metric-card-red">
             <Statistic
-              title="严重优先级"
+              title={t("严重优先级")}
               value={queueMetrics.critical}
               prefix={<ShieldAlert size={28} />}
             />
@@ -508,7 +532,7 @@ export default function RiskQueuePage() {
         <Col xs={24} lg={6}>
           <Card className="metric-card metric-card-green">
             <Statistic
-              title="未验证"
+              title={t("未验证")}
               value={queueMetrics.unverified}
               prefix={<ShieldCheck size={28} />}
             />
@@ -517,7 +541,7 @@ export default function RiskQueuePage() {
         <Col xs={24} lg={6}>
           <Card className="metric-card">
             <Statistic
-              title="快照过期"
+              title={t("快照过期")}
               value={queueMetrics.stale}
               prefix={<ShieldAlert size={28} />}
             />
@@ -526,14 +550,14 @@ export default function RiskQueuePage() {
       </Row>
 
       {healthQuery.isError ? (
-        <ErrorState title="后端存活检查失败" error={healthQuery.error} />
+        <ErrorState title={t("后端存活检查失败")} error={healthQuery.error} />
       ) : null}
 
       {riskConfigQuery.data?.warnings.length ? (
         <Alert
           type="warning"
           showIcon
-          message={`风险模型 ${riskConfigQuery.data.model_version}`}
+          message={t("风险模型 {{v0}}", { v0: riskConfigQuery.data.model_version })}
           description={riskConfigQuery.data.warnings.join(" ")}
         />
       ) : null}
@@ -544,8 +568,8 @@ export default function RiskQueuePage() {
             className="filter-options-alert"
             type="warning"
             showIcon
-            title="部分责任归属选项加载失败"
-            description="可刷新页面后重试；其他风险筛选仍可正常使用。"
+            title={t("部分责任归属选项加载失败")}
+            description={t("可刷新页面后重试；其他风险筛选仍可正常使用。")}
           />
         ) : null}
         <Form
@@ -559,20 +583,20 @@ export default function RiskQueuePage() {
           }}
         >
           <div className="filter-row filter-row-primary">
-            <Form.Item label="风险编号" name="risk_code">
+            <Form.Item label={t("风险编号")} name="risk_code">
               <Input allowClear placeholder="RISK-260717-000001" />
             </Form.Item>
-            <Form.Item label="状态" name="status">
-              <Select allowClear options={statusOptions} placeholder="全部状态" />
+            <Form.Item label={t("状态")} name="status">
+              <Select allowClear options={statusOptions} placeholder={t("全部状态")} />
             </Form.Item>
-            <Form.Item label="优先级" name="risk_priority">
-              <Select allowClear options={priorityOptions} placeholder="全部优先级" />
+            <Form.Item label={t("优先级")} name="risk_priority">
+              <Select allowClear options={priorityOptions} placeholder={t("全部优先级")} />
             </Form.Item>
-            <Form.Item label="最低风险分" name="min_risk_score">
+            <Form.Item label={t("最低风险分")} name="min_risk_score">
               <InputNumber min={0} max={10} step={0.1} placeholder="0-10" />
             </Form.Item>
-            <Form.Item label="资产关键性" name="asset_criticality">
-              <Select allowClear options={criticalityOptions} placeholder="全部关键性" />
+            <Form.Item label={t("资产关键性")} name="asset_criticality">
+              <Select allowClear options={criticalityOptions} placeholder={t("全部关键性")} />
             </Form.Item>
             <Form.Item className="filter-actions">
               <Space>
@@ -583,86 +607,84 @@ export default function RiskQueuePage() {
                     setFilters(defaultFilters);
                   }}
                 >
-                  重置
-                </Button>
+                  {t("重置")}</Button>
                 <Button
                   icon={filtersExpanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
                   onClick={() => setFiltersExpanded((current) => !current)}
                 >
-                  {filtersExpanded ? "收起筛选" : "更多筛选"}
+                  {filtersExpanded ? t("收起筛选") : t("更多筛选")}
                 </Button>
                 <Button type="primary" htmlType="submit">
-                  查询
-                </Button>
+                  {t("查询")}</Button>
               </Space>
             </Form.Item>
           </div>
           {filtersExpanded ? (
             <div className="filter-row filter-row-extra">
-              <Form.Item label="暴露类型" name="exposure_type">
-                <Select allowClear options={exposureOptions} placeholder="全部暴露" />
+              <Form.Item label={t("暴露类型")} name="exposure_type">
+                <Select allowClear options={exposureOptions} placeholder={t("全部暴露")} />
               </Form.Item>
-              <Form.Item label="业务系统" name="business_system_id">
+              <Form.Item label={t("业务系统")} name="business_system_id">
                 <Select
                   allowClear
                   showSearch
                   optionFilterProp="label"
                   loading={businessSystemsQuery.isLoading}
                   options={businessSystemOptions}
-                  placeholder="全部业务系统"
-                  notFoundContent={businessSystemsQuery.isError ? "业务系统加载失败" : undefined}
+                  placeholder={t("全部业务系统")}
+                  notFoundContent={businessSystemsQuery.isError ? t("业务系统加载失败") : undefined}
                 />
               </Form.Item>
-              <Form.Item label="责任团队" name="responsibility_team_id">
+              <Form.Item label={t("责任团队")} name="responsibility_team_id">
                 <Select
                   allowClear
                   showSearch
                   optionFilterProp="label"
                   loading={responsibilityTeamsQuery.isLoading}
                   options={responsibilityTeamOptions}
-                  placeholder="全部责任团队"
-                  notFoundContent={responsibilityTeamsQuery.isError ? "责任团队加载失败" : undefined}
+                  placeholder={t("全部责任团队")}
+                  notFoundContent={responsibilityTeamsQuery.isError ? t("责任团队加载失败") : undefined}
                 />
               </Form.Item>
-              <Form.Item label="责任人员" name="responsible_person_id">
+              <Form.Item label={t("责任人员")} name="responsible_person_id">
                 <Select
                   allowClear
                   showSearch
                   optionFilterProp="label"
                   loading={peopleQuery.isLoading}
                   options={personOptions}
-                  placeholder="全部责任人员"
-                  notFoundContent={peopleQuery.isError ? "责任人员加载失败" : undefined}
+                  placeholder={t("全部责任人员")}
+                  notFoundContent={peopleQuery.isError ? t("责任人员加载失败") : undefined}
                 />
               </Form.Item>
               <Form.Item label="KEV" name="kev_only">
                 <Select
                   allowClear
-                  options={[{ label: "仅 KEV", value: true }]}
-                  placeholder="全部漏洞"
+                  options={[{ label: t("仅 KEV"), value: true }]}
+                  placeholder={t("全部漏洞")}
                 />
               </Form.Item>
-              <Form.Item label="验证状态" name="verification_state">
-                <Select allowClear options={verificationOptions} placeholder="全部验证" />
+              <Form.Item label={t("验证状态")} name="verification_state">
+                <Select allowClear options={verificationOptions} placeholder={t("全部验证")} />
               </Form.Item>
               <Form.Item label="Agent" name="agent_status">
-                <Select allowClear options={agentStatusOptions} placeholder="全部 Agent" />
+                <Select allowClear options={agentStatusOptions} placeholder={t("全部 Agent")} />
               </Form.Item>
-              <Form.Item label="资产新鲜度" name="asset_freshness">
-                <Select allowClear options={freshnessOptions} placeholder="全部新鲜度" />
+              <Form.Item label={t("资产新鲜度")} name="asset_freshness">
+                <Select allowClear options={freshnessOptions} placeholder={t("全部新鲜度")} />
               </Form.Item>
-              <Form.Item label="处置范围" name="handling_scope">
+              <Form.Item label={t("处置范围")} name="handling_scope">
                 <Select options={handlingScopeOptions} />
               </Form.Item>
-              <Form.Item label="处置状态" name="handling_status">
-                <Select allowClear options={handlingStatusOptions} placeholder="全部处置" />
+              <Form.Item label={t("处置状态")} name="handling_status">
+                <Select allowClear options={handlingStatusOptions} placeholder={t("全部处置")} />
               </Form.Item>
             </div>
           ) : null}
         </Form>
       </Card>
 
-      <Card className="content-card" title="风险队列表格">
+      <Card className="content-card" title={t("风险队列表格")}>
         {riskQueueQuery.isError ? <ErrorState error={riskQueueQuery.error} /> : null}
         <ResizableTable<MatchResultSummary>
           storageKey="risk-queue"
@@ -673,10 +695,9 @@ export default function RiskQueuePage() {
           pagination={false}
           locale={{
             emptyText: (
-              <EmptyState title="暂无风险项">
+              <EmptyState title={t("暂无风险项")}>
                 <Button type="primary" onClick={() => navigate("/matching")}>
-                  去触发匹配
-                </Button>
+                  {t("去触发匹配")}</Button>
               </EmptyState>
             )
           }}
@@ -688,7 +709,7 @@ export default function RiskQueuePage() {
             pageSize={tablePageSize}
             total={total}
             showSizeChanger
-            showTotal={(value) => `共 ${value} 条`}
+            showTotal={(value) => t("共 {{v0}} 条", { v0: value })}
             onChange={(nextPage, nextPageSize) => {
               if (nextPageSize !== tablePageSize) {
                 setTablePageSize(nextPageSize);

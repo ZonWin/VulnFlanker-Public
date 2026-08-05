@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import { Space, Typography } from "antd";
 import { ExternalLink, QrCode, Scale } from "lucide-react";
 
@@ -35,7 +36,7 @@ export default function CopyrightInfoPanel() {
                 <Scale size={18} />
               </span>
               <div>
-                <Typography.Text strong>开源许可</Typography.Text>
+                <Typography.Text strong>{t("开源许可")}</Typography.Text>
                 <Typography.Text>Apache-2.0</Typography.Text>
               </div>
             </div>
@@ -44,7 +45,7 @@ export default function CopyrightInfoPanel() {
                 <ExternalLink size={18} />
               </span>
               <div>
-                <Typography.Text strong>项目链接</Typography.Text>
+                <Typography.Text strong>{t("项目链接")}</Typography.Text>
                 <Typography.Link
                   href={projectRepositoryUrl}
                   target="_blank"
@@ -57,9 +58,9 @@ export default function CopyrightInfoPanel() {
           </Space>
         </div>
 
-        <div className="copyright-qr-placeholder" aria-label="二维码预留位">
+        <div className="copyright-qr-placeholder" aria-label={t("二维码预留位")}>
           <QrCode size={42} />
-          <Typography.Text strong>二维码预留位</Typography.Text>
+          <Typography.Text strong>{t("二维码预留位")}</Typography.Text>
         </div>
       </div>
     </div>

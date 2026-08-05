@@ -1,4 +1,5 @@
 from functools import lru_cache
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -13,6 +14,7 @@ class Settings(BaseSettings):
     public_agent_ingress_url: str = "http://127.0.0.1:8001"
     legacy_agent_api_enabled: bool = True
     log_level: str = "INFO"
+    system_timezone: str = "Asia/Shanghai"
 
     database_url: str = (
         "postgresql+psycopg://vulnflanker:vulnflanker@localhost:5432/vulnflanker"
@@ -66,6 +68,7 @@ class Settings(BaseSettings):
     session_ttl_seconds: int = 86_400
     session_cookie_secure: bool = False
     ai_key_encryption_key: str | None = None
+    secret_encryption_key: str | None = None
 
     @field_validator("cisa_kev_monitor_limit", "watchvuln_monitor_limit", mode="before")
     @classmethod
@@ -74,12 +77,27 @@ class Settings(BaseSettings):
             return None
         return value
 
-    @field_validator("bootstrap_admin_password", "ai_key_encryption_key", mode="before")
+    @field_validator(
+        "bootstrap_admin_password",
+        "ai_key_encryption_key",
+        "secret_encryption_key",
+        mode="before",
+    )
     @classmethod
     def _empty_optional_str_to_none(cls, value: object) -> object:
         if value == "":
             return None
         return value
+
+    @field_validator("system_timezone")
+    @classmethod
+    def _valid_system_timezone(cls, value: str) -> str:
+        normalized = value.strip()
+        try:
+            ZoneInfo(normalized)
+        except ZoneInfoNotFoundError as exc:
+            raise ValueError("system_timezone must be a valid IANA timezone") from exc
+        return normalized
 
     model_config = SettingsConfigDict(
         env_file=".env",

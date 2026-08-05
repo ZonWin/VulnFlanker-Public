@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Alert,
   Button,
@@ -167,7 +168,7 @@ export default function AssetDetailPage() {
     mutationFn: (values: AssetMetadataUpdate) =>
       updateAsset(detail?.id ?? assetId ?? "", normalizeAssetMetadata(values)),
     onSuccess: (updated) => {
-      messageApi.success("资产元数据已更新");
+      messageApi.success(t("资产元数据已更新"));
       setMetadataOpen(false);
       queryClient.setQueryData(["assets", "detail", assetId], updated);
       void queryClient.invalidateQueries({ queryKey: ["assets"] });
@@ -175,7 +176,7 @@ export default function AssetDetailPage() {
       void queryClient.invalidateQueries({ queryKey: ["task-center"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "保存资产元数据失败");
+      messageApi.error(error instanceof Error ? error.message : t("保存资产元数据失败"));
     }
   });
 
@@ -186,26 +187,26 @@ export default function AssetDetailPage() {
         value === "__unassign__" ? null : value
       ),
     onSuccess: (updated) => {
-      messageApi.success("资产运营归属已更新");
+      messageApi.success(t("资产运营归属已更新"));
       setOwnershipOpen(false);
       queryClient.setQueryData(["assets", "detail", assetId], updated);
       void queryClient.invalidateQueries({ queryKey: ["assets"] });
       void queryClient.invalidateQueries({ queryKey: ["ownership"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "更新资产运营归属失败");
+      messageApi.error(error instanceof Error ? error.message : t("更新资产运营归属失败"));
     }
   });
   const deleteAssetMutation = useMutation({
     mutationFn: (deleteAgentWithAsset: boolean) => {
       const targetAssetId = detail?.id ?? assetId;
       if (!targetAssetId) {
-        throw new Error("资产 ID 不存在");
+        throw new Error(t("资产 ID 不存在"));
       }
       return deleteAsset(targetAssetId, deleteAgentWithAsset);
     },
     onSuccess: (result) => {
-      messageApi.success(result.agent_deleted ? "资产和 Agent 已删除" : "资产已删除，Agent 已保留");
+      messageApi.success(result.agent_deleted ? t("资产和 Agent 已删除") : t("资产已删除，Agent 已保留"));
       setDeleteOpen(false);
       void queryClient.invalidateQueries({ queryKey: ["assets"] });
       void queryClient.invalidateQueries({ queryKey: ["agents"] });
@@ -215,7 +216,7 @@ export default function AssetDetailPage() {
       navigate("/assets");
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "删除资产失败");
+      messageApi.error(error instanceof Error ? error.message : t("删除资产失败"));
     }
   });
 
@@ -274,7 +275,7 @@ export default function AssetDetailPage() {
           exposure.product,
           exposure.version,
           exposure.state,
-          exposure.is_public ? "公网 是 true" : "非公网 否 false",
+          exposure.is_public ? t("公网 是 true") : t("非公网 否 false"),
           exposure.banner,
           exposure.evidence_ref
         ])
@@ -305,12 +306,12 @@ export default function AssetDetailPage() {
 
   const componentColumns: ColumnsType<AssetComponent> = useMemo(
     () => [
-      { title: "组件", dataIndex: "component_name", minWidth: 180 },
-      { title: "类型", dataIndex: "component_type", width: 120 },
-      { title: "版本", dataIndex: "version", width: 150, render: displayValue },
-      { title: "来源", dataIndex: "source_type", width: 130, render: displayValue },
+      { title: t("组件"), dataIndex: "component_name", minWidth: 180 },
+      { title: t("类型"), dataIndex: "component_type", width: 120 },
+      { title: t("版本"), dataIndex: "version", width: 150, render: displayValue },
+      { title: t("来源"), dataIndex: "source_type", width: 130, render: displayValue },
       {
-        title: "安装路径",
+        title: t("安装路径"),
         dataIndex: "install_path",
         minWidth: 220,
         render: (value: string | null) => (
@@ -320,7 +321,7 @@ export default function AssetDetailPage() {
         )
       },
       {
-        title: "证据引用",
+        title: t("证据引用"),
         dataIndex: "evidence_ref",
         width: 160,
         render: displayValue
@@ -331,9 +332,9 @@ export default function AssetDetailPage() {
 
   const exposureColumns: ColumnsType<AssetExposure> = useMemo(
     () => [
-      { title: "类型", dataIndex: "exposure_kind", width: 150 },
+      { title: t("类型"), dataIndex: "exposure_kind", width: 150 },
       {
-        title: "地址",
+        title: t("地址"),
         key: "address",
         width: 190,
         render: (_, record) => {
@@ -342,22 +343,22 @@ export default function AssetDetailPage() {
         }
       },
       {
-        title: "协议",
+        title: t("协议"),
         dataIndex: "protocol",
         width: 100,
         render: (value: string) => value.toUpperCase()
       },
-      { title: "服务", dataIndex: "service_name", width: 130, render: displayValue },
+      { title: t("服务"), dataIndex: "service_name", width: 130, render: displayValue },
       {
-        title: "产品",
+        title: t("产品"),
         key: "product",
         width: 190,
         render: (_, record) =>
           [record.product, record.version].filter(Boolean).join(" ") || "-"
       },
-      { title: "状态", dataIndex: "state", width: 100 },
+      { title: t("状态"), dataIndex: "state", width: 100 },
       {
-        title: "公网",
+        title: t("公网"),
         dataIndex: "is_public",
         width: 90,
         render: (value: boolean) => <BooleanTag value={value} trueColor="red" />
@@ -378,7 +379,7 @@ export default function AssetDetailPage() {
 
   const matchColumns: ColumnsType<MatchResultSummary> = [
     {
-      title: "漏洞",
+      title: t("漏洞"),
       dataIndex: "vulnerability_title",
       minWidth: 280,
       render: (_: string, record) => (
@@ -393,19 +394,19 @@ export default function AssetDetailPage() {
       )
     },
     {
-      title: "状态",
+      title: t("状态"),
       dataIndex: "status",
       width: 120,
       render: (value: MatchResultSummary["status"]) => <StatusTag value={value} />
     },
     {
-      title: "风险分",
+      title: t("风险分"),
       dataIndex: "risk_score",
       width: 100,
       render: (value: number) => <span className="risk-score">{formatScore(value)}</span>
     },
     {
-      title: "优先级",
+      title: t("优先级"),
       dataIndex: "risk_priority",
       width: 110,
       render: (value: MatchResultSummary["risk_priority"]) => (
@@ -413,7 +414,7 @@ export default function AssetDetailPage() {
       )
     },
     {
-      title: "验证",
+      title: t("验证"),
       key: "verification",
       width: 140,
       render: (_, record) =>
@@ -424,19 +425,19 @@ export default function AssetDetailPage() {
         )
     },
     {
-      title: "置信度",
+      title: t("置信度"),
       dataIndex: "confidence",
       width: 150,
       render: (value: number) => <ConfidenceBar value={value} />
     },
     {
-      title: "最近评估",
+      title: t("最近评估"),
       dataIndex: "last_evaluated_at",
       width: 190,
       render: (value: string | null) => formatDateTime(value)
     },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       fixed: "right",
       width: 100,
@@ -447,8 +448,7 @@ export default function AssetDetailPage() {
           icon={<Eye size={15} />}
           onClick={() => navigate(`/matching/${record.id}`)}
         >
-          详情
-        </Button>
+          {t("详情")}</Button>
       )
     }
   ];
@@ -457,12 +457,11 @@ export default function AssetDetailPage() {
     <Space className="page-stack" orientation="vertical" size={16}>
       {contextHolder}
       <PageHeader
-        title="资产详情"
+        title={t("资产详情")}
         extra={
           <Space>
             <Button icon={<ArrowLeft size={16} />} onClick={() => navigate(-1)}>
-              返回
-            </Button>
+              {t("返回")}</Button>
             <Button
               icon={<SearchCheck size={16} />}
               onClick={() =>
@@ -470,8 +469,7 @@ export default function AssetDetailPage() {
               }
               disabled={!assetId}
             >
-              漏洞比对
-            </Button>
+              {t("漏洞比对")}</Button>
             <Button
               icon={<ServerCog size={16} />}
               onClick={() =>
@@ -487,17 +485,15 @@ export default function AssetDetailPage() {
               onClick={() => assetQuery.refetch()}
               loading={assetQuery.isFetching}
             >
-              刷新
-            </Button>
-            <Tooltip title={!isAdmin ? "需要超级管理员权限" : "删除资产及关联风险数据"}>
+              {t("刷新")}</Button>
+            <Tooltip title={!isAdmin ? t("需要超级管理员权限") : t("删除资产及关联风险数据")}>
               <Button
                 danger
                 icon={<Trash2 size={16} />}
                 disabled={!isAdmin || !detail}
                 onClick={openDeleteModal}
               >
-                删除资产
-              </Button>
+                {t("删除资产")}</Button>
             </Tooltip>
           </Space>
         }
@@ -511,13 +507,13 @@ export default function AssetDetailPage() {
           <Row gutter={[16, 16]}>
             <Col xs={24} lg={6}>
               <Card className="metric-card">
-                <Statistic title="组件" value={detail.component_count} prefix={<Boxes size={24} />} />
+                <Statistic title={t("组件")} value={detail.component_count} prefix={<Boxes size={24} />} />
               </Card>
             </Col>
             <Col xs={24} lg={6}>
               <Card className="metric-card metric-card-red">
                 <Statistic
-                  title="暴露面"
+                  title={t("暴露面")}
                   value={detail.exposure_count}
                   prefix={<Globe2 size={24} />}
                 />
@@ -525,13 +521,13 @@ export default function AssetDetailPage() {
             </Col>
             <Col xs={24} lg={6}>
               <Card className="metric-card metric-card-green">
-                <Statistic title="快照" value={detail.snapshots_count} />
+                <Statistic title={t("快照")} value={detail.snapshots_count} />
               </Card>
             </Col>
             <Col xs={24} lg={6}>
               <Card className="metric-card">
                 <Statistic
-                  title="Agent 状态"
+                  title={t("Agent 状态")}
                   valueRender={() =>
                     detail.agent_status ? (
                       <AgentStatusTag value={detail.agent_status.status} />
@@ -546,11 +542,10 @@ export default function AssetDetailPage() {
 
           <Card
             className="content-card"
-            title="资产概览"
+            title={t("资产概览")}
             extra={
               <Button icon={<Pencil size={15} />} onClick={openMetadataModal}>
-                编辑
-              </Button>
+                {t("编辑")}</Button>
             }
           >
             <Descriptions
@@ -560,17 +555,17 @@ export default function AssetDetailPage() {
               items={[
                 {
                   key: "displayName",
-                  label: "资产名称",
+                  label: t("资产名称"),
                   children: displayValue(detail.display_name ?? detail.hostname)
                 },
                 {
                   key: "hostname",
-                  label: "资产Hostname",
+                  label: t("资产Hostname"),
                   children: displayValue(detail.hostname)
                 },
                 { key: "agent", label: "Agent ID", children: displayValue(detail.agent_id) },
                 { key: "ip", label: "IP", children: displayValue(detail.primary_ip) },
-                { key: "platform", label: "平台", children: displayValue(detail.platform) },
+                { key: "platform", label: t("平台"), children: displayValue(detail.platform) },
                 {
                   key: "os",
                   label: "OS",
@@ -579,27 +574,27 @@ export default function AssetDetailPage() {
                 },
                 {
                   key: "kernel",
-                  label: "内核",
+                  label: t("内核"),
                   children: displayValue(detail.kernel_version)
                 },
                 {
                   key: "arch",
-                  label: "架构",
+                  label: t("架构"),
                   children: displayValue(detail.architecture)
                 },
                 {
                   key: "criticality",
-                  label: "关键性",
+                  label: t("关键性"),
                   children: <CriticalityTag value={detail.criticality} />
                 },
                 {
                   key: "lastSeen",
-                  label: "最近上报",
+                  label: t("最近上报"),
                   children: formatDateTime(detail.last_seen_at)
                 },
                 {
                   key: "assetId",
-                  label: "资产 ID",
+                  label: t("资产 ID"),
                   children: <Typography.Text copyable>{detail.id}</Typography.Text>
                 }
               ]}
@@ -608,7 +603,7 @@ export default function AssetDetailPage() {
 
           <Card
             className="content-card"
-            title="运营归属"
+            title={t("运营归属")}
             extra={
               <Space>
                 <Button
@@ -616,16 +611,14 @@ export default function AssetDetailPage() {
                   disabled={!isAdmin}
                   onClick={openMetadataModal}
                 >
-                  编辑元数据
-                </Button>
+                  {t("编辑元数据")}</Button>
                 <Button
                   type="primary"
                   icon={<ArrowRightLeft size={15} />}
                   disabled={!isAdmin}
                   onClick={openOwnershipModal}
                 >
-                  设置归属
-                </Button>
+                  {t("设置归属")}</Button>
               </Space>
             }
           >
@@ -636,7 +629,7 @@ export default function AssetDetailPage() {
               items={[
                 {
                   key: "business",
-                  label: "业务系统",
+                  label: t("业务系统"),
                   children: detail.ownership.business_system ? (
                     <Typography.Link
                       onClick={() =>
@@ -648,12 +641,12 @@ export default function AssetDetailPage() {
                       {detail.ownership.business_system.name}
                     </Typography.Link>
                   ) : (
-                    <Typography.Text type="secondary">未分配</Typography.Text>
+                    <Typography.Text type="secondary">{t("未分配")}</Typography.Text>
                   )
                 },
                 {
                   key: "team",
-                  label: "责任团队",
+                  label: t("责任团队"),
                   children: detail.ownership.responsibility_team ? (
                     <Typography.Link
                       onClick={() =>
@@ -668,7 +661,7 @@ export default function AssetDetailPage() {
                 },
                 {
                   key: "owner",
-                  label: "责任人",
+                  label: t("责任人"),
                   children: detail.ownership.responsible_person ? (
                     <Space orientation="vertical" size={0}>
                       <Typography.Link
@@ -681,53 +674,53 @@ export default function AssetDetailPage() {
                         {detail.ownership.responsible_person.name}
                       </Typography.Link>
                       <Typography.Text className="table-subtitle">
-                        {detail.ownership.responsible_person.email || "未设置邮箱"}
+                        {detail.ownership.responsible_person.email || t("未设置邮箱")}
                       </Typography.Text>
                     </Space>
                   ) : "-"
                 },
                 {
                   key: "ownershipStatus",
-                  label: "归属状态",
+                  label: t("归属状态"),
                   children:
                     detail.ownership.status === "complete" ? (
-                      <Tag color="green">归属完整</Tag>
+                      <Tag color="green">{t("归属完整")}</Tag>
                     ) : detail.ownership.status === "system_incomplete" ? (
-                      <Tag color="gold">链路不完整</Tag>
+                      <Tag color="gold">{t("链路不完整")}</Tag>
                     ) : (
-                      <Tag>未分配</Tag>
+                      <Tag>{t("未分配")}</Tag>
                     )
                 },
                 {
                   key: "ownershipSource",
-                  label: "归属来源",
+                  label: t("归属来源"),
                   children: displayValue(detail.ownership.source)
                 },
                 {
                   key: "ownershipUpdatedAt",
-                  label: "归属更新时间",
+                  label: t("归属更新时间"),
                   children: formatDateTime(detail.ownership.updated_at)
                 },
                 {
                   key: "environment",
-                  label: "环境",
+                  label: t("环境"),
                   children: detail.environment_type
                 },
                 {
                   key: "exposure",
-                  label: "暴露类型",
+                  label: t("暴露类型"),
                   children: <ExposureTag value={detail.exposure_type} />
                 },
                 {
                   key: "autoVerify",
-                  label: "自动验证",
+                  label: t("自动验证"),
                   children: (
                     <BooleanTag value={detail.allow_auto_verify} trueColor="blue" />
                   )
                 },
                 {
                   key: "autoRemediate",
-                  label: "自动修复",
+                  label: t("自动修复"),
                   children: (
                     <BooleanTag value={detail.allow_auto_remediate} trueColor="orange" />
                   )
@@ -736,7 +729,7 @@ export default function AssetDetailPage() {
             />
           </Card>
 
-          <Card className="content-card" title="Agent 状态">
+          <Card className="content-card" title={t("Agent 状态")}>
             {detail.agent_status ? (
               <Descriptions
                 bordered
@@ -745,52 +738,52 @@ export default function AssetDetailPage() {
                 items={[
                   {
                     key: "agentStatus",
-                    label: "状态",
+                    label: t("状态"),
                     children: <AgentStatusTag value={detail.agent_status.status} />
                   },
                   {
                     key: "agentVersion",
-                    label: "Agent 版本",
+                    label: t("Agent 版本"),
                     children: displayValue(detail.agent_status.version)
                   },
                   {
                     key: "heartbeat",
-                    label: "最近心跳",
+                    label: t("最近心跳"),
                     children: formatDateTime(detail.agent_status.last_heartbeat_at)
                   },
                   {
                     key: "snapshot",
-                    label: "最近快照",
+                    label: t("最近快照"),
                     children: formatDateTime(detail.agent_status.last_snapshot_at)
                   },
                   {
                     key: "taskPoll",
-                    label: "最近取任务",
+                    label: t("最近取任务"),
                     children: formatDateTime(detail.agent_status.last_task_poll_at)
                   },
                   {
                     key: "snapshotAge",
-                    label: "快照年龄",
+                    label: t("快照年龄"),
                     children: formatDurationSeconds(detail.freshness.snapshot_age_seconds)
                   },
                   {
                     key: "stale",
-                    label: "快照过期",
+                    label: t("快照过期"),
                     children: <BooleanTag value={detail.freshness.is_stale} trueColor="red" />
                   },
                   {
                     key: "lastError",
-                    label: "最近错误",
+                    label: t("最近错误"),
                     children: displayValue(detail.agent_status.last_error)
                   }
                 ]}
               />
             ) : (
-              <EmptyState title="暂无 Agent 状态" />
+              <EmptyState title={t("暂无 Agent 状态")} />
             )}
           </Card>
 
-          <Card className="content-card" title="最新快照">
+          <Card className="content-card" title={t("最新快照")}>
             {detail.latest_snapshot ? (
               <Descriptions
                 bordered
@@ -799,28 +792,28 @@ export default function AssetDetailPage() {
                 items={[
                   {
                     key: "agentVersion",
-                    label: "Agent 版本",
+                    label: t("Agent 版本"),
                     children: displayValue(detail.latest_snapshot.agent_version)
                   },
                   {
                     key: "platform",
-                    label: "平台",
+                    label: t("平台"),
                     children: displayValue(detail.latest_snapshot.platform)
                   },
                   {
                     key: "collected",
-                    label: "采集时间",
+                    label: t("采集时间"),
                     children: formatDateTime(detail.latest_snapshot.collected_at)
                   },
                   {
                     key: "received",
-                    label: "接收时间",
+                    label: t("接收时间"),
                     children: formatDateTime(detail.latest_snapshot.received_at)
                   },
                   {
                     key: "counts",
-                    label: "内容",
-                    children: `${detail.latest_snapshot.component_count} 组件 / ${detail.latest_snapshot.exposure_count} 暴露面 / ${detail.latest_snapshot.firewall_count ?? 0} 防火墙 / ${detail.latest_snapshot.firewall_rule_count ?? 0} 规则`
+                    label: t("内容"),
+                    children: t("{{v0}} 组件 / {{v1}} 暴露面 / {{v2}} 防火墙 / {{v3}} 规则", { v0: detail.latest_snapshot.component_count, v1: detail.latest_snapshot.exposure_count, v2: detail.latest_snapshot.firewall_count ?? 0, v3: detail.latest_snapshot.firewall_rule_count ?? 0 })
                   },
                   {
                     key: "hash",
@@ -834,7 +827,7 @@ export default function AssetDetailPage() {
                 ]}
               />
             ) : (
-              <EmptyState title="暂无快照" />
+              <EmptyState title={t("暂无快照")} />
             )}
           </Card>
 
@@ -842,13 +835,13 @@ export default function AssetDetailPage() {
             <Col xs={24} xl={12}>
               <Card
                 className="content-card"
-                title="组件"
+                title={t("组件")}
                 extra={
                   <Input
                     allowClear
-                    aria-label="搜索组件"
+                    aria-label={t("搜索组件")}
                     className="asset-detail-table-search"
-                    placeholder="搜索组件关键字"
+                    placeholder={t("搜索组件关键字")}
                     prefix={<Search size={15} />}
                     value={componentKeyword}
                     onChange={(event) => setComponentKeyword(event.target.value)}
@@ -864,12 +857,12 @@ export default function AssetDetailPage() {
                   pagination={{
                     pageSize: DETAIL_TABLE_PAGE_SIZE,
                     showSizeChanger: false,
-                    showTotal: (total) => `共 ${total} 条`
+                    showTotal: (total) => t("共 {{v0}} 条", { v0: total })
                   }}
                   locale={{
                     emptyText: (
                       <EmptyState
-                        title={componentKeyword.trim() ? "未找到匹配组件" : "暂无组件"}
+                        title={componentKeyword.trim() ? t("未找到匹配组件") : t("暂无组件")}
                       />
                     )
                   }}
@@ -880,13 +873,13 @@ export default function AssetDetailPage() {
             <Col xs={24} xl={12}>
               <Card
                 className="content-card"
-                title="暴露面"
+                title={t("暴露面")}
                 extra={
                   <Input
                     allowClear
-                    aria-label="搜索暴露面"
+                    aria-label={t("搜索暴露面")}
                     className="asset-detail-table-search"
-                    placeholder="搜索暴露面关键字"
+                    placeholder={t("搜索暴露面关键字")}
                     prefix={<Search size={15} />}
                     value={exposureKeyword}
                     onChange={(event) => setExposureKeyword(event.target.value)}
@@ -902,12 +895,12 @@ export default function AssetDetailPage() {
                   pagination={{
                     pageSize: DETAIL_TABLE_PAGE_SIZE,
                     showSizeChanger: false,
-                    showTotal: (total) => `共 ${total} 条`
+                    showTotal: (total) => t("共 {{v0}} 条", { v0: total })
                   }}
                   locale={{
                     emptyText: (
                       <EmptyState
-                        title={exposureKeyword.trim() ? "未找到匹配暴露面" : "暂无暴露面"}
+                        title={exposureKeyword.trim() ? t("未找到匹配暴露面") : t("暂无暴露面")}
                       />
                     )
                   }}
@@ -921,13 +914,13 @@ export default function AssetDetailPage() {
 
           <Card
             className="content-card"
-            title="关联匹配结果"
+            title={t("关联匹配结果")}
             extra={
               <Input
                 allowClear
-                aria-label="搜索关联匹配结果"
+                aria-label={t("搜索关联匹配结果")}
                 className="asset-detail-table-search"
-                placeholder="搜索匹配结果关键字"
+                placeholder={t("搜索匹配结果关键字")}
                 prefix={<Search size={15} />}
                 value={matchKeyword}
                 onChange={(event) => setMatchKeyword(event.target.value)}
@@ -947,17 +940,16 @@ export default function AssetDetailPage() {
               locale={{
                 emptyText: (
                   matchKeyword.trim() ? (
-                    <EmptyState title="未找到匹配结果" />
+                    <EmptyState title={t("未找到匹配结果")} />
                   ) : (
-                    <EmptyState title="暂无关联匹配结果">
+                    <EmptyState title={t("暂无关联匹配结果")}>
                       <Button
                         type="primary"
                         onClick={() =>
                           navigate(`/matching?asset_id=${encodeURIComponent(detail.id)}`)
                         }
                       >
-                        去执行匹配
-                      </Button>
+                        {t("去执行匹配")}</Button>
                     </EmptyState>
                   )
                 )
@@ -967,10 +959,10 @@ export default function AssetDetailPage() {
           </Card>
 
           <Modal
-            title="删除资产"
+            title={t("删除资产")}
             open={deleteOpen}
-            okText="确认删除"
-            cancelText="取消"
+            okText={t("确认删除")}
+            cancelText={t("取消")}
             okButtonProps={{ danger: true }}
             confirmLoading={deleteAssetMutation.isPending}
             onCancel={() => setDeleteOpen(false)}
@@ -981,32 +973,30 @@ export default function AssetDetailPage() {
               <Alert
                 showIcon
                 type="warning"
-                message="将删除资产及对应风险数据"
-                description="资产关联的匹配结果、风险处理记录、验证任务、证据、组件、暴露面、快照和防火墙数据会一并删除。此操作不可恢复。"
+                message={t("将删除资产及对应风险数据")}
+                description={t("资产关联的匹配结果、风险处理记录、验证任务、证据、组件、暴露面、快照和防火墙数据会一并删除。此操作不可恢复。")}
               />
               {detail.agent_id ? (
                 <Space orientation="vertical" size={8}>
-                  <Typography.Text strong>Agent 处理</Typography.Text>
+                  <Typography.Text strong>{t("Agent 处理")}</Typography.Text>
                   <Switch
                     checked={deleteLinkedAgent}
                     onChange={setDeleteLinkedAgent}
-                    checkedChildren="一并删除 Agent"
-                    unCheckedChildren="保留 Agent"
+                    checkedChildren={t("一并删除 Agent")}
+                    unCheckedChildren={t("保留 Agent")}
                   />
                   <Typography.Text type="secondary">
-                    保留 Agent 时，若该 Agent 后续继续上传数据，资产会重新加入并继续更新；一并删除时会删除 Agent 凭证和状态。
-                  </Typography.Text>
+                    {t("保留 Agent 时，若该 Agent 后续继续上传数据，资产会重新加入并继续更新；一并删除时会删除 Agent 凭证和状态。")}</Typography.Text>
                 </Space>
               ) : (
                 <Typography.Text type="secondary">
-                  该资产未绑定 Agent，只会删除资产及关联风险数据。
-                </Typography.Text>
+                  {t("该资产未绑定 Agent，只会删除资产及关联风险数据。")}</Typography.Text>
               )}
             </Space>
           </Modal>
 
           <Modal
-            title="编辑资产元数据"
+            title={t("编辑资产元数据")}
             open={metadataOpen}
             onCancel={() => setMetadataOpen(false)}
             onOk={() => void metadataForm.submit()}
@@ -1022,36 +1012,36 @@ export default function AssetDetailPage() {
               <Row gutter={16}>
                 <Col xs={24} md={12}>
                   <Form.Item
-                    label="资产名称"
+                    label={t("资产名称")}
                     name="display_name"
-                    extra="为空时页面会使用资产Hostname展示。"
+                    extra={t("为空时页面会使用资产Hostname展示。")}
                   >
-                    <Input maxLength={255} placeholder="例如：支付业务生产服务器" />
+                    <Input maxLength={255} placeholder={t("例如：支付业务生产服务器")} />
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={12}>
-                  <Form.Item label="资产Hostname">
+                  <Form.Item label={t("资产Hostname")}>
                     <Input value={detail.hostname} disabled />
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={12}>
-                  <Form.Item label="关键性" name="criticality">
+                  <Form.Item label={t("关键性")} name="criticality">
                     <Select options={criticalityOptions} />
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={12}>
-                  <Form.Item label="环境" name="environment_type">
+                  <Form.Item label={t("环境")} name="environment_type">
                     <Select options={environmentOptions} />
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={12}>
-                  <Form.Item label="暴露类型" name="exposure_type">
+                  <Form.Item label={t("暴露类型")} name="exposure_type">
                     <Select options={exposureOptions} />
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={12}>
                   <Form.Item
-                    label="自动验证"
+                    label={t("自动验证")}
                     name="allow_auto_verify"
                     valuePropName="checked"
                   >
@@ -1060,7 +1050,7 @@ export default function AssetDetailPage() {
                 </Col>
                 <Col xs={24} md={12}>
                   <Form.Item
-                    label="自动修复"
+                    label={t("自动修复")}
                     name="allow_auto_remediate"
                     valuePropName="checked"
                   >
@@ -1072,9 +1062,9 @@ export default function AssetDetailPage() {
           </Modal>
 
           <Modal
-            title="设置资产运营归属"
+            title={t("设置资产运营归属")}
             open={ownershipOpen}
-            okText="确认更新"
+            okText={t("确认更新")}
             confirmLoading={updateOwnershipMutation.isPending}
             onCancel={() => setOwnershipOpen(false)}
             onOk={() => ownershipForm.submit()}
@@ -1082,8 +1072,8 @@ export default function AssetDetailPage() {
             <Alert
               showIcon
               type="info"
-              message="只选择业务系统"
-              description="专门责任人、责任团队和邮箱将由业务关系自动带出，不能在资产上分别修改。"
+              message={t("只选择业务系统")}
+              description={t("专门责任人、责任团队和邮箱将由业务关系自动带出，不能在资产上分别修改。")}
             />
             <Form
               form={ownershipForm}
@@ -1094,22 +1084,22 @@ export default function AssetDetailPage() {
               }
             >
               <Form.Item
-                label="业务系统"
+                label={t("业务系统")}
                 name="business_system_id"
-                rules={[{ required: true, message: "请选择业务系统或解除归属" }]}
+                rules={[{ required: true, message: t("请选择业务系统或解除归属") }]}
               >
                 <Select
                   showSearch
                   optionFilterProp="label"
                   loading={systemsQuery.isLoading}
                   options={[
-                    { value: "__unassign__", label: "解除归属（进入待分配）" },
+                    { value: "__unassign__", label: t("解除归属（进入待分配）") },
                     ...(systemsQuery.data?.items ?? []).map((system) => ({
                       value: system.id,
                       label: `${system.name} · ${system.code}`
                     }))
                   ]}
-                  placeholder="选择启用业务系统"
+                  placeholder={t("选择启用业务系统")}
                 />
               </Form.Item>
               {selectedOwnershipSystem?.responsible_person ? (
@@ -1119,14 +1109,14 @@ export default function AssetDetailPage() {
                   message={`${selectedOwnershipSystem.responsible_person.name} · ${selectedOwnershipSystem.responsible_person.team.name}`}
                   description={
                     selectedOwnershipSystem.responsible_person.email ||
-                    "责任人未设置邮箱"
+                    t("责任人未设置邮箱")
                   }
                 />
               ) : selectedOwnershipSystemId === "__unassign__" ? (
                 <Alert
                   showIcon
                   type="warning"
-                  message="确认后该资产将进入待分配状态"
+                  message={t("确认后该资产将进入待分配状态")}
                 />
               ) : null}
             </Form>

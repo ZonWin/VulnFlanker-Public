@@ -6,6 +6,7 @@ import LoadingBlock from "@/components/LoadingBlock";
 import RequireAuth from "@/components/RequireAuth";
 
 const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
+const DashboardPage = lazy(() => import("@/pages/dashboard/DashboardPage"));
 const RiskQueuePage = lazy(() => import("@/pages/risk-queue/RiskQueuePage"));
 const TaskCenterPage = lazy(() => import("@/pages/task-center/TaskCenterPage"));
 const AIEnrichmentBatchDetailPage = lazy(
@@ -48,12 +49,24 @@ const AuditLogsPage = lazy(() => import("@/pages/audit/AuditLogsPage"));
 const HandlingRecordsPage = lazy(
   () => import("@/pages/audit/HandlingRecordsPage")
 );
+const NotificationHistoryPage = lazy(
+  () => import("@/pages/audit/NotificationHistoryPage")
+);
+const EmailDeliveryLogsPage = lazy(
+  () => import("@/pages/audit/EmailDeliveryLogsPage")
+);
 const IntelCollectionPage = lazy(() => import("@/pages/intel/IntelCollectionPage"));
 const PlatformSettingsPage = lazy(
   () => import("@/pages/settings/PlatformSettingsPage")
 );
 const AiSettingsPage = lazy(() => import("@/pages/settings/AiSettingsPage"));
 const AboutInfoPage = lazy(() => import("@/pages/settings/AboutInfoPage"));
+const LanguageSettingsPage = lazy(
+  () => import("@/pages/settings/LanguageSettingsPage")
+);
+const EmailAlertSettingsPage = lazy(
+  () => import("@/pages/settings/EmailAlertSettingsPage")
+);
 
 function page(element: ReactNode) {
   return <Suspense fallback={<LoadingBlock />}>{element}</Suspense>;
@@ -69,7 +82,8 @@ export const router = createBrowserRouter([
       </RequireAuth>
     ),
     children: [
-      { index: true, element: <Navigate to="/risk-queue" replace /> },
+      { index: true, element: <Navigate to="/dashboard" replace /> },
+      { path: "dashboard", element: page(<DashboardPage />) },
       { path: "task-center", element: page(<TaskCenterPage />) },
       {
         path: "ai-enrichments/batches/:batchRunId",
@@ -102,9 +116,13 @@ export const router = createBrowserRouter([
       },
       { path: "audit", element: page(<AuditLogsPage />) },
       { path: "audit/handling", element: page(<HandlingRecordsPage />) },
+      { path: "audit/notifications", element: page(<NotificationHistoryPage />) },
+      { path: "audit/email-deliveries", element: page(<EmailDeliveryLogsPage />) },
       { path: "intel", element: page(<IntelCollectionPage />) },
       { path: "settings/platform", element: page(<PlatformSettingsPage />) },
       { path: "settings/ai", element: page(<AiSettingsPage />) },
+      { path: "settings/email-alerts", element: page(<EmailAlertSettingsPage />) },
+      { path: "settings/language", element: page(<LanguageSettingsPage />) },
       { path: "settings/about", element: page(<AboutInfoPage />) }
     ]
   }

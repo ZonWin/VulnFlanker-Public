@@ -1,17 +1,18 @@
+import { t } from "@/app/i18n";
 export const severityOptions = [
-  { label: "严重 / Critical", value: "critical" },
-  { label: "高危 / High", value: "high" },
-  { label: "中危 / Medium", value: "medium" },
-  { label: "低危 / Low", value: "low" },
-  { label: "信息 / Info", value: "info" }
+  { label: t("严重 / Critical"), value: "critical" },
+  { label: t("高危 / High"), value: "high" },
+  { label: t("中危 / Medium"), value: "medium" },
+  { label: t("低危 / Low"), value: "low" },
+  { label: t("信息 / Info"), value: "info" }
 ];
 
 const severityLabels: Record<string, string> = {
-  critical: "严重 / Critical",
-  high: "高危 / High",
-  medium: "中危 / Medium",
-  low: "低危 / Low",
-  info: "信息 / Info"
+  critical: t("严重 / Critical"),
+  high: t("高危 / High"),
+  medium: t("中危 / Medium"),
+  low: t("低危 / Low"),
+  info: t("信息 / Info")
 };
 
 const severityColors: Record<string, string> = {
@@ -69,10 +70,10 @@ const knownExploitedMarkers = new Set([
   "knownexploitedvulnerabilities",
   "kev",
   "cisakev",
-  "已知利用",
-  "已知被利用",
-  "已知存在利用",
-  "已知有利用"
+  t("已知利用"),
+  t("已知被利用"),
+  t("已知存在利用"),
+  t("已知有利用")
 ]);
 
 const emptySeverityMarkers = new Set([
@@ -83,10 +84,10 @@ const emptySeverityMarkers = new Set([
   "na",
   "n/a",
   "-",
-  "未知",
-  "不详",
-  "暂无",
-  "无"
+  t("未知"),
+  t("不详"),
+  t("暂无"),
+  t("无")
 ]);
 
 export function normalizeSeverityLabel(value?: string | null) {

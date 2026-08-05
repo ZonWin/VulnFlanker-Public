@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Alert,
   Button,
@@ -37,13 +38,13 @@ import LoadingBlock from "@/components/LoadingBlock";
 import { formatDateTime } from "@/utils/format";
 
 const statusLabels: Record<VulnerabilityAIEnrichmentStatus, string> = {
-  pending_review: "有 AI 建议待处理",
-  insufficient: "未形成有效建议",
-  failed: "AI 任务失败",
-  accepted: "已人工采纳",
-  rejected: "建议已忽略",
-  auto_accepted: "已自动采纳",
-  already_applied: "无需变更"
+  pending_review: t("有 AI 建议待处理"),
+  insufficient: t("未形成有效建议"),
+  failed: t("AI 任务失败"),
+  accepted: t("已人工采纳"),
+  rejected: t("建议已忽略"),
+  auto_accepted: t("已自动采纳"),
+  already_applied: t("无需变更")
 };
 
 const statusColors: Record<VulnerabilityAIEnrichmentStatus, string> = {
@@ -60,18 +61,18 @@ const fieldRows: Array<{
   field: VulnerabilityAIEnrichmentAcceptField;
   label: string;
 }> = [
-  { field: "vendor", label: "厂商" },
-  { field: "product", label: "产品" },
-  { field: "affected_versions", label: "受影响版本" },
-  { field: "fixed_versions", label: "修复版本" },
-  { field: "remediation", label: "修复建议" }
+  { field: "vendor", label: t("厂商") },
+  { field: "product", label: t("产品") },
+  { field: "affected_versions", label: t("受影响版本") },
+  { field: "fixed_versions", label: t("修复版本") },
+  { field: "remediation", label: t("修复建议") }
 ];
 
 const rejectReasonOptions = [
-  { label: "证据不足", value: "证据不足" },
-  { label: "来源不可信", value: "来源不可信" },
-  { label: "版本范围疑似错误", value: "版本范围疑似错误" },
-  { label: "与官方公告冲突", value: "与官方公告冲突" }
+  { label: t("证据不足"), value: t("证据不足") },
+  { label: t("来源不可信"), value: t("来源不可信") },
+  { label: t("版本范围疑似错误"), value: t("版本范围疑似错误") },
+  { label: t("与官方公告冲突"), value: t("与官方公告冲突") }
 ];
 
 function displayValue(value?: string | number | null) {
@@ -137,18 +138,18 @@ function defaultSelectedFields(
 
 function enrichmentItems(enrichment: VulnerabilityAIEnrichment) {
   return [
-    { key: "status", label: "状态", children: statusTag(enrichment.status) },
+    { key: "status", label: t("状态"), children: statusTag(enrichment.status) },
     {
       key: "confidence",
-      label: "置信度",
+      label: t("置信度"),
       children: confidenceValue(enrichment.confidence)
     },
     {
       key: "created",
-      label: "生成时间",
+      label: t("生成时间"),
       children: formatDateTime(enrichment.created_at)
     },
-    { key: "model", label: "模型", children: displayValue(enrichment.model) }
+    { key: "model", label: t("模型"), children: displayValue(enrichment.model) }
   ];
 }
 
@@ -213,14 +214,14 @@ export default function AiEnrichmentPanel({ vulnerability }: AiEnrichmentPanelPr
       }),
     onSuccess: (payload) => {
       if (payload.enrichment) {
-        messageApi.success("AI 补全候选已生成");
+        messageApi.success(t("AI 补全候选已生成"));
       } else if (payload.async_queued) {
-        messageApi.success("AI 补全任务已提交");
+        messageApi.success(t("AI 补全任务已提交"));
       }
       void queryClient.invalidateQueries({ queryKey });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "AI 补全失败");
+      messageApi.error(error instanceof Error ? error.message : t("AI 补全失败"));
     }
   });
 
@@ -233,14 +234,14 @@ export default function AiEnrichmentPanel({ vulnerability }: AiEnrichmentPanelPr
       }),
     onSuccess: (payload) => {
       if (payload.enrichment?.status === "pending_review") {
-        messageApi.success("联网补充候选已生成");
+        messageApi.success(t("联网补充候选已生成"));
       } else {
-        messageApi.info("联网补充已完成");
+        messageApi.info(t("联网补充已完成"));
       }
       void queryClient.invalidateQueries({ queryKey });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "联网补充失败");
+      messageApi.error(error instanceof Error ? error.message : t("联网补充失败"));
     }
   });
 
@@ -251,16 +252,16 @@ export default function AiEnrichmentPanel({ vulnerability }: AiEnrichmentPanelPr
         allow_overwrite: false
       }),
     onSuccess: (payload) => {
-      messageApi.success("AI 补全结果已采纳");
+      messageApi.success(t("AI 补全结果已采纳"));
       if (payload.matching_reevaluation_recommended) {
-        messageApi.info("建议重新评估相关匹配结果");
+        messageApi.info(t("建议重新评估相关匹配结果"));
       }
       void queryClient.invalidateQueries({ queryKey });
       void queryClient.invalidateQueries({ queryKey: ["vulnerabilities"] });
       void queryClient.invalidateQueries({ queryKey: ["match-results"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "采纳失败");
+      messageApi.error(error instanceof Error ? error.message : t("采纳失败"));
     }
   });
 
@@ -270,14 +271,14 @@ export default function AiEnrichmentPanel({ vulnerability }: AiEnrichmentPanelPr
         reason: rejectReason
       }),
     onSuccess: () => {
-      messageApi.success("AI 补全结果已拒绝");
+      messageApi.success(t("AI 补全结果已拒绝"));
       setRejectOpen(false);
       setRejectPreset(undefined);
       setRejectCustomReason("");
       void queryClient.invalidateQueries({ queryKey });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "拒绝失败");
+      messageApi.error(error instanceof Error ? error.message : t("拒绝失败"));
     }
   });
 
@@ -295,8 +296,7 @@ export default function AiEnrichmentPanel({ vulnerability }: AiEnrichmentPanelPr
       title={
         <Space>
           <Bot size={18} />
-          AI 补全
-        </Space>
+          {t("AI 补全")}</Space>
       }
       extra={
         <Space>
@@ -306,23 +306,20 @@ export default function AiEnrichmentPanel({ vulnerability }: AiEnrichmentPanelPr
             onClick={() => triggerMutation.mutate()}
             loading={triggerMutation.isPending}
           >
-            从已有情报补全
-          </Button>
+            {t("从已有情报补全")}</Button>
           <Button
             icon={<Sparkles size={16} />}
             onClick={() => webMutation.mutate()}
             loading={webMutation.isPending}
             disabled={!canUseWebProfile}
           >
-            联网补充
-          </Button>
+            {t("联网补充")}</Button>
           <Button
             icon={<RefreshCw size={16} />}
             onClick={() => enrichmentsQuery.refetch()}
             loading={enrichmentsQuery.isFetching}
           >
-            刷新
-          </Button>
+            {t("刷新")}</Button>
         </Space>
       }
     >
@@ -330,7 +327,7 @@ export default function AiEnrichmentPanel({ vulnerability }: AiEnrichmentPanelPr
       {enrichmentsQuery.isLoading ? <LoadingBlock /> : null}
       {enrichmentsQuery.isError ? <ErrorState error={enrichmentsQuery.error} /> : null}
       {!enrichmentsQuery.isLoading && !latest ? (
-        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无 AI 补全结果" />
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t("暂无 AI 补全结果")} />
       ) : null}
       {latest ? (
         <Space className="page-stack" orientation="vertical" size={14}>
@@ -347,13 +344,13 @@ export default function AiEnrichmentPanel({ vulnerability }: AiEnrichmentPanelPr
             <Alert
               type="success"
               showIcon
-              message="无需变更"
-              description="候选字段已由正式来源写入漏洞主记录，未产生新的待处理变更。"
+              message={t("无需变更")}
+              description={t("候选字段已由正式来源写入漏洞主记录，未产生新的待处理变更。")}
             />
           ) : null}
           <List
             size="small"
-            header={<Typography.Text strong>字段对比</Typography.Text>}
+            header={<Typography.Text strong>{t("字段对比")}</Typography.Text>}
             dataSource={comparisonRows}
             renderItem={(row) => {
               const selectable =
@@ -369,7 +366,7 @@ export default function AiEnrichmentPanel({ vulnerability }: AiEnrichmentPanelPr
                     <Space orientation="vertical" size={3}>
                       <Typography.Text strong>{row.label}</Typography.Text>
                       <Typography.Text type="secondary">
-                        当前：{displayValue(row.currentValue)}
+                        {t("当前：")}{displayValue(row.currentValue)}
                       </Typography.Text>
                       <Typography.Text>AI：{displayValue(row.aiValue)}</Typography.Text>
                     </Space>
@@ -380,9 +377,9 @@ export default function AiEnrichmentPanel({ vulnerability }: AiEnrichmentPanelPr
           />
           <List
             size="small"
-            header={<Typography.Text strong>证据</Typography.Text>}
+            header={<Typography.Text strong>{t("证据")}</Typography.Text>}
             dataSource={latest.evidence}
-            locale={{ emptyText: "暂无证据" }}
+            locale={{ emptyText: t("暂无证据") }}
             renderItem={(item) => (
               <List.Item>
                 <Space orientation="vertical" size={4}>
@@ -414,23 +411,21 @@ export default function AiEnrichmentPanel({ vulnerability }: AiEnrichmentPanelPr
               loading={acceptMutation.isPending}
               onClick={() => acceptMutation.mutate()}
             >
-              采纳所选字段
-            </Button>
+              {t("采纳所选字段")}</Button>
             <Button
               icon={<X size={16} />}
               disabled={!canReject}
               onClick={() => setRejectOpen(true)}
             >
-              拒绝
-            </Button>
+              {t("拒绝")}</Button>
           </Space>
         </Space>
       ) : null}
       <Modal
-        title="拒绝 AI 补全结果"
+        title={t("拒绝 AI 补全结果")}
         open={rejectOpen}
-        okText="确认拒绝"
-        cancelText="取消"
+        okText={t("确认拒绝")}
+        cancelText={t("取消")}
         okButtonProps={{
           danger: true,
           disabled: !rejectReason,
@@ -443,7 +438,7 @@ export default function AiEnrichmentPanel({ vulnerability }: AiEnrichmentPanelPr
         <Space className="page-stack" orientation="vertical" size={12}>
           <Select
             allowClear
-            placeholder="选择拒绝原因"
+            placeholder={t("选择拒绝原因")}
             options={rejectReasonOptions}
             value={rejectPreset}
             onChange={setRejectPreset}
@@ -451,7 +446,7 @@ export default function AiEnrichmentPanel({ vulnerability }: AiEnrichmentPanelPr
           />
           <Input.TextArea
             rows={4}
-            placeholder="补充说明"
+            placeholder={t("补充说明")}
             value={rejectCustomReason}
             onChange={(event) => setRejectCustomReason(event.target.value)}
           />

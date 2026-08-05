@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Button,
   Card,
@@ -58,9 +59,9 @@ interface DeactivateFormValues {
 }
 
 const systemStatusOptions = [
-  { label: "草稿", value: "draft" },
-  { label: "启用", value: "active" },
-  { label: "停用", value: "inactive" }
+  { label: t("草稿"), value: "draft" },
+  { label: t("启用"), value: "active" },
+  { label: t("停用"), value: "inactive" }
 ];
 
 export default function BusinessSystemsPage() {
@@ -130,7 +131,7 @@ export default function BusinessSystemsPage() {
       return createBusinessSystem(payload);
     },
     onSuccess: () => {
-      messageApi.success(editingSystem ? "业务系统已更新" : "业务系统已创建");
+      messageApi.success(editingSystem ? t("业务系统已更新") : t("业务系统已创建"));
       setIsSystemModalOpen(false);
       setEditingSystem(null);
       systemForm.resetFields();
@@ -142,7 +143,7 @@ export default function BusinessSystemsPage() {
   const activateMutation = useMutation({
     mutationFn: (system: BusinessSystem) => activateBusinessSystem(system.id, system.version),
     onSuccess: () => {
-      messageApi.success("业务系统已启用");
+      messageApi.success(t("业务系统已启用"));
       refreshOwnership();
     },
     onError: (error) => messageApi.error(error.message)
@@ -151,7 +152,7 @@ export default function BusinessSystemsPage() {
   const deactivateMutation = useMutation({
     mutationFn: (values: DeactivateFormValues) => {
       if (!deactivatingSystem) {
-        throw new Error("未选择要停用的业务系统");
+        throw new Error(t("未选择要停用的业务系统"));
       }
       return deactivateBusinessSystem(deactivatingSystem.id, {
         expected_version: deactivatingSystem.version,
@@ -161,7 +162,7 @@ export default function BusinessSystemsPage() {
       });
     },
     onSuccess: () => {
-      messageApi.success("业务系统已停用，关联资产已按选择处理");
+      messageApi.success(t("业务系统已停用，关联资产已按选择处理"));
       setDeactivatingSystem(null);
       deactivateForm.resetFields();
       refreshOwnership();
@@ -190,11 +191,11 @@ export default function BusinessSystemsPage() {
 
   function confirmActivate(system: BusinessSystem) {
     Modal.confirm({
-      title: "启用业务系统",
+      title: t("启用业务系统"),
       content: system.responsible_person
-        ? `将由 ${system.responsible_person.name}（${system.responsible_person.team.name}）负责该系统。`
-        : "当前未设置责任人，请先编辑并选择启用人员。",
-      okText: "确认启用",
+        ? t("将由 {{v0}}（{{v1}}）负责该系统。", { v0: system.responsible_person.name, v1: system.responsible_person.team.name })
+        : t("当前未设置责任人，请先编辑并选择启用人员。"),
+      okText: t("确认启用"),
       okButtonProps: { disabled: !system.responsible_person },
       onOk: () => activateMutation.mutateAsync(system)
     });
@@ -202,7 +203,7 @@ export default function BusinessSystemsPage() {
 
   const columns: ColumnsType<BusinessSystem> = [
     {
-      title: "业务系统",
+      title: t("业务系统"),
       key: "system",
       minWidth: 250,
       render: (_, system) => (
@@ -213,21 +214,21 @@ export default function BusinessSystemsPage() {
       )
     },
     {
-      title: "专门责任人",
+      title: t("专门责任人"),
       key: "responsible_person",
       minWidth: 210,
       render: (_, system) =>
         system.responsible_person ? (
           <Space orientation="vertical" size={0}>
             <Typography.Text>{system.responsible_person.name}</Typography.Text>
-            <Typography.Text className="table-subtitle">{system.responsible_person.email || "未设置邮箱"}</Typography.Text>
+            <Typography.Text className="table-subtitle">{system.responsible_person.email || t("未设置邮箱")}</Typography.Text>
           </Space>
         ) : (
-          <Typography.Text type="warning">待分配</Typography.Text>
+          <Typography.Text type="warning">{t("待分配")}</Typography.Text>
         )
     },
     {
-      title: "责任团队",
+      title: t("责任团队"),
       key: "team",
       width: 190,
       render: (_, system) =>
@@ -238,9 +239,9 @@ export default function BusinessSystemsPage() {
           </Space>
         ) : "-"
     },
-    { title: "状态", dataIndex: "status", width: 90, render: (value: BusinessSystemStatus) => <LifecycleTag status={value} /> },
+    { title: t("状态"), dataIndex: "status", width: 90, render: (value: BusinessSystemStatus) => <LifecycleTag status={value} /> },
     {
-      title: "关联资产",
+      title: t("关联资产"),
       dataIndex: "asset_count",
       width: 100,
       render: (count: number, system) => (
@@ -249,16 +250,16 @@ export default function BusinessSystemsPage() {
         </Typography.Link>
       )
     },
-    { title: "更新时间", dataIndex: "updated_at", width: 185, render: formatDateTime },
+    { title: t("更新时间"), dataIndex: "updated_at", width: 185, render: formatDateTime },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       fixed: "right",
       width: 170,
       render: (_, system) => (
         <Space size={2}>
-          <Tooltip title={!isAdmin ? "需要超级管理员权限" : undefined}>
-            <Button type="link" disabled={!isAdmin} icon={<Pencil size={15} />} onClick={() => openEdit(system)}>编辑</Button>
+          <Tooltip title={!isAdmin ? t("需要超级管理员权限") : undefined}>
+            <Button type="link" disabled={!isAdmin} icon={<Pencil size={15} />} onClick={() => openEdit(system)}>{t("编辑")}</Button>
           </Tooltip>
           {system.status === "active" ? (
             <Button
@@ -274,10 +275,9 @@ export default function BusinessSystemsPage() {
                 }
               }}
             >
-              停用
-            </Button>
+              {t("停用")}</Button>
           ) : (
-            <Button type="link" disabled={!isAdmin} icon={<Power size={15} />} onClick={() => confirmActivate(system)}>启用</Button>
+            <Button type="link" disabled={!isAdmin} icon={<Power size={15} />} onClick={() => confirmActivate(system)}>{t("启用")}</Button>
           )}
         </Space>
       )
@@ -285,7 +285,7 @@ export default function BusinessSystemsPage() {
   ];
 
   const personOptions = (peopleQuery.data?.items ?? []).map((person) => ({
-    label: `${person.name} · ${person.team.name}${person.status === "inactive" ? "（已停用）" : ""}`,
+    label: t("{{v0}} · {{v1}}{{v2}}", { v0: person.name, v1: person.team.name, v2: person.status === "inactive" ? t("（已停用）") : "" }),
     value: person.id,
     disabled: person.status !== "active" || person.team.status !== "active"
   }));
@@ -294,23 +294,23 @@ export default function BusinessSystemsPage() {
     <Space className="page-stack" orientation="vertical" size={16}>
       {contextHolder}
       <PageHeader
-        title="业务系统"
-        subtitle="以业务系统作为资产运营归属入口，每个启用系统绑定一名专门责任人。"
+        title={t("业务系统")}
+        subtitle={t("以业务系统作为资产运营归属入口，每个启用系统绑定一名专门责任人。")}
         extra={
           <Space>
-            <Button icon={<RefreshCw size={16} />} loading={systemsQuery.isFetching} onClick={refreshOwnership}>刷新</Button>
-            <Button type="primary" icon={<Plus size={16} />} disabled={!isAdmin} onClick={openCreate}>新建业务系统</Button>
+            <Button icon={<RefreshCw size={16} />} loading={systemsQuery.isFetching} onClick={refreshOwnership}>{t("刷新")}</Button>
+            <Button type="primary" icon={<Plus size={16} />} disabled={!isAdmin} onClick={openCreate}>{t("新建业务系统")}</Button>
           </Space>
         }
       />
       <ReadOnlyNotice isAdmin={isAdmin} />
       <OwnershipMetrics summary={summaryQuery.data} />
-      <Card className="content-card" title="业务系统列表">
+      <Card className="content-card" title={t("业务系统列表")}>
         <div className="table-toolbar ownership-toolbar">
           <Input
             allowClear
             prefix={<Search size={16} />}
-            placeholder="搜索系统编码或名称"
+            placeholder={t("搜索系统编码或名称")}
             value={keyword}
             onChange={(event) => {
               setKeyword(event.target.value);
@@ -321,7 +321,7 @@ export default function BusinessSystemsPage() {
             allowClear
             showSearch
             optionFilterProp="label"
-            placeholder="全部团队"
+            placeholder={t("全部团队")}
             loading={teamsQuery.isLoading}
             options={(teamsQuery.data?.items ?? []).map((team) => ({ label: team.name, value: team.id }))}
             value={teamId}
@@ -334,7 +334,7 @@ export default function BusinessSystemsPage() {
             allowClear
             showSearch
             optionFilterProp="label"
-            placeholder="全部责任人"
+            placeholder={t("全部责任人")}
             loading={peopleQuery.isLoading}
             options={(peopleQuery.data?.items ?? []).map((person) => ({ label: person.name, value: person.id }))}
             value={responsiblePersonId}
@@ -345,10 +345,10 @@ export default function BusinessSystemsPage() {
           />
           <Select
             allowClear
-            placeholder="资产情况"
+            placeholder={t("资产情况")}
             options={[
-              { label: "有关联资产", value: true },
-              { label: "无关联资产", value: false }
+              { label: t("有关联资产"), value: true },
+              { label: t("无关联资产"), value: false }
             ]}
             value={hasAssets}
             onChange={(value) => {
@@ -358,7 +358,7 @@ export default function BusinessSystemsPage() {
           />
           <Select
             allowClear
-            placeholder="全部状态"
+            placeholder={t("全部状态")}
             options={systemStatusOptions}
             value={status}
             onChange={(value) => {
@@ -374,13 +374,13 @@ export default function BusinessSystemsPage() {
           columns={columns}
           dataSource={systemsQuery.data?.items ?? []}
           loading={systemsQuery.isLoading}
-          locale={{ emptyText: <EmptyState title="暂无业务系统，请先创建并分配责任人" /> }}
+          locale={{ emptyText: <EmptyState title={t("暂无业务系统，请先创建并分配责任人")} /> }}
           pagination={{
             current: page,
             pageSize,
             total: systemsQuery.data?.total ?? 0,
             showSizeChanger: true,
-            showTotal: (total) => `共 ${total} 个业务系统`,
+            showTotal: (total) => t("共 {{v0}} 个业务系统", { v0: total }),
             onChange: (nextPage, nextPageSize) => {
               setPage(nextPageSize === pageSize ? nextPage : 1);
               setPageSize(nextPageSize);
@@ -391,67 +391,66 @@ export default function BusinessSystemsPage() {
       </Card>
 
       <Modal
-        title={editingSystem ? "编辑业务系统" : "新建业务系统"}
+        title={editingSystem ? t("编辑业务系统") : t("新建业务系统")}
         open={isSystemModalOpen}
         width={620}
-        okText={editingSystem ? "保存" : "创建"}
+        okText={editingSystem ? t("保存") : t("创建")}
         confirmLoading={saveMutation.isPending}
         onCancel={() => setIsSystemModalOpen(false)}
         onOk={() => systemForm.submit()}
       >
         <Form form={systemForm} layout="vertical" onFinish={(values) => saveMutation.mutate(values)}>
           <div className="ownership-form-grid">
-            <Form.Item label="系统编码" name="code" rules={[{ required: true, message: "请输入系统编码" }]}>
-              <Input disabled={Boolean(editingSystem)} maxLength={64} placeholder="例如 CRM" />
+            <Form.Item label={t("系统编码")} name="code" rules={[{ required: true, message: t("请输入系统编码") }]}>
+              <Input disabled={Boolean(editingSystem)} maxLength={64} placeholder={t("例如 CRM")} />
             </Form.Item>
-            <Form.Item label="系统名称" name="name" rules={[{ required: true, message: "请输入系统名称" }]}>
+            <Form.Item label={t("系统名称")} name="name" rules={[{ required: true, message: t("请输入系统名称") }]}>
               <Input maxLength={255} />
             </Form.Item>
             {!editingSystem ? (
-              <Form.Item label="初始状态" name="status">
+              <Form.Item label={t("初始状态")} name="status">
                 <Select options={systemStatusOptions.filter((option) => option.value !== "inactive")} />
               </Form.Item>
             ) : null}
             <Form.Item
-              label="专门责任人"
+              label={t("专门责任人")}
               name="responsible_person_id"
               rules={
                 (!editingSystem && createStatus === "active") ||
                 editingSystem?.status === "active"
-                  ? [{ required: true, message: "启用系统必须选择责任人" }]
+                  ? [{ required: true, message: t("启用系统必须选择责任人") }]
                   : []
               }
             >
-              <Select allowClear showSearch optionFilterProp="label" loading={peopleQuery.isLoading} options={personOptions} placeholder="选择启用人员" />
+              <Select allowClear showSearch optionFilterProp="label" loading={peopleQuery.isLoading} options={personOptions} placeholder={t("选择启用人员")} />
             </Form.Item>
           </div>
-          <Form.Item label="说明" name="description"><Input.TextArea maxLength={4000} rows={4} showCount /></Form.Item>
+          <Form.Item label={t("说明")} name="description"><Input.TextArea maxLength={4000} rows={4} showCount /></Form.Item>
         </Form>
       </Modal>
 
       <Modal
-        title={`停用业务系统${deactivatingSystem ? ` · ${deactivatingSystem.name}` : ""}`}
+        title={t("停用业务系统{{v0}}", { v0: deactivatingSystem ? ` · ${deactivatingSystem.name}` : "" })}
         open={Boolean(deactivatingSystem)}
-        okText="确认停用"
+        okText={t("确认停用")}
         okButtonProps={{ danger: true }}
         confirmLoading={deactivateMutation.isPending}
         onCancel={() => setDeactivatingSystem(null)}
         onOk={() => deactivateForm.submit()}
       >
         <Typography.Paragraph>
-          当前关联 {deactivatingSystem?.asset_count ?? 0} 个资产。停用系统后，该系统不能继续作为新的资产归属。
-        </Typography.Paragraph>
+          {t("当前关联")}{deactivatingSystem?.asset_count ?? 0} {t("个资产。停用系统后，该系统不能继续作为新的资产归属。")}</Typography.Paragraph>
         <Form form={deactivateForm} layout="vertical" onFinish={(values) => deactivateMutation.mutate(values)}>
           {deactivatingSystem?.asset_count ? (
             <>
-              <Form.Item label="关联资产处理" name="asset_action" rules={[{ required: true, message: "请选择资产处理方式" }]}>
+              <Form.Item label={t("关联资产处理")} name="asset_action" rules={[{ required: true, message: t("请选择资产处理方式") }]}>
                 <Radio.Group>
-                  <Radio value="replace">转移到其他业务系统</Radio>
-                  <Radio value="unassign">解除归属，进入待分配</Radio>
+                  <Radio value="replace">{t("转移到其他业务系统")}</Radio>
+                  <Radio value="unassign">{t("解除归属，进入待分配")}</Radio>
                 </Radio.Group>
               </Form.Item>
               {assetAction === "replace" ? (
-                <Form.Item label="目标业务系统" name="replacement_system_id" rules={[{ required: true, message: "请选择目标业务系统" }]}>
+                <Form.Item label={t("目标业务系统")} name="replacement_system_id" rules={[{ required: true, message: t("请选择目标业务系统") }]}>
                   <Select
                     showSearch
                     optionFilterProp="label"
@@ -464,7 +463,7 @@ export default function BusinessSystemsPage() {
               ) : null}
             </>
           ) : (
-            <Typography.Text type="secondary">该系统没有关联资产，可直接停用。</Typography.Text>
+            <Typography.Text type="secondary">{t("该系统没有关联资产，可直接停用。")}</Typography.Text>
           )}
         </Form>
       </Modal>

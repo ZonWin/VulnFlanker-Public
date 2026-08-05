@@ -1,1 +1,1 @@
-"""Helpers for quality-chain replay tests."""
+"""Helpers for Stage3 quality-chain replay tests."""

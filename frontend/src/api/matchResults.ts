@@ -10,7 +10,8 @@ import type {
   RiskConfig,
   RiskQueueQuery,
   VerificationTask,
-  VerificationTaskRequest
+  VerificationTaskRequest,
+  EmailAction
 } from "@/api/types";
 
 export function getRiskQueue(query: RiskQueueQuery = {}) {
@@ -86,4 +87,10 @@ export function createVerificationTask(
       body
     }
   );
+}
+
+export function sendMatchResultEmailAlert(matchResultId: string) {
+  return request<EmailAction>(`/api/v1/match-results/${matchResultId}/email-alert`, {
+    method: "POST"
+  });
 }

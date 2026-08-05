@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Alert,
   Button,
@@ -42,11 +43,11 @@ import { VerificationTaskStatusTag } from "@/components/ValueTags";
 import { formatDateTime, formatScore } from "@/utils/format";
 
 const statusOptions = [
-  { label: "受影响", value: "affected" },
-  { label: "不受影响", value: "not_affected" },
-  { label: "待复核", value: "needs_review" },
-  { label: "已验证", value: "verified" },
-  { label: "已抑制", value: "suppressed" }
+  { label: t("受影响"), value: "affected" },
+  { label: t("不受影响"), value: "not_affected" },
+  { label: t("待复核"), value: "needs_review" },
+  { label: t("已验证"), value: "verified" },
+  { label: t("已抑制"), value: "suppressed" }
 ];
 
 const DEFAULT_PAGE_SIZE = 10;
@@ -132,22 +133,22 @@ export default function MatchResultsPage() {
       evaluateMatchResults(normalizeEvaluation(values)),
     onSuccess: (result) => {
       setEvaluationResult(result);
-      messageApi.success(`匹配评估完成，生成 ${result.evaluated_count} 条结果`);
+      messageApi.success(t("匹配评估完成，生成 {{v0}} 条结果", { v0: result.evaluated_count }));
       void queryClient.invalidateQueries({ queryKey: ["match-results"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "匹配评估失败");
+      messageApi.error(error instanceof Error ? error.message : t("匹配评估失败"));
     }
   });
 
   const reevaluateMutation = useMutation({
     mutationFn: reevaluateMatchResult,
     onSuccess: (result) => {
-      messageApi.success(`已重评估 ${result.vulnerability_canonical_id}`);
+      messageApi.success(t("已重评估 {{v0}}", { v0: result.vulnerability_canonical_id }));
       void queryClient.invalidateQueries({ queryKey: ["match-results"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "重评估失败");
+      messageApi.error(error instanceof Error ? error.message : t("重评估失败"));
     }
   });
 
@@ -158,13 +159,13 @@ export default function MatchResultsPage() {
         auto_match_on_new_vulnerability: values.auto_match_on_new_vulnerability
       } satisfies PlatformSettingsUpdate),
     onSuccess: (settings) => {
-      messageApi.success("自动比对设置已保存");
+      messageApi.success(t("自动比对设置已保存"));
       setAutoSettingsOpen(false);
       queryClient.setQueryData(platformSettingsQueryKey, settings);
       void queryClient.invalidateQueries({ queryKey: platformSettingsQueryKey });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "自动比对设置保存失败");
+      messageApi.error(error instanceof Error ? error.message : t("自动比对设置保存失败"));
     }
   });
 
@@ -181,10 +182,10 @@ export default function MatchResultsPage() {
     const normalized = normalizeEvaluation(values);
     if (!normalized.asset_id && !normalized.vulnerability_id) {
       Modal.confirm({
-        title: "确认执行全量匹配评估？",
-        content: "未填写资产或漏洞范围时，后端会对当前资产和漏洞进行全量评估。",
-        okText: "执行评估",
-        cancelText: "取消",
+        title: t("确认执行全量匹配评估？"),
+        content: t("未填写资产或漏洞范围时，后端会对当前资产和漏洞进行全量评估。"),
+        okText: t("执行评估"),
+        cancelText: t("取消"),
         onOk: () => evaluateMutation.mutate(values)
       });
       return;
@@ -195,7 +196,7 @@ export default function MatchResultsPage() {
 
   const columns: ColumnsType<MatchResultSummary> = [
     {
-      title: "风险编号",
+      title: t("风险编号"),
       dataIndex: "risk_code",
       width: 205,
       render: (value: string | null) =>
@@ -207,11 +208,11 @@ export default function MatchResultsPage() {
             {value}
           </Typography.Text>
         ) : (
-          <Typography.Text type="secondary">未进入风险队列</Typography.Text>
+          <Typography.Text type="secondary">{t("未进入风险队列")}</Typography.Text>
         )
     },
     {
-      title: "漏洞",
+      title: t("漏洞"),
       dataIndex: "vulnerability_title",
       minWidth: 280,
       render: (_: string, record) => (
@@ -226,7 +227,7 @@ export default function MatchResultsPage() {
       )
     },
     {
-      title: "资产",
+      title: t("资产"),
       dataIndex: "asset_hostname",
       width: 190,
       render: (_: string, record) => (
@@ -236,26 +237,26 @@ export default function MatchResultsPage() {
       )
     },
     {
-      title: "状态",
+      title: t("状态"),
       dataIndex: "status",
       width: 120,
       render: (value: MatchResultSummary["status"]) => <StatusTag value={value} />
     },
     {
-      title: "置信度",
+      title: t("置信度"),
       dataIndex: "confidence",
       width: 150,
       render: (value: number) => <ConfidenceBar value={value} />
     },
     {
-      title: "风险分",
+      title: t("风险分"),
       dataIndex: "risk_score",
       width: 100,
       sorter: (a, b) => a.risk_score - b.risk_score,
       render: (value: number) => <span className="risk-score">{formatScore(value)}</span>
     },
     {
-      title: "优先级",
+      title: t("优先级"),
       dataIndex: "risk_priority",
       width: 110,
       render: (value: MatchResultSummary["risk_priority"]) => (
@@ -263,7 +264,7 @@ export default function MatchResultsPage() {
       )
     },
     {
-      title: "验证",
+      title: t("验证"),
       key: "verification",
       width: 140,
       render: (_, record) =>
@@ -274,13 +275,13 @@ export default function MatchResultsPage() {
         )
     },
     {
-      title: "最近评估",
+      title: t("最近评估"),
       dataIndex: "last_evaluated_at",
       width: 190,
       render: (value: string | null) => formatDateTime(value)
     },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       fixed: "right",
       width: 170,
@@ -291,16 +292,14 @@ export default function MatchResultsPage() {
             icon={<Eye size={15} />}
             onClick={() => navigate(`/matching/${record.id}`)}
           >
-            详情
-          </Button>
+            {t("详情")}</Button>
           <Button
             type="link"
             icon={<RotateCcw size={15} />}
             onClick={() => reevaluateMutation.mutate(record.id)}
             loading={reevaluateMutation.isPending}
           >
-            重评估
-          </Button>
+            {t("重评估")}</Button>
         </Space>
       )
     }
@@ -310,7 +309,7 @@ export default function MatchResultsPage() {
     <Space className="page-stack" orientation="vertical" size={16}>
       {contextHolder}
       <PageHeader
-        title="漏洞比对"
+        title={t("漏洞比对")}
         extra={
           <Space>
             <Button
@@ -318,23 +317,20 @@ export default function MatchResultsPage() {
               onClick={openAutoSettings}
               loading={platformSettingsQuery.isFetching}
             >
-              自动比对设置
-            </Button>
+              {t("自动比对设置")}</Button>
             <Button icon={<BookOpen size={16} />} onClick={() => navigate("/rules#rules")}>
-              规则说明
-            </Button>
+              {t("规则说明")}</Button>
             <Button
               icon={<RefreshCw size={16} />}
               onClick={() => matchResultsQuery.refetch()}
               loading={matchResultsQuery.isFetching}
             >
-              刷新
-            </Button>
+              {t("刷新")}</Button>
           </Space>
         }
       />
 
-      <Card className="content-card filter-card" title="手动评估">
+      <Card className="content-card filter-card" title={t("手动评估")}>
         <Form
           className="matching-inline-form"
           form={evaluateForm}
@@ -342,11 +338,11 @@ export default function MatchResultsPage() {
           initialValues={initialFilters}
           onFinish={submitEvaluation}
         >
-          <Form.Item label="资产" name="asset_id">
-            <Input allowClear placeholder="资产 ID 或 Agent ID" />
+          <Form.Item label={t("资产")} name="asset_id">
+            <Input allowClear placeholder={t("资产 ID 或 Agent ID")} />
           </Form.Item>
-          <Form.Item label="漏洞" name="vulnerability_id">
-            <Input allowClear placeholder="漏洞 ID 或 CVE" />
+          <Form.Item label={t("漏洞")} name="vulnerability_id">
+            <Input allowClear placeholder={t("漏洞 ID 或 CVE")} />
           </Form.Item>
           <Form.Item className="matching-form-actions">
             <Space>
@@ -357,16 +353,14 @@ export default function MatchResultsPage() {
                 }}
                 disabled={evaluateMutation.isPending}
               >
-                重置
-              </Button>
+                {t("重置")}</Button>
               <Button
                 type="primary"
                 htmlType="submit"
                 icon={<PlayCircle size={16} />}
                 loading={evaluateMutation.isPending}
               >
-                触发评估
-              </Button>
+                {t("触发评估")}</Button>
             </Space>
           </Form.Item>
         </Form>
@@ -376,11 +370,11 @@ export default function MatchResultsPage() {
             className="task-alert"
             type={evaluationResult.status === "completed" ? "success" : "info"}
             showIcon
-            title={`评估状态：${evaluationResult.status}`}
+            title={t("评估状态：{{v0}}", { v0: evaluationResult.status })}
             description={
               <Space orientation="vertical" size={4}>
                 <Typography.Text>
-                  评估结果数：{evaluationResult.evaluated_count}
+                  {t("评估结果数：")}{evaluationResult.evaluated_count}
                 </Typography.Text>
                 {evaluationResult.result_ids.length ? (
                   <Space size={[8, 4]} wrap>
@@ -413,17 +407,17 @@ export default function MatchResultsPage() {
           initialValues={initialFilters}
           onFinish={(values) => setFilters(normalizeFilters(values))}
         >
-          <Form.Item label="风险编号" name="risk_code">
+          <Form.Item label={t("风险编号")} name="risk_code">
             <Input allowClear placeholder="RISK-260717-000001" />
           </Form.Item>
-          <Form.Item label="状态" name="status">
-            <Select allowClear options={statusOptions} placeholder="全部状态" />
+          <Form.Item label={t("状态")} name="status">
+            <Select allowClear options={statusOptions} placeholder={t("全部状态")} />
           </Form.Item>
-          <Form.Item label="资产" name="asset_id">
-            <Input allowClear placeholder="资产 ID 或 Agent ID" />
+          <Form.Item label={t("资产")} name="asset_id">
+            <Input allowClear placeholder={t("资产 ID 或 Agent ID")} />
           </Form.Item>
-          <Form.Item label="漏洞" name="vulnerability_id">
-            <Input allowClear placeholder="漏洞 ID 或 CVE" />
+          <Form.Item label={t("漏洞")} name="vulnerability_id">
+            <Input allowClear placeholder={t("漏洞 ID 或 CVE")} />
           </Form.Item>
           <Form.Item className="matching-form-actions">
             <Space>
@@ -433,17 +427,15 @@ export default function MatchResultsPage() {
                   setFilters({});
                 }}
               >
-                重置
-              </Button>
+                {t("重置")}</Button>
               <Button type="primary" htmlType="submit">
-                查询
-              </Button>
+                {t("查询")}</Button>
             </Space>
           </Form.Item>
         </Form>
       </Card>
 
-      <Card className="content-card" title="匹配结果列表">
+      <Card className="content-card" title={t("匹配结果列表")}>
         {matchResultsQuery.isError ? <ErrorState error={matchResultsQuery.error} /> : null}
         <ResizableTable<MatchResultSummary>
           storageKey="match-results"
@@ -454,15 +446,14 @@ export default function MatchResultsPage() {
           pagination={false}
           locale={{
             emptyText: (
-              <EmptyState title="暂无匹配结果">
+              <EmptyState title={t("暂无匹配结果")}>
                 <Button
                   type="primary"
                   icon={<PlayCircle size={16} />}
                   onClick={() => submitEvaluation(evaluateForm.getFieldsValue())}
                   loading={evaluateMutation.isPending}
                 >
-                  执行匹配评估
-                </Button>
+                  {t("执行匹配评估")}</Button>
               </EmptyState>
             )
           }}
@@ -474,7 +465,7 @@ export default function MatchResultsPage() {
             pageSize={pageSize}
             total={total}
             showSizeChanger
-            showTotal={(value) => `共 ${value} 条`}
+            showTotal={(value) => t("共 {{v0}} 条", { v0: value })}
             onChange={(nextPage, nextPageSize) => {
               if (nextPageSize !== pageSize) {
                 setPageSize(nextPageSize);
@@ -487,16 +478,16 @@ export default function MatchResultsPage() {
         </Space>
       </Card>
       <Modal
-        title="自动比对设置"
+        title={t("自动比对设置")}
         open={autoSettingsOpen}
-        okText="保存"
-        cancelText="取消"
+        okText={t("保存")}
+        cancelText={t("取消")}
         confirmLoading={updateAutoSettingsMutation.isPending}
         onCancel={() => setAutoSettingsOpen(false)}
         onOk={() => autoMatchForm.submit()}
       >
         {platformSettingsQuery.isError ? (
-          <ErrorState title="自动比对设置加载失败" error={platformSettingsQuery.error} />
+          <ErrorState title={t("自动比对设置加载失败")} error={platformSettingsQuery.error} />
         ) : null}
         <Form<AutoMatchSettingsFormValues>
           form={autoMatchForm}
@@ -508,14 +499,14 @@ export default function MatchResultsPage() {
           onFinish={(values) => updateAutoSettingsMutation.mutate(values)}
         >
           <Form.Item
-            label="新增资产时自动进行全漏洞比对"
+            label={t("新增资产时自动进行全漏洞比对")}
             name="auto_match_on_new_asset"
             valuePropName="checked"
           >
             <Switch />
           </Form.Item>
           <Form.Item
-            label="新增可开始匹配漏洞时自动进行全资产比对"
+            label={t("新增可开始匹配漏洞时自动进行全资产比对")}
             name="auto_match_on_new_vulnerability"
             valuePropName="checked"
           >

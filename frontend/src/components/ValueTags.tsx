@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import { Tag } from "antd";
 
 import { severityColor, severityDisplayValue } from "@/utils/severity";
@@ -76,15 +77,15 @@ function verificationTaskStatusColor(value?: string | null) {
 
 function verificationTaskStatusLabel(value?: string | null) {
   const labels: Record<string, string> = {
-    queued: "排队中",
-    in_progress: "执行中",
-    cancel_requested: "请求取消",
-    cancelled: "已取消",
-    completed: "已完成",
-    failed: "失败",
-    rejected: "已拒绝"
+    queued: t("排队中"),
+    in_progress: t("执行中"),
+    cancel_requested: t("请求取消"),
+    cancelled: t("已取消"),
+    completed: t("已完成"),
+    failed: t("失败"),
+    rejected: t("已拒绝")
   };
-  return value ? labels[value] ?? value : "未知";
+  return value ? labels[value] ?? value : t("未知");
 }
 
 export function SeverityTag({ value }: { value?: string | null }) {
@@ -105,10 +106,10 @@ export function OutcomeTag({ value }: { value?: string | null }) {
 
 export function AgentStatusTag({ value }: { value?: string | null }) {
   const labels: Record<string, string> = {
-    online: "在线",
-    offline: "离线",
-    unknown: "未知",
-    disabled: "已禁用"
+    online: t("在线"),
+    offline: t("离线"),
+    unknown: t("未知"),
+    disabled: t("已禁用")
   };
   return <Tag color={agentStatusColor(value)}>{value ? labels[value] ?? value : "-"}</Tag>;
 }
@@ -132,5 +133,5 @@ export function BooleanTag({
   trueColor = "green",
   falseColor = "default"
 }: BooleanTagProps) {
-  return <Tag color={value ? trueColor : falseColor}>{value ? "是" : "否"}</Tag>;
+  return <Tag color={value ? trueColor : falseColor}>{value ? t("是") : t("否")}</Tag>;
 }

@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Alert,
   Button,
@@ -62,17 +63,17 @@ type OwnershipFilters = {
 };
 
 const assetFilterFields: Array<{ key: AssetFilterKey; placeholder: string }> = [
-  { key: "criticality", placeholder: "关键性" },
-  { key: "environment_type", placeholder: "环境" },
-  { key: "exposure_type", placeholder: "暴露类型" },
-  { key: "platform", placeholder: "平台" },
-  { key: "os_family", placeholder: "系统族" }
+  { key: "criticality", placeholder: t("关键性") },
+  { key: "environment_type", placeholder: t("环境") },
+  { key: "exposure_type", placeholder: t("暴露类型") },
+  { key: "platform", placeholder: t("平台") },
+  { key: "os_family", placeholder: t("系统族") }
 ];
 
 const ownershipStatusOptions = [
-  { label: "归属完整", value: "complete" },
-  { label: "未分配", value: "unassigned" },
-  { label: "链路不完整", value: "system_incomplete" }
+  { label: t("归属完整"), value: "complete" },
+  { label: t("未分配"), value: "unassigned" },
+  { label: t("链路不完整"), value: "system_incomplete" }
 ];
 
 const DEFAULT_PAGE_SIZE = 10;
@@ -159,9 +160,9 @@ function relationshipOptions(
 }
 
 function OwnershipStatusTag({ status }: { status: AssetOwnershipStatus }) {
-  if (status === "complete") return <Tag color="green">归属完整</Tag>;
-  if (status === "system_incomplete") return <Tag color="gold">链路不完整</Tag>;
-  return <Tag>未分配</Tag>;
+  if (status === "complete") return <Tag color="green">{t("归属完整")}</Tag>;
+  if (status === "system_incomplete") return <Tag color="gold">{t("链路不完整")}</Tag>;
+  return <Tag>{t("未分配")}</Tag>;
 }
 
 export default function AssetListPage() {
@@ -290,7 +291,7 @@ export default function AssetListPage() {
         value === "__unassign__" ? null : value
       ),
     onSuccess: (result) => {
-      messageApi.success(`已更新 ${result.updated_count} 个资产的运营归属`);
+      messageApi.success(t("已更新 {{v0}} 个资产的运营归属", { v0: result.updated_count }));
       setBindingAssetIds([]);
       setSelectedAssetIds([]);
       bindingForm.resetFields();
@@ -313,7 +314,7 @@ export default function AssetListPage() {
 
   const columns: ColumnsType<AssetSummary> = [
     {
-      title: "资产",
+      title: t("资产"),
       key: "asset",
       minWidth: 250,
       render: (_, asset) => (
@@ -329,7 +330,7 @@ export default function AssetListPage() {
     },
     { title: "IP", dataIndex: "primary_ip", width: 145, render: displayValue },
     {
-      title: "主机系统",
+      title: t("主机系统"),
       key: "host_system",
       width: 190,
       render: (_, asset) => (
@@ -342,7 +343,7 @@ export default function AssetListPage() {
       )
     },
     {
-      title: "业务系统",
+      title: t("业务系统"),
       key: "business_system",
       width: 190,
       render: (_, asset) => asset.ownership.business_system ? (
@@ -352,22 +353,22 @@ export default function AssetListPage() {
         </Space>
       ) : "-"
     },
-    { title: "主责任人", key: "owner", width: 150, render: (_, asset) => asset.ownership.responsible_person?.name || "-" },
-    { title: "责任团队", key: "team", width: 170, render: (_, asset) => asset.ownership.responsibility_team?.name || "-" },
-    { title: "归属状态", key: "ownership_status", width: 115, render: (_, asset) => <OwnershipStatusTag status={asset.ownership.status} /> },
-    { title: "关键性", dataIndex: "criticality", width: 105, render: (value: string) => <CriticalityTag value={value} /> },
-    { title: "暴露类型", dataIndex: "exposure_type", width: 115, render: (value: string) => <ExposureTag value={value} /> },
-    { title: "最近上报", dataIndex: "last_seen_at", width: 180, render: formatDateTime },
+    { title: t("主责任人"), key: "owner", width: 150, render: (_, asset) => asset.ownership.responsible_person?.name || "-" },
+    { title: t("责任团队"), key: "team", width: 170, render: (_, asset) => asset.ownership.responsibility_team?.name || "-" },
+    { title: t("归属状态"), key: "ownership_status", width: 115, render: (_, asset) => <OwnershipStatusTag status={asset.ownership.status} /> },
+    { title: t("关键性"), dataIndex: "criticality", width: 105, render: (value: string) => <CriticalityTag value={value} /> },
+    { title: t("暴露类型"), dataIndex: "exposure_type", width: 115, render: (value: string) => <ExposureTag value={value} /> },
+    { title: t("最近上报"), dataIndex: "last_seen_at", width: 180, render: formatDateTime },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       fixed: "right",
       width: 165,
       render: (_, asset) => (
         <Space className="table-actions asset-row-actions" size={2}>
-          <Button type="link" icon={<Eye size={15} />} onClick={() => navigate(`/assets/${asset.id}`)}>详情</Button>
-          <Tooltip title={!isAdmin ? "需要超级管理员权限" : undefined}>
-            <Button type="link" disabled={!isAdmin} icon={<ArrowRightLeft size={15} />} onClick={() => openBinding([asset.id])}>归属</Button>
+          <Button type="link" icon={<Eye size={15} />} onClick={() => navigate(`/assets/${asset.id}`)}>{t("详情")}</Button>
+          <Tooltip title={!isAdmin ? t("需要超级管理员权限") : undefined}>
+            <Button type="link" disabled={!isAdmin} icon={<ArrowRightLeft size={15} />} onClick={() => openBinding([asset.id])}>{t("归属")}</Button>
           </Tooltip>
         </Space>
       )
@@ -378,46 +379,46 @@ export default function AssetListPage() {
     <Space className="page-stack" orientation="vertical" size={16}>
       {contextHolder}
       <PageHeader
-        title="资产管理"
-        subtitle="资产只绑定业务系统，专门责任人和责任团队由业务关系实时派生。"
+        title={t("资产管理")}
+        subtitle={t("资产只绑定业务系统，专门责任人和责任团队由业务关系实时派生。")}
         extra={
           <Space>
-            <Button icon={<RefreshCw size={16} />} loading={assetsQuery.isFetching} onClick={() => assetsQuery.refetch()}>刷新</Button>
+            <Button icon={<RefreshCw size={16} />} loading={assetsQuery.isFetching} onClick={() => assetsQuery.refetch()}>{t("刷新")}</Button>
             <Button
               type="primary"
               icon={<ArrowRightLeft size={16} />}
               disabled={!isAdmin || selectedAssetIds.length === 0}
               onClick={() => openBinding(selectedAssetIds)}
             >
-              批量设置归属{selectedAssetIds.length ? `（${selectedAssetIds.length}）` : ""}
+              {t("批量设置归属")}{selectedAssetIds.length ? `（${selectedAssetIds.length}）` : ""}
             </Button>
           </Space>
         }
       />
 
       <Row gutter={[16, 16]}>
-        <Col xs={24} lg={6}><Card className="metric-card"><Statistic title="资产总数" value={metrics.total} prefix={<Database size={24} />} /></Card></Col>
-        <Col xs={24} lg={6}><Card className="metric-card metric-card-red"><Statistic title="高关键资产" value={metrics.highCriticality} prefix={<ShieldAlert size={24} />} /></Card></Col>
-        <Col xs={24} lg={6}><Card className="metric-card metric-card-red"><Statistic title="公网暴露" value={metrics.publicExposure} prefix={<Globe2 size={24} />} /></Card></Col>
-        <Col xs={24} lg={6}><Card className="metric-card"><Statistic title="待完善归属" value={metrics.unassigned} prefix={<CircleHelp size={24} />} /></Card></Col>
+        <Col xs={24} lg={6}><Card className="metric-card"><Statistic title={t("资产总数")} value={metrics.total} prefix={<Database size={24} />} /></Card></Col>
+        <Col xs={24} lg={6}><Card className="metric-card metric-card-red"><Statistic title={t("高关键资产")} value={metrics.highCriticality} prefix={<ShieldAlert size={24} />} /></Card></Col>
+        <Col xs={24} lg={6}><Card className="metric-card metric-card-red"><Statistic title={t("公网暴露")} value={metrics.publicExposure} prefix={<Globe2 size={24} />} /></Card></Col>
+        <Col xs={24} lg={6}><Card className="metric-card"><Statistic title={t("待完善归属")} value={metrics.unassigned} prefix={<CircleHelp size={24} />} /></Card></Col>
       </Row>
 
-      <Card className="content-card asset-list-card" title="资产列表">
+      <Card className="content-card asset-list-card" title={t("资产列表")}>
         {assetsQuery.isError ? <ErrorState error={assetsQuery.error} /> : null}
         <div className="table-toolbar asset-toolbar">
-          <Input allowClear className="asset-search" prefix={<Search size={16} />} placeholder="搜索资产、业务系统、责任人或团队" value={searchText} onChange={(event) => setSearchText(event.target.value)} />
+          <Input allowClear className="asset-search" prefix={<Search size={16} />} placeholder={t("搜索资产、业务系统、责任人或团队")} value={searchText} onChange={(event) => setSearchText(event.target.value)} />
           <Space className="asset-filter-controls" size={[8, 8]} wrap>
-            <Select allowClear showSearch className="asset-filter-select" optionFilterProp="label" options={ownershipOptions.systems} placeholder="业务系统" value={ownershipFilters.businessSystemId} onChange={(value) => setOwnershipFilters((current) => ({ ...current, businessSystemId: value }))} />
-            <Select allowClear showSearch className="asset-filter-select" optionFilterProp="label" options={ownershipOptions.people} placeholder="责任人" value={ownershipFilters.personId} onChange={(value) => setOwnershipFilters((current) => ({ ...current, personId: value }))} />
-            <Select allowClear showSearch className="asset-filter-select" optionFilterProp="label" options={ownershipOptions.teams} placeholder="责任团队" value={ownershipFilters.teamId} onChange={(value) => setOwnershipFilters((current) => ({ ...current, teamId: value }))} />
-            <Select allowClear className="asset-filter-select" options={ownershipStatusOptions} placeholder="归属状态" value={ownershipFilters.status} onChange={(value) => setOwnershipFilters((current) => ({ ...current, status: value }))} />
+            <Select allowClear showSearch className="asset-filter-select" optionFilterProp="label" options={ownershipOptions.systems} placeholder={t("业务系统")} value={ownershipFilters.businessSystemId} onChange={(value) => setOwnershipFilters((current) => ({ ...current, businessSystemId: value }))} />
+            <Select allowClear showSearch className="asset-filter-select" optionFilterProp="label" options={ownershipOptions.people} placeholder={t("责任人")} value={ownershipFilters.personId} onChange={(value) => setOwnershipFilters((current) => ({ ...current, personId: value }))} />
+            <Select allowClear showSearch className="asset-filter-select" optionFilterProp="label" options={ownershipOptions.teams} placeholder={t("责任团队")} value={ownershipFilters.teamId} onChange={(value) => setOwnershipFilters((current) => ({ ...current, teamId: value }))} />
+            <Select allowClear className="asset-filter-select" options={ownershipStatusOptions} placeholder={t("归属状态")} value={ownershipFilters.status} onChange={(value) => setOwnershipFilters((current) => ({ ...current, status: value }))} />
             {assetFilterFields.map(({ key, placeholder }) => (
               <Select key={key} allowClear showSearch className="asset-filter-select" optionFilterProp="label" options={filterOptions[key]} placeholder={placeholder} value={filters[key]} onChange={(value) => setFilters((current) => ({ ...current, [key]: value }))} />
             ))}
-            <Button icon={<X size={15} />} disabled={!hasActiveFilters} onClick={resetFilters}>重置</Button>
+            <Button icon={<X size={15} />} disabled={!hasActiveFilters} onClick={resetFilters}>{t("重置")}</Button>
           </Space>
           <Typography.Text type="secondary">
-            {hasActiveFilters ? `匹配 ${total} 条` : `共 ${total} 条`}
+            {hasActiveFilters ? t("匹配 {{v0}} 条", { v0: total }) : t("共 {{v0}} 条", { v0: total })}
           </Typography.Text>
         </div>
         <ResizableTable<AssetSummary>
@@ -429,7 +430,7 @@ export default function AssetListPage() {
           dataSource={assets}
           loading={assetsQuery.isFetching}
           pagination={false}
-          locale={{ emptyText: <EmptyState title={hasActiveFilters ? "没有匹配的资产" : "暂无资产"} /> }}
+          locale={{ emptyText: <EmptyState title={hasActiveFilters ? t("没有匹配的资产") : t("暂无资产")} /> }}
           scroll={{ x: 1780 }}
         />
         <Space style={{ display: "flex", justifyContent: "flex-end", marginTop: 16 }}>
@@ -438,7 +439,7 @@ export default function AssetListPage() {
             pageSize={pageSize}
             total={total}
             showSizeChanger
-            showTotal={(value) => `共 ${value} 条`}
+            showTotal={(value) => t("共 {{v0}} 条", { v0: value })}
             onChange={(nextPage, nextPageSize) => {
               if (nextPageSize !== pageSize) {
                 setPageSize(nextPageSize);
@@ -452,25 +453,25 @@ export default function AssetListPage() {
       </Card>
 
       <Modal
-        title={`设置运营归属 · ${bindingAssetIds.length} 个资产`}
+        title={t("设置运营归属 · {{v0}} 个资产", { v0: bindingAssetIds.length })}
         open={bindingAssetIds.length > 0}
-        okText="确认更新"
+        okText={t("确认更新")}
         confirmLoading={bindingMutation.isPending}
         onCancel={() => setBindingAssetIds([])}
         onOk={() => bindingForm.submit()}
       >
-        <Alert showIcon type="info" message="只需选择业务系统" description="责任人和团队会从所选系统自动带出；选择解除归属后，资产将进入待分配状态。" />
+        <Alert showIcon type="info" message={t("只需选择业务系统")} description={t("责任人和团队会从所选系统自动带出；选择解除归属后，资产将进入待分配状态。")} />
         <Form form={bindingForm} layout="vertical" className="ownership-binding-form" onFinish={({ business_system_id }) => bindingMutation.mutate(business_system_id)}>
-          <Form.Item label="业务系统" name="business_system_id" rules={[{ required: true, message: "请选择业务系统或解除归属" }]}>
+          <Form.Item label={t("业务系统")} name="business_system_id" rules={[{ required: true, message: t("请选择业务系统或解除归属") }]}>
             <Select
               showSearch
               optionFilterProp="label"
               loading={systemsQuery.isLoading}
               options={[
-                { value: "__unassign__", label: "解除归属（进入待分配）" },
+                { value: "__unassign__", label: t("解除归属（进入待分配）") },
                 ...(systemsQuery.data?.items ?? []).map((system) => ({ value: system.id, label: `${system.name} · ${system.code}` }))
               ]}
-              placeholder="选择启用业务系统"
+              placeholder={t("选择启用业务系统")}
             />
           </Form.Item>
           {selectedSystem?.responsible_person ? (
@@ -478,10 +479,10 @@ export default function AssetListPage() {
               showIcon
               type="success"
               message={`${selectedSystem.responsible_person.name} · ${selectedSystem.responsible_person.team.name}`}
-              description={selectedSystem.responsible_person.email || "责任人未设置邮箱"}
+              description={selectedSystem.responsible_person.email || t("责任人未设置邮箱")}
             />
           ) : bindingSystemId === "__unassign__" ? (
-            <Alert showIcon type="warning" message="确认后将解除所选资产的结构化运营归属" />
+            <Alert showIcon type="warning" message={t("确认后将解除所选资产的结构化运营归属")} />
           ) : null}
         </Form>
       </Modal>

@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Alert,
   Button,
@@ -9,6 +10,7 @@ import {
   Input,
   message,
   Progress,
+  Popconfirm,
   Row,
   Select,
   Space,
@@ -25,6 +27,7 @@ import {
   CircleHelp,
   ClipboardCheck,
   FileClock,
+  Mail,
   RefreshCw,
   RotateCcw,
   Send
@@ -36,6 +39,7 @@ import {
   createVerificationTask,
   getMatchResult,
   reopenMatchResultHandling,
+  sendMatchResultEmailAlert,
   updateMatchResultHandling,
   reevaluateMatchResult
 } from "@/api/matchResults";
@@ -79,9 +83,9 @@ const defaultVerificationValues: VerificationFormValues = {
 };
 
 const verificationTargetOptions: { label: string; value: VerificationTargetType }[] = [
-  { label: "普通软件包", value: "package" },
-  { label: "Linux 内核", value: "kernel" },
-  { label: "操作系统", value: "operating_system" }
+  { label: t("普通软件包"), value: "package" },
+  { label: t("Linux 内核"), value: "kernel" },
+  { label: t("操作系统"), value: "operating_system" }
 ];
 
 const fixedVerificationTargetMeta: Record<
@@ -89,33 +93,33 @@ const fixedVerificationTargetMeta: Record<
   { displayName: string; submitName: string }
 > = {
   kernel: {
-    displayName: "当前主机 Linux 内核版本（此项为固定对象，无法编辑）",
+    displayName: t("当前主机 Linux 内核版本（此项为固定对象，无法编辑）"),
     submitName: "Linux Kernel"
   },
   operating_system: {
-    displayName: "当前主机操作系统版本（此项为固定对象，无法编辑）",
+    displayName: t("当前主机操作系统版本（此项为固定对象，无法编辑）"),
     submitName: "Operating System"
   }
 };
 
 const verificationTaskHelpText =
-  "普通软件包会在 Agent 包清单中查找；Linux 内核和操作系统会读取主机平台版本事实。";
+  t("普通软件包会在 Agent 包清单中查找；Linux 内核和操作系统会读取主机平台版本事实。");
 const tracePaginationHelpText =
-  "当漏洞存在多个影响产品时，将分别执行多次匹配流程，每组流程均将产生一组结果";
+  t("当漏洞存在多个影响产品时，将分别执行多次匹配流程，每组流程均将产生一组结果");
 
 const ownershipStatusMeta: Record<
   AssetOwnershipStatus,
   { label: string; color: string }
 > = {
-  complete: { label: "归属完整", color: "green" },
-  unassigned: { label: "未绑定", color: "default" },
-  system_incomplete: { label: "关系不完整", color: "orange" }
+  complete: { label: t("归属完整"), color: "green" },
+  unassigned: { label: t("未绑定"), color: "default" },
+  system_incomplete: { label: t("关系不完整"), color: "orange" }
 };
 
 const ownershipSourceLabels: Record<string, string> = {
-  manual: "人工绑定",
-  migration: "历史迁移",
-  agent_match: "Agent 自动匹配"
+  manual: t("人工绑定"),
+  migration: t("历史迁移"),
+  agent_match: t("Agent 自动匹配")
 };
 
 function buildPackageVerificationDefaults(
@@ -213,42 +217,42 @@ function traceStatusColor(status: string) {
 }
 
 const traceRuleLabels: Record<string, string> = {
-  product_rule: "产品匹配",
-  version_rule: "版本匹配",
-  os_rule: "操作系统匹配",
-  feature_rule: "特性条件匹配",
-  exposure_rule: "暴露面匹配"
+  product_rule: t("产品匹配"),
+  version_rule: t("版本匹配"),
+  os_rule: t("操作系统匹配"),
+  feature_rule: t("特性条件匹配"),
+  exposure_rule: t("暴露面匹配")
 };
 
 const traceStatusLabels: Record<string, string> = {
-  affected: "受影响",
-  not_affected: "不受影响",
-  needs_review: "待复核",
-  not_applicable: "不适用"
+  affected: t("受影响"),
+  not_affected: t("不受影响"),
+  needs_review: t("待复核"),
+  not_applicable: t("不适用")
 };
 
 const traceContextLabels: Record<string, string> = {
-  vendor: "厂商",
-  product: "产品",
-  aliases: "产品别名",
-  affected_versions: "受影响版本",
-  fixed_versions: "修复版本",
-  affected_os: "适用系统",
-  requires_module: "依赖模块",
-  requires_feature_flag: "功能条件",
-  requires_public_access: "需要公网访问",
-  source_url: "范围来源",
-  observed_components: "已发现组件",
-  observed_services: "已发现服务",
-  observed_versions: "资产版本",
-  component_count: "组件数量",
-  exposure_count: "暴露项数量",
-  platform: "平台",
-  os_family: "操作系统",
-  os_version: "系统版本",
-  kernel_version: "内核版本",
-  public_exposure_count: "公网暴露项",
-  matching_public_exposure_count: "产品相关暴露项"
+  vendor: t("厂商"),
+  product: t("产品"),
+  aliases: t("产品别名"),
+  affected_versions: t("受影响版本"),
+  fixed_versions: t("修复版本"),
+  affected_os: t("适用系统"),
+  requires_module: t("依赖模块"),
+  requires_feature_flag: t("功能条件"),
+  requires_public_access: t("需要公网访问"),
+  source_url: t("范围来源"),
+  observed_components: t("已发现组件"),
+  observed_services: t("已发现服务"),
+  observed_versions: t("资产版本"),
+  component_count: t("组件数量"),
+  exposure_count: t("暴露项数量"),
+  platform: t("平台"),
+  os_family: t("操作系统"),
+  os_version: t("系统版本"),
+  kernel_version: t("内核版本"),
+  public_exposure_count: t("公网暴露项"),
+  matching_public_exposure_count: t("产品相关暴露项")
 };
 
 const riskScopeFieldOrder = [
@@ -309,9 +313,9 @@ function TraceContextValue({ field, value }: { field: string; value: unknown }) 
             item && typeof item === "object" ? (item as Record<string, unknown>) : {};
           return (
             <div className="trace-version-item" key={`${String(versionItem.name)}-${index}`}>
-              <Typography.Text strong>{String(versionItem.name || "未知组件")}</Typography.Text>
+              <Typography.Text strong>{String(versionItem.name || t("未知组件"))}</Typography.Text>
               <Typography.Text code>
-                {String(versionItem.version || "未提供版本")}
+                {String(versionItem.version || t("未提供版本"))}
               </Typography.Text>
             </div>
           );
@@ -331,14 +335,13 @@ function TraceContextValue({ field, value }: { field: string; value: unknown }) 
   }
 
   if (typeof value === "boolean") {
-    return <Typography.Text>{value ? "是" : "否"}</Typography.Text>;
+    return <Typography.Text>{value ? t("是") : t("否")}</Typography.Text>;
   }
 
   if (field === "source_url" && typeof value === "string") {
     return (
       <Typography.Link href={value} target="_blank" rel="noreferrer">
-        查看来源
-      </Typography.Link>
+        {t("查看来源")}</Typography.Link>
     );
   }
 
@@ -388,23 +391,23 @@ function TraceExpandedDetail({ record }: { record: MatchRuleTrace }) {
   return (
     <div className="trace-expanded-detail">
       <div className="trace-expanded-section">
-        <Typography.Text className="trace-expanded-title">风险范围</Typography.Text>
+        <Typography.Text className="trace-expanded-title">{t("风险范围")}</Typography.Text>
         <TraceContextCell
           context={record.risk_scope ?? {}}
-          emptyText="未提供适用范围"
+          emptyText={t("未提供适用范围")}
           fieldOrder={riskScopeFieldOrder}
         />
       </div>
       <div className="trace-expanded-section">
-        <Typography.Text className="trace-expanded-title">资产情况</Typography.Text>
+        <Typography.Text className="trace-expanded-title">{t("资产情况")}</Typography.Text>
         <TraceContextCell
           context={record.asset_context ?? {}}
-          emptyText="未发现对应资产数据"
+          emptyText={t("未发现对应资产数据")}
           fieldOrder={assetContextFieldOrder}
         />
       </div>
       <div className="trace-expanded-section trace-expanded-json">
-        <Typography.Text className="trace-expanded-title">输入摘要</Typography.Text>
+        <Typography.Text className="trace-expanded-title">{t("输入摘要")}</Typography.Text>
         <pre className="json-block">
           {JSON.stringify(record.input_summary ?? {}, null, 2)}
         </pre>
@@ -452,13 +455,13 @@ export default function MatchResultDetailPage() {
     [detail?.vulnerability_product]
   );
   const verificationNameLabel =
-    selectedVerificationTarget === "package" ? "待验证包名称" : "待验证对象名称";
+    selectedVerificationTarget === "package" ? t("待验证包名称") : t("待验证对象名称");
   const verificationNamePlaceholder =
     selectedVerificationTarget === "kernel"
       ? fixedVerificationTargetMeta.kernel.displayName
       : selectedVerificationTarget === "operating_system"
         ? fixedVerificationTargetMeta.operating_system.displayName
-        : "例如 nginx、openssl、linux-image-generic";
+        : t("例如 nginx、openssl、linux-image-generic");
   const isFixedVerificationTarget = selectedVerificationTarget !== "package";
 
   useEffect(() => {
@@ -474,12 +477,12 @@ export default function MatchResultDetailPage() {
   const createTaskMutation = useMutation({
     mutationFn: (values: VerificationFormValues) => {
       if (!matchResultId) {
-        throw new Error("缺少匹配结果 ID");
+        throw new Error(t("缺少匹配结果 ID"));
       }
 
       const packageName = packageNameForSubmission(values);
       if (!packageName) {
-        throw new Error("请输入待验证包名称");
+        throw new Error(t("请输入待验证包名称"));
       }
 
       const parameters: Record<string, string> = {
@@ -497,7 +500,7 @@ export default function MatchResultDetailPage() {
     },
     onSuccess: (task) => {
       setLastTask(task);
-      messageApi.success("验证任务已创建");
+      messageApi.success(t("验证任务已创建"));
       form.setFieldsValue({
         task_type: defaultVerificationValues.task_type,
         ...defaultVerificationTarget,
@@ -507,23 +510,23 @@ export default function MatchResultDetailPage() {
       void queryClient.invalidateQueries({ queryKey: ["verification-tasks"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "验证任务创建失败");
+      messageApi.error(error instanceof Error ? error.message : t("验证任务创建失败"));
     }
   });
 
   const reevaluateMutation = useMutation({
     mutationFn: () => {
       if (!matchResultId) {
-        throw new Error("缺少匹配结果 ID");
+        throw new Error(t("缺少匹配结果 ID"));
       }
       return reevaluateMatchResult(matchResultId);
     },
     onSuccess: () => {
-      messageApi.success("匹配结果已重评估");
+      messageApi.success(t("匹配结果已重评估"));
       void queryClient.invalidateQueries({ queryKey: ["match-results"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "重评估失败");
+      messageApi.error(error instanceof Error ? error.message : t("重评估失败"));
     }
   });
 
@@ -537,36 +540,56 @@ export default function MatchResultDetailPage() {
   const updateHandlingMutation = useMutation({
     mutationFn: (values: MatchResultHandlingUpdate) => {
       if (!matchResultId) {
-        throw new Error("缺少匹配结果 ID");
+        throw new Error(t("缺少匹配结果 ID"));
       }
       return updateMatchResultHandling(matchResultId, values);
     },
     onSuccess: () => {
-      messageApi.success("处置状态已更新");
+      messageApi.success(t("处置状态已更新"));
       setHandlingModalOpen(false);
       void queryClient.invalidateQueries({ queryKey: ["match-results"] });
       void queryClient.invalidateQueries({ queryKey: ["task-center"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "处置状态更新失败");
+      messageApi.error(error instanceof Error ? error.message : t("处置状态更新失败"));
     }
   });
 
   const reopenHandlingMutation = useMutation({
     mutationFn: (note?: string | null) => {
       if (!matchResultId) {
-        throw new Error("缺少匹配结果 ID");
+        throw new Error(t("缺少匹配结果 ID"));
       }
       return reopenMatchResultHandling(matchResultId, { note });
     },
     onSuccess: () => {
-      messageApi.success("风险项已重新打开");
+      messageApi.success(t("风险项已重新打开"));
       setHandlingModalOpen(false);
       void queryClient.invalidateQueries({ queryKey: ["match-results"] });
       void queryClient.invalidateQueries({ queryKey: ["task-center"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "重新打开失败");
+      messageApi.error(error instanceof Error ? error.message : t("重新打开失败"));
+    }
+  });
+
+  const emailAlertMutation = useMutation({
+    mutationFn: () => {
+      if (!matchResultId) {
+        throw new Error(t("缺少匹配结果 ID"));
+      }
+      return sendMatchResultEmailAlert(matchResultId);
+    },
+    onSuccess: (result) => {
+      if (result.status === "skipped") {
+        messageApi.warning(result.message);
+      } else {
+        messageApi.success(result.message);
+      }
+      void queryClient.invalidateQueries({ queryKey: ["email-deliveries"] });
+    },
+    onError: (error) => {
+      messageApi.error(error instanceof Error ? error.message : t("邮件告警发起失败"));
     }
   });
 
@@ -584,21 +607,21 @@ export default function MatchResultDetailPage() {
 
   const riskFactorColumns: ColumnsType<RiskFactor> = useMemo(
     () => [
-      { title: "因子", dataIndex: "label", width: 140 },
+      { title: t("因子"), dataIndex: "label", width: 140 },
       {
-        title: "取值",
+        title: t("取值"),
         dataIndex: "value",
         width: 120,
         render: (value: number) => formatScore(value)
       },
       {
-        title: "权重",
+        title: t("权重"),
         dataIndex: "weight",
         width: 120,
         render: (value: number) => formatPercent(value)
       },
       {
-        title: "加权分",
+        title: t("加权分"),
         dataIndex: "weighted_score",
         width: 140,
         render: (value: number) => (
@@ -613,7 +636,7 @@ export default function MatchResultDetailPage() {
         )
       },
       {
-        title: "证据",
+        title: t("证据"),
         dataIndex: "evidence",
         render: (value: string[]) =>
           value.length ? (
@@ -629,7 +652,7 @@ export default function MatchResultDetailPage() {
   const traceColumns: ColumnsType<MatchRuleTrace> = useMemo(
     () => [
       {
-        title: "规则",
+        title: t("规则"),
         dataIndex: "rule_name",
         width: 190,
         render: (value: string, record) => (
@@ -642,29 +665,29 @@ export default function MatchResultDetailPage() {
         )
       },
       {
-        title: "输出",
+        title: t("输出"),
         dataIndex: "status",
         width: 150,
         render: (value: string, record) => (
           <Space size={4} wrap>
             <Tag color={traceStatusColor(value)}>{traceStatusLabels[value] || value}</Tag>
-            {!record.executed ? <Tag>跳过</Tag> : null}
+            {!record.executed ? <Tag>{t("跳过")}</Tag> : null}
           </Space>
         )
       },
       {
-        title: "置信度",
+        title: t("置信度"),
         dataIndex: "confidence",
         width: 130,
         render: (value: number) => <ConfidenceBar value={value} />
       },
       {
-        title: "证据数",
+        title: t("证据数"),
         dataIndex: "evidence_count",
         width: 86
       },
       {
-        title: "原因",
+        title: t("原因"),
         dataIndex: "reason",
         render: (value: string, record) => (
           <Space className="trace-reason-cell" orientation="vertical" size={2}>
@@ -684,7 +707,7 @@ export default function MatchResultDetailPage() {
   const verificationTaskColumns: ColumnsType<VerificationTaskSummary> = useMemo(
     () => [
       {
-        title: "任务",
+        title: t("任务"),
         dataIndex: "id",
         minWidth: 260,
         render: (_: string, record) => (
@@ -699,30 +722,30 @@ export default function MatchResultDetailPage() {
         )
       },
       {
-        title: "状态",
+        title: t("状态"),
         dataIndex: "status",
         width: 120,
         render: (value: string) => <VerificationTaskStatusTag value={value} />
       },
       {
-        title: "证据",
+        title: t("证据"),
         dataIndex: "evidence_count",
         width: 80
       },
       {
-        title: "创建时间",
+        title: t("创建时间"),
         dataIndex: "created_at",
         width: 190,
         render: (value: string) => formatDateTime(value)
       },
       {
-        title: "完成时间",
+        title: t("完成时间"),
         dataIndex: "completed_at",
         width: 190,
         render: (value: string | null) => formatDateTime(value)
       },
       {
-        title: "操作",
+        title: t("操作"),
         key: "actions",
         width: 100,
         render: (_, record) => (
@@ -731,8 +754,7 @@ export default function MatchResultDetailPage() {
             type="link"
             onClick={() => navigate(`/verification-tasks/${record.id}`)}
           >
-            查看
-          </Button>
+            {t("查看")}</Button>
         )
       }
     ],
@@ -742,19 +764,19 @@ export default function MatchResultDetailPage() {
   const handlingRecordColumns: ColumnsType<MatchResultHandlingRecord> = useMemo(
     () => [
       {
-        title: "时间",
+        title: t("时间"),
         dataIndex: "created_at",
         width: 190,
         render: (value: string) => formatDateTime(value)
       },
       {
-        title: "动作",
+        title: t("动作"),
         dataIndex: "action",
         width: 120,
-        render: (value: string) => (value === "reopened" ? "重新打开" : "状态变更")
+        render: (value: string) => (value === "reopened" ? t("重新打开") : t("状态变更"))
       },
       {
-        title: "状态变化",
+        title: t("状态变化"),
         key: "status",
         width: 240,
         render: (_, record) => (
@@ -762,20 +784,20 @@ export default function MatchResultDetailPage() {
             {record.from_status ? (
               <HandlingStatusTag value={record.from_status} />
             ) : (
-              <Tag>起始</Tag>
+              <Tag>{t("起始")}</Tag>
             )}
-            <Typography.Text type="secondary">到</Typography.Text>
+            <Typography.Text type="secondary">{t("到")}</Typography.Text>
             <HandlingStatusTag value={record.to_status} />
           </Space>
         )
       },
       {
-        title: "说明",
+        title: t("说明"),
         dataIndex: "note",
         render: (value: string | null) => value || "-"
       },
       {
-        title: "操作者",
+        title: t("操作者"),
         key: "actor",
         width: 180,
         render: (_, record) =>
@@ -791,12 +813,11 @@ export default function MatchResultDetailPage() {
     <Space className="page-stack" orientation="vertical" size={16}>
       {contextHolder}
       <PageHeader
-        title="匹配详情"
+        title={t("匹配详情")}
         extra={
           <Space>
             <Button icon={<ArrowLeft size={16} />} onClick={() => navigate(-1)}>
-              返回
-            </Button>
+              {t("返回")}</Button>
             <Button
               icon={<FileClock size={16} />}
               onClick={() =>
@@ -808,31 +829,38 @@ export default function MatchResultDetailPage() {
               }
               disabled={!matchResultId}
             >
-              相关审计
-            </Button>
+              {t("相关审计")}</Button>
             <Button
               icon={<RefreshCw size={16} />}
               onClick={() => detailQuery.refetch()}
               loading={detailQuery.isFetching}
             >
-              刷新
-            </Button>
+              {t("刷新")}</Button>
             <Button
               icon={<RotateCcw size={16} />}
               onClick={() => reevaluateMutation.mutate()}
               loading={reevaluateMutation.isPending}
               disabled={!matchResultId}
             >
-              重评估
-            </Button>
+              {t("重评估")}</Button>
+            <Popconfirm
+              title={t("确认发送风险邮件告警？")}
+              description={t("手动发送受风险阈值和邮件总开关限制，允许重复发送。")}
+              okText={t("确认发送")}
+              cancelText={t("取消")}
+              onConfirm={() => emailAlertMutation.mutate()}
+            >
+              <Button icon={<Mail size={16} />} loading={emailAlertMutation.isPending} disabled={!matchResultId}>
+                {t("邮件告警")}
+              </Button>
+            </Popconfirm>
             <Button
               type="primary"
               icon={<ClipboardCheck size={16} />}
               onClick={() => setHandlingModalOpen(true)}
               disabled={!detail}
             >
-              处置
-            </Button>
+              {t("处置")}</Button>
           </Space>
         }
       />
@@ -846,7 +874,7 @@ export default function MatchResultDetailPage() {
             <Col xs={24} lg={6}>
               <Card className="metric-card metric-card-red">
                 <Statistic
-                  title="风险分"
+                  title={t("风险分")}
                   value={formatScore(detail.risk_score)}
                   prefix={<RiskPriorityTag value={detail.risk_priority} />}
                 />
@@ -855,7 +883,7 @@ export default function MatchResultDetailPage() {
             <Col xs={24} lg={6}>
               <Card className="metric-card">
                 <Statistic
-                  title="当前状态"
+                  title={t("当前状态")}
                   valueRender={() => <StatusTag value={detail.status} />}
                 />
               </Card>
@@ -863,19 +891,19 @@ export default function MatchResultDetailPage() {
             <Col xs={24} lg={6}>
               <Card className="metric-card">
                 <Statistic
-                  title="匹配置信度"
+                  title={t("匹配置信度")}
                   valueRender={() => <ConfidenceBar value={detail.confidence} />}
                 />
               </Card>
             </Col>
             <Col xs={24} lg={6}>
               <Card className="metric-card metric-card-green">
-                <Statistic title="验证证据" value={detail.verification_evidence.length} />
+                <Statistic title={t("验证证据")} value={detail.verification_evidence.length} />
               </Card>
             </Col>
           </Row>
 
-          <Card className="content-card" title="上下文">
+          <Card className="content-card" title={t("上下文")}>
             <Descriptions
               bordered
               size="small"
@@ -883,7 +911,7 @@ export default function MatchResultDetailPage() {
               items={[
                 {
                   key: "riskCode",
-                  label: "风险编号",
+                  label: t("风险编号"),
                   children: detail.risk_code ? (
                     <Typography.Text
                       className="risk-business-code"
@@ -893,13 +921,12 @@ export default function MatchResultDetailPage() {
                     </Typography.Text>
                   ) : (
                     <Typography.Text type="secondary">
-                      未进入风险队列，不生成风险编号
-                    </Typography.Text>
+                      {t("未进入风险队列，不生成风险编号")}</Typography.Text>
                   )
                 },
                 {
                   key: "vulnerability",
-                  label: "漏洞",
+                  label: t("漏洞"),
                   children: (
                     <Space orientation="vertical" size={0}>
                       <Typography.Link
@@ -922,7 +949,7 @@ export default function MatchResultDetailPage() {
                 },
                 {
                   key: "asset",
-                  label: "资产",
+                  label: t("资产"),
                   children: (
                     <Space orientation="vertical" size={0}>
                       <Typography.Link
@@ -940,27 +967,27 @@ export default function MatchResultDetailPage() {
                 },
                 {
                   key: "rule",
-                  label: "规则版本",
+                  label: t("规则版本"),
                   children: detail.rule_version
                 },
                 {
                   key: "riskModel",
-                  label: "风险模型",
+                  label: t("风险模型"),
                   children: detail.risk_model_version
                 },
                 {
                   key: "evaluated",
-                  label: "最近评估",
+                  label: t("最近评估"),
                   children: formatDateTime(detail.last_evaluated_at)
                 },
                 {
                   key: "matchId",
-                  label: "内部匹配 ID",
+                  label: t("内部匹配 ID"),
                   children: detail.id
                 },
                 {
                   key: "assetId",
-                  label: "资产 ID",
+                  label: t("资产 ID"),
                   children: detail.asset_id
                 },
                 {
@@ -980,14 +1007,14 @@ export default function MatchResultDetailPage() {
                 },
                 {
                   key: "snapshot",
-                  label: "资产新鲜度",
-                  children: detail.asset_is_stale ? "快照过期" : "快照新鲜"
+                  label: t("资产新鲜度"),
+                  children: detail.asset_is_stale ? t("快照过期") : t("快照新鲜")
                 }
               ]}
             />
           </Card>
 
-          <Card className="content-card" title="风险解释">
+          <Card className="content-card" title={t("风险解释")}>
             <Space orientation="vertical" size={12}>
               <Typography.Paragraph className="explanation-text">
                 {detail.risk_explanation ?? "-"}
@@ -1000,7 +1027,7 @@ export default function MatchResultDetailPage() {
 
           <Card
             className="content-card"
-            title="责任归属"
+            title={t("责任归属")}
             extra={
               <Space size={8}>
                 <Tag color={ownershipStatusMeta[detail.ownership.status].color}>
@@ -1012,8 +1039,7 @@ export default function MatchResultDetailPage() {
                     navigate(`/assets/${encodeURIComponent(detail.asset_id)}`)
                   }
                 >
-                  查看资产
-                </Button>
+                  {t("查看资产")}</Button>
               </Space>
             }
           >
@@ -1024,13 +1050,13 @@ export default function MatchResultDetailPage() {
                 showIcon
                 title={
                   detail.ownership.status === "unassigned"
-                    ? "该风险关联资产尚未绑定业务系统"
-                    : "该风险关联资产的责任关系不完整"
+                    ? t("该风险关联资产尚未绑定业务系统")
+                    : t("该风险关联资产的责任关系不完整")
                 }
                 description={
                   detail.ownership.status === "unassigned"
-                    ? "请先在资产列表中绑定业务系统，系统会自动带出责任人员和责任团队。"
-                    : "业务系统、责任人员或责任团队存在缺失、停用状态，请到归属管理页面完善。"
+                    ? t("请先在资产列表中绑定业务系统，系统会自动带出责任人员和责任团队。")
+                    : t("业务系统、责任人员或责任团队存在缺失、停用状态，请到归属管理页面完善。")
                 }
               />
             ) : null}
@@ -1041,7 +1067,7 @@ export default function MatchResultDetailPage() {
               items={[
                 {
                   key: "businessSystem",
-                  label: "业务系统",
+                  label: t("业务系统"),
                   children: detail.ownership.business_system ? (
                     <Space orientation="vertical" size={0}>
                       <Typography.Text strong>
@@ -1057,7 +1083,7 @@ export default function MatchResultDetailPage() {
                 },
                 {
                   key: "responsiblePerson",
-                  label: "责任人员",
+                  label: t("责任人员"),
                   children: detail.ownership.responsible_person ? (
                     <Space orientation="vertical" size={0}>
                       <Typography.Text strong>
@@ -1077,7 +1103,7 @@ export default function MatchResultDetailPage() {
                 },
                 {
                   key: "responsibilityTeam",
-                  label: "责任团队",
+                  label: t("责任团队"),
                   children: detail.ownership.responsibility_team ? (
                     <Space orientation="vertical" size={0}>
                       <Typography.Text strong>
@@ -1093,7 +1119,7 @@ export default function MatchResultDetailPage() {
                 },
                 {
                   key: "ownershipStatus",
-                  label: "归属状态",
+                  label: t("归属状态"),
                   children: (
                     <Tag color={ownershipStatusMeta[detail.ownership.status].color}>
                       {ownershipStatusMeta[detail.ownership.status].label}
@@ -1102,14 +1128,14 @@ export default function MatchResultDetailPage() {
                 },
                 {
                   key: "ownershipSource",
-                  label: "绑定来源",
+                  label: t("绑定来源"),
                   children: detail.ownership.source
                     ? ownershipSourceLabels[detail.ownership.source] ?? detail.ownership.source
                     : "-"
                 },
                 {
                   key: "ownershipUpdatedAt",
-                  label: "归属更新时间",
+                  label: t("归属更新时间"),
                   children: formatDateTime(detail.ownership.updated_at)
                 }
               ]}
@@ -1118,15 +1144,14 @@ export default function MatchResultDetailPage() {
 
           <Card
             className="content-card"
-            title="人工处置"
+            title={t("人工处置")}
             extra={
               <Button
                 type="primary"
                 icon={<ClipboardCheck size={16} />}
                 onClick={() => setHandlingModalOpen(true)}
               >
-                处置
-              </Button>
+                {t("处置")}</Button>
             }
           >
             <Descriptions
@@ -1136,22 +1161,22 @@ export default function MatchResultDetailPage() {
               items={[
                 {
                   key: "handlingStatus",
-                  label: "当前处置状态",
+                  label: t("当前处置状态"),
                   children: <HandlingStatusTag value={detail.handling_status} />
                 },
                 {
                   key: "handlingClosedAt",
-                  label: "闭环时间",
+                  label: t("闭环时间"),
                   children: formatDateTime(detail.handling_closed_at)
                 },
                 {
                   key: "handlingUpdatedAt",
-                  label: "最近处置时间",
+                  label: t("最近处置时间"),
                   children: formatDateTime(detail.handling_updated_at)
                 },
                 {
                   key: "handlingActor",
-                  label: "最近操作者",
+                  label: t("最近操作者"),
                   children:
                     latestHandlingRecord?.actor_display_name ||
                     latestHandlingRecord?.actor_username ||
@@ -1160,7 +1185,7 @@ export default function MatchResultDetailPage() {
                 },
                 {
                   key: "handlingNote",
-                  label: "最近说明",
+                  label: t("最近说明"),
                   span: { xs: 1, md: 2 },
                   children: detail.handling_note || "-"
                 }
@@ -1173,23 +1198,22 @@ export default function MatchResultDetailPage() {
               columns={handlingRecordColumns}
               dataSource={detail.handling_records}
               pagination={false}
-              locale={{ emptyText: "暂无处置历史" }}
+              locale={{ emptyText: t("暂无处置历史") }}
               scroll={{ x: 920 }}
-              title={() => `处置历史：${handlingStatusLabel(detail.handling_status)}`}
+              title={() => t("处置历史：{{v0}}", { v0: handlingStatusLabel(detail.handling_status) })}
             />
           </Card>
 
           <Card
             className="content-card"
-            title="风险因子"
+            title={t("风险因子")}
             extra={
               <Button
                 type="link"
                 icon={<BookOpen size={15} />}
                 onClick={() => navigate("/rules#risk-factors")}
               >
-                规则说明
-              </Button>
+                {t("规则说明")}</Button>
             }
           >
             <ResizableTable<RiskFactor>
@@ -1206,19 +1230,17 @@ export default function MatchResultDetailPage() {
             className="content-card"
             title={
               <Space className="section-card-title" size={8} wrap>
-                <Typography.Text strong>规则匹配过程</Typography.Text>
+                <Typography.Text strong>{t("规则匹配过程")}</Typography.Text>
                 <Typography.Text type="secondary">
-                  看规则引擎如何逐步执行、跳过和输出结论
-                </Typography.Text>
+                  {t("看规则引擎如何逐步执行、跳过和输出结论")}</Typography.Text>
                 <Tooltip title={tracePaginationHelpText} placement="right">
                   <span
                     className="inline-help-trigger"
                     tabIndex={0}
-                    aria-label="规则匹配过程分页说明"
+                    aria-label={t("规则匹配过程分页说明")}
                   >
                     <Typography.Text className="inline-hint-text">
-                      按匹配组别分页
-                    </Typography.Text>
+                      {t("按匹配组别分页")}</Typography.Text>
                   </span>
                 </Tooltip>
               </Space>
@@ -1229,8 +1251,7 @@ export default function MatchResultDetailPage() {
                 icon={<BookOpen size={15} />}
                 onClick={() => navigate("/rules#trace")}
               >
-                规则说明
-              </Button>
+                {t("规则说明")}</Button>
             }
           >
             <ResizableTable<MatchRuleTrace>
@@ -1259,14 +1280,14 @@ export default function MatchResultDetailPage() {
                   key: "matching-evidence",
                   label: (
                     <SectionCardTitle
-                      title="匹配事实依据"
-                      subtitle="看规则用到了哪些资产、漏洞和暴露面事实"
+                      title={t("匹配事实依据")}
+                      subtitle={t("看规则用到了哪些资产、漏洞和暴露面事实")}
                     />
                   ),
                   children: (
                     <EvidenceList
                       items={detail.evidence}
-                      emptyText="暂无匹配证据"
+                      emptyText={t("暂无匹配证据")}
                       mode="matching"
                     />
                   )
@@ -1281,12 +1302,12 @@ export default function MatchResultDetailPage() {
             }`}
             title={
               <Space size={8}>
-                <Typography.Text strong>验证任务</Typography.Text>
+                <Typography.Text strong>{t("验证任务")}</Typography.Text>
                 <Tooltip title={verificationTaskHelpText} placement="right">
                   <span
                     className="inline-help-trigger"
                     tabIndex={0}
-                    aria-label="验证任务说明"
+                    aria-label={t("验证任务说明")}
                   >
                     <CircleHelp
                       size={15}
@@ -1311,9 +1332,9 @@ export default function MatchResultDetailPage() {
               <Row gutter={[16, 0]}>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label="验证对象"
+                    label={t("验证对象")}
                     name="target_type"
-                    rules={[{ required: true, message: "请选择验证对象" }]}
+                    rules={[{ required: true, message: t("请选择验证对象") }]}
                   >
                     <Select
                       options={verificationTargetOptions}
@@ -1329,7 +1350,7 @@ export default function MatchResultDetailPage() {
                       {
                         required: true,
                         whitespace: true,
-                        message: "请输入待验证包名称"
+                        message: t("请输入待验证包名称")
                       }
                     ]}
                   >
@@ -1340,7 +1361,7 @@ export default function MatchResultDetailPage() {
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={6}>
-                  <Form.Item label="请求人" name="requested_by">
+                  <Form.Item label={t("请求人")} name="requested_by">
                     <Input placeholder="operator@example.test" />
                   </Form.Item>
                 </Col>
@@ -1356,16 +1377,14 @@ export default function MatchResultDetailPage() {
                   }
                   disabled={createTaskMutation.isPending}
                 >
-                  重置
-                </Button>
+                  {t("重置")}</Button>
                 <Button
                   type="primary"
                   htmlType="submit"
                   icon={<Send size={16} />}
                   loading={createTaskMutation.isPending}
                 >
-                  创建验证任务
-                </Button>
+                  {t("创建验证任务")}</Button>
               </Space>
             </Form>
 
@@ -1374,16 +1393,15 @@ export default function MatchResultDetailPage() {
                 className="task-alert"
                 type="success"
                 showIcon
-                title={`任务 ${lastTask.id} 已进入 ${lastTask.status}`}
-                description={`创建时间：${formatDateTime(lastTask.created_at)}`}
+                title={t("任务 {{v0}} 已进入 {{v1}}", { v0: lastTask.id, v1: lastTask.status })}
+                description={t("创建时间：{{v0}}", { v0: formatDateTime(lastTask.created_at) })}
                 action={
                   <Button
                     size="small"
                     type="primary"
                     onClick={() => navigate(`/verification-tasks/${lastTask.id}`)}
                   >
-                    查看任务
-                  </Button>
+                    {t("查看任务")}</Button>
                 }
               />
             ) : null}
@@ -1397,21 +1415,21 @@ export default function MatchResultDetailPage() {
                   key: "verification-evidence",
                   label: (
                     <SectionCardTitle
-                      title="验证发现"
-                      subtitle="看只读验证任务补充了哪些检查结果"
+                      title={t("验证发现")}
+                      subtitle={t("看只读验证任务补充了哪些检查结果")}
                     />
                   ),
                   children: (
                     <EvidenceList
                       items={detail.verification_evidence}
-                      emptyText="暂无验证证据"
+                      emptyText={t("暂无验证证据")}
                       mode="verification"
                     />
                   )
                 },
                 {
                   key: "verification-records",
-                  label: <Typography.Text strong>任务记录</Typography.Text>,
+                  label: <Typography.Text strong>{t("任务记录")}</Typography.Text>,
                   children: (
                     <ResizableTable<VerificationTaskSummary>
                       storageKey="match-result-verification-tasks"
@@ -1425,7 +1443,7 @@ export default function MatchResultDetailPage() {
                         hideOnSinglePage: true,
                         size: "small"
                       }}
-                      locale={{ emptyText: "暂无任务记录" }}
+                      locale={{ emptyText: t("暂无任务记录") }}
                       scroll={{ x: 950 }}
                     />
                   )

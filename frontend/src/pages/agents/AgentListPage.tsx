@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Alert,
   Button,
@@ -508,10 +509,10 @@ const enrollmentTokenStatusMeta: Record<
   AgentEnrollmentTokenStatus,
   { color: string; label: string }
 > = {
-  active: { color: "green", label: "有效" },
-  expired: { color: "orange", label: "已过期" },
-  used_up: { color: "blue", label: "已用完" },
-  revoked: { color: "red", label: "已吊销" }
+  active: { color: "green", label: t("有效") },
+  expired: { color: "orange", label: t("已过期") },
+  used_up: { color: "blue", label: t("已用完") },
+  revoked: { color: "red", label: t("已吊销") }
 };
 
 function EnrollmentTokenStatusTag({ value }: { value: AgentEnrollmentTokenStatus }) {
@@ -521,7 +522,7 @@ function EnrollmentTokenStatusTag({ value }: { value: AgentEnrollmentTokenStatus
 
 function tokenUsage(record: AgentEnrollmentToken) {
   if (record.max_uses === null) {
-    return `${record.used_count} / 不限`;
+    return t("{{v0}} / 不限", { v0: record.used_count });
   }
   return `${record.used_count} / ${record.max_uses}`;
 }
@@ -531,7 +532,7 @@ function taskSummary(record: AgentSummary) {
   if (!stats.total) {
     return "-";
   }
-  return `${stats.completed}/${stats.total} 完成`;
+  return t("{{v0}}/{{v1}} 完成", { v0: stats.completed, v1: stats.total });
 }
 
 function limitedScriptOptions(
@@ -548,7 +549,7 @@ function limitedScriptOptions(
     : options;
   return [
     ...matchedOptions.slice(0, 5),
-    { label: "直接新增", value: DIRECT_CREATE_OPTION_VALUE }
+    { label: t("直接新增"), value: DIRECT_CREATE_OPTION_VALUE }
   ];
 }
 
@@ -653,40 +654,40 @@ export default function AgentListPage() {
       setLatestEnrollmentToken(token.enrollment_token);
       scriptForm.setFieldsValue({ enrollmentToken: token.enrollment_token });
       void queryClient.invalidateQueries({ queryKey: ["agents", "enrollment-tokens"] });
-      messageApi.success("注册令牌已创建，请及时复制明文 token");
+      messageApi.success(t("注册令牌已创建，请及时复制明文 token"));
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "创建注册令牌失败");
+      messageApi.error(error instanceof Error ? error.message : t("创建注册令牌失败"));
     }
   });
   const revokeTokenMutation = useMutation({
     mutationFn: revokeAgentEnrollmentToken,
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["agents", "enrollment-tokens"] });
-      messageApi.success("注册令牌已吊销");
+      messageApi.success(t("注册令牌已吊销"));
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "吊销注册令牌失败");
+      messageApi.error(error instanceof Error ? error.message : t("吊销注册令牌失败"));
     }
   });
   const disableAgentMutation = useMutation({
     mutationFn: disableAgent,
     onSuccess: () => {
       invalidateAgentLifecycleQueries();
-      messageApi.success("Agent 已禁用，资产数据已保留");
+      messageApi.success(t("Agent 已禁用，资产数据已保留"));
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "禁用 Agent 失败");
+      messageApi.error(error instanceof Error ? error.message : t("禁用 Agent 失败"));
     }
   });
   const deleteAgentMutation = useMutation({
     mutationFn: deleteAgent,
     onSuccess: () => {
       invalidateAgentLifecycleQueries();
-      messageApi.success("Agent 和对应资产已删除");
+      messageApi.success(t("Agent 和对应资产已删除"));
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "删除 Agent 失败");
+      messageApi.error(error instanceof Error ? error.message : t("删除 Agent 失败"));
     }
   });
   const quickCreateOwnershipMutation = useMutation({
@@ -707,7 +708,7 @@ export default function AgentListPage() {
       } else {
         const team = teams.find((item) => item.id === teamId);
         if (!team) {
-          throw new Error("请选择已有负责团队，或新增团队");
+          throw new Error(t("请选择已有负责团队，或新增团队"));
         }
         teamName = team.name;
       }
@@ -727,7 +728,7 @@ export default function AgentListPage() {
       } else {
         const person = people.find((item) => item.id === personId);
         if (!person) {
-          throw new Error("请选择已有负责人，或新增负责人");
+          throw new Error(t("请选择已有负责人，或新增负责人"));
         }
         const updatedPerson =
           person.team.id === teamId
@@ -752,7 +753,7 @@ export default function AgentListPage() {
       } else {
         const system = systems.find((item) => item.id === values.existingBusinessSystemId);
         if (!system) {
-          throw new Error("请选择已有业务系统，或新增业务系统");
+          throw new Error(t("请选择已有业务系统，或新增业务系统"));
         }
         const updatedSystem =
           system.responsible_person?.id === personId
@@ -778,10 +779,10 @@ export default function AgentListPage() {
       setResponsibilityTeamSearchText("");
       setPersonSearchText("");
       void queryClient.invalidateQueries({ queryKey: ["ownership"] });
-      messageApi.success("归属数据已创建并填入脚本");
+      messageApi.success(t("归属数据已创建并填入脚本"));
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "归属数据创建失败");
+      messageApi.error(error instanceof Error ? error.message : t("归属数据创建失败"));
     }
   });
 
@@ -824,7 +825,7 @@ export default function AgentListPage() {
       (peopleQuery.data?.items ?? []).map((person) => ({
         label: [
           person.name,
-          person.employee_no ? `工号 ${person.employee_no}` : null,
+          person.employee_no ? t("工号 {{v0}}", { v0: person.employee_no }) : null,
           person.team?.name ?? null
         ]
           .filter(Boolean)
@@ -854,7 +855,7 @@ export default function AgentListPage() {
       (peopleQuery.data?.items ?? []).map((person) => ({
         label: [
           person.name,
-          person.employee_no ? `工号 ${person.employee_no}` : null,
+          person.employee_no ? t("工号 {{v0}}", { v0: person.employee_no }) : null,
           person.team?.name ?? null
         ]
           .filter(Boolean)
@@ -953,7 +954,7 @@ export default function AgentListPage() {
       buildAgentScript({ ...scriptDefaults, ...values }),
       values.enrollmentToken
     );
-    messageApi.success("Agent 安装脚本已生成");
+    messageApi.success(t("Agent 安装脚本已生成"));
     setScriptModalOpen(false);
   }
 
@@ -981,7 +982,7 @@ export default function AgentListPage() {
 
   const tokenColumns: ColumnsType<AgentEnrollmentToken> = [
     {
-      title: "名称",
+      title: t("名称"),
       dataIndex: "name",
       minWidth: 180,
       render: (value: string, record) => (
@@ -996,8 +997,8 @@ export default function AgentListPage() {
     {
       title: (
         <Space className="table-column-title" size={4}>
-          <span>令牌预览</span>
-          <Tooltip title="完整注册令牌仅在创建成功时展示一次；列表中只保留遮蔽预览，无法查看或复制完整令牌。">
+          <span>{t("令牌预览")}</span>
+          <Tooltip title={t("完整注册令牌仅在创建成功时展示一次；列表中只保留遮蔽预览，无法查看或复制完整令牌。")}>
             <CircleAlert size={14} />
           </Tooltip>
         </Space>
@@ -1005,35 +1006,35 @@ export default function AgentListPage() {
       dataIndex: "token_preview",
       width: 190,
       render: (value: string | null) => (
-        <Typography.Text code>{value ?? "历史令牌不可预览"}</Typography.Text>
+        <Typography.Text code>{value ?? t("历史令牌不可预览")}</Typography.Text>
       )
     },
     {
-      title: "状态",
+      title: t("状态"),
       dataIndex: "status",
       width: 110,
       render: (value: AgentEnrollmentTokenStatus) => <EnrollmentTokenStatusTag value={value} />
     },
     {
-      title: "使用次数",
+      title: t("使用次数"),
       key: "usage",
       width: 130,
       render: (_, record) => tokenUsage(record)
     },
     {
-      title: "过期时间",
+      title: t("过期时间"),
       dataIndex: "expires_at",
       width: 190,
       render: (value: string | null) => formatDateTime(value)
     },
     {
-      title: "创建时间",
+      title: t("创建时间"),
       dataIndex: "created_at",
       width: 190,
       render: (value: string | null) => formatDateTime(value)
     },
     {
-      title: "创建人",
+      title: t("创建人"),
       dataIndex: "created_by_display",
       width: 160,
       render: (value: string | null, record) => (
@@ -1046,17 +1047,17 @@ export default function AgentListPage() {
       )
     },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       width: 120,
       fixed: "right",
       render: (_, record) =>
         record.status === "active" ? (
           <Popconfirm
-            title="吊销注册令牌"
-            description="吊销后该令牌不能再用于 Agent 注册。"
-            okText="吊销"
-            cancelText="取消"
+            title={t("吊销注册令牌")}
+            description={t("吊销后该令牌不能再用于 Agent 注册。")}
+            okText={t("吊销")}
+            cancelText={t("取消")}
             onConfirm={() => revokeTokenMutation.mutate(record.id)}
           >
             <Button
@@ -1066,8 +1067,7 @@ export default function AgentListPage() {
               icon={<ShieldOff size={14} />}
               loading={revokeTokenMutation.isPending}
             >
-              吊销
-            </Button>
+              {t("吊销")}</Button>
           </Popconfirm>
         ) : (
           "-"
@@ -1090,7 +1090,7 @@ export default function AgentListPage() {
       )
     },
     {
-      title: "状态",
+      title: t("状态"),
       dataIndex: "status",
       width: 110,
       render: (value: string) => <AgentStatusTag value={value} />
@@ -1103,7 +1103,7 @@ export default function AgentListPage() {
         value ? <Typography.Text copyable>{value}</Typography.Text> : "-"
     },
     {
-      title: "资产",
+      title: t("资产"),
       key: "asset",
       minWidth: 180,
       render: (_, record) =>
@@ -1116,7 +1116,7 @@ export default function AgentListPage() {
         )
     },
     {
-      title: "平台",
+      title: t("平台"),
       key: "platform",
       width: 180,
       render: (_, record) => (
@@ -1129,38 +1129,37 @@ export default function AgentListPage() {
       )
     },
     {
-      title: "最近心跳",
+      title: t("最近心跳"),
       dataIndex: "last_heartbeat_at",
       width: 190,
       render: (value: string | null) => formatDateTime(value)
     },
     {
-      title: "最近快照",
+      title: t("最近快照"),
       dataIndex: "last_snapshot_at",
       width: 190,
       render: (value: string | null) => formatDateTime(value)
     },
     {
-      title: "最近取任务",
+      title: t("最近取任务"),
       dataIndex: "last_task_poll_at",
       width: 190,
       render: (value: string | null) => formatDateTime(value)
     },
     {
-      title: "任务",
+      title: t("任务"),
       key: "tasks",
       width: 150,
       render: (_, record) => (
         <Space orientation="vertical" size={0}>
           <Typography.Text>{taskSummary(record)}</Typography.Text>
           <Typography.Text className="table-subtitle">
-            {record.task_stats.queued} 排队 / {record.task_stats.in_progress} 执行中
-          </Typography.Text>
+            {record.task_stats.queued} {t("排队 /")}{record.task_stats.in_progress} {t("执行中")}</Typography.Text>
         </Space>
       )
     },
     {
-      title: "最近错误",
+      title: t("最近错误"),
       dataIndex: "last_error",
       minWidth: 220,
       render: (value: string | null) => (
@@ -1170,7 +1169,7 @@ export default function AgentListPage() {
       )
     },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       width: 170,
       fixed: "right",
@@ -1181,18 +1180,18 @@ export default function AgentListPage() {
             <Tooltip
               title={
                 !isAdmin
-                  ? "需要超级管理员权限"
+                  ? t("需要超级管理员权限")
                   : record.status === "disabled"
-                    ? "Agent 已禁用"
-                    : "保留资产数据，阻止该 Agent 继续上传新数据"
+                    ? t("Agent 已禁用")
+                    : t("保留资产数据，阻止该 Agent 继续上传新数据")
               }
             >
               <span>
                 <Popconfirm
-                  title="禁用 Agent"
-                  description="资产数据会保留，但该 Agent 的凭证会失效，无法再通过新 Agent 接口上传心跳、快照或任务结果。"
-                  okText="禁用"
-                  cancelText="取消"
+                  title={t("禁用 Agent")}
+                  description={t("资产数据会保留，但该 Agent 的凭证会失效，无法再通过新 Agent 接口上传心跳、快照或任务结果。")}
+                  okText={t("禁用")}
+                  cancelText={t("取消")}
                   disabled={disableDisabled}
                   onConfirm={() => disableAgentMutation.mutate(record.agent_id)}
                 >
@@ -1206,18 +1205,17 @@ export default function AgentListPage() {
                       disableAgentMutation.variables === record.agent_id
                     }
                   >
-                    禁用
-                  </Button>
+                    {t("禁用")}</Button>
                 </Popconfirm>
               </span>
             </Tooltip>
-            <Tooltip title={!isAdmin ? "需要超级管理员权限" : "删除 Agent 及其资产数据"}>
+            <Tooltip title={!isAdmin ? t("需要超级管理员权限") : t("删除 Agent 及其资产数据")}>
               <span>
                 <Popconfirm
-                  title="删除 Agent"
-                  description="将删除该 Agent、对应资产，以及资产关联风险、验证任务和证据。此操作不可恢复。"
-                  okText="删除"
-                  cancelText="取消"
+                  title={t("删除 Agent")}
+                  description={t("将删除该 Agent、对应资产，以及资产关联风险、验证任务和证据。此操作不可恢复。")}
+                  okText={t("删除")}
+                  cancelText={t("取消")}
                   okButtonProps={{ danger: true }}
                   disabled={!isAdmin}
                   onConfirm={() => deleteAgentMutation.mutate(record.agent_id)}
@@ -1233,8 +1231,7 @@ export default function AgentListPage() {
                       deleteAgentMutation.variables === record.agent_id
                     }
                   >
-                    删除
-                  </Button>
+                    {t("删除")}</Button>
                 </Popconfirm>
               </span>
             </Tooltip>
@@ -1248,19 +1245,17 @@ export default function AgentListPage() {
     <Space className="page-stack" orientation="vertical" size={16}>
       {contextHolder}
       <PageHeader
-        title="Agent 管理"
+        title={t("Agent 管理")}
         extra={
           <Space wrap>
             <Button icon={<Download size={16} />} onClick={openScriptModal}>
-              下载脚本
-            </Button>
+              {t("下载脚本")}</Button>
             <Button
               icon={<RefreshCw size={16} />}
               onClick={() => agentsQuery.refetch()}
               loading={agentsQuery.isFetching}
             >
-              刷新
-            </Button>
+              {t("刷新")}</Button>
           </Space>
         }
       />
@@ -1269,11 +1264,10 @@ export default function AgentListPage() {
         <Alert
           type="info"
           showIcon
-          message={`当前按 Agent ${focusedAgentId} 聚焦`}
+          message={t("当前按 Agent {{v0}} 聚焦", { v0: focusedAgentId })}
           action={
             <Button size="small" onClick={() => navigate("/agents")}>
-              查看全部
-            </Button>
+              {t("查看全部")}</Button>
           }
         />
       ) : null}
@@ -1281,18 +1275,18 @@ export default function AgentListPage() {
       <Row gutter={[16, 16]}>
         <Col xs={24} lg={6}>
           <Card className="metric-card">
-            <Statistic title="Agent 总数" value={metrics.total} prefix={<ServerCog size={24} />} />
+            <Statistic title={t("Agent 总数")} value={metrics.total} prefix={<ServerCog size={24} />} />
           </Card>
         </Col>
         <Col xs={24} lg={6}>
           <Card className="metric-card metric-card-green">
-            <Statistic title="在线" value={metrics.online} prefix={<Wifi size={24} />} />
+            <Statistic title={t("在线")} value={metrics.online} prefix={<Wifi size={24} />} />
           </Card>
         </Col>
         <Col xs={24} lg={6}>
           <Card className="metric-card metric-card-red">
             <Statistic
-              title="离线"
+              title={t("离线")}
               value={metrics.offline}
               prefix={<ShieldOff size={24} />}
             />
@@ -1301,7 +1295,7 @@ export default function AgentListPage() {
         <Col xs={24} lg={6}>
           <Card className="metric-card metric-card-red">
             <Statistic
-              title="最近错误"
+              title={t("最近错误")}
               value={metrics.errors}
               prefix={<AlertCircle size={24} />}
             />
@@ -1314,8 +1308,8 @@ export default function AgentListPage() {
         title={
           <Space>
             <KeyRound size={18} />
-            <span>注册令牌</span>
-            <Tooltip title="吊销注册令牌后，该令牌不能再用于新的 Agent 注册；已经注册成功的 Agent 使用独立 agent_secret，仍可继续心跳、上传快照和提交任务结果。">
+            <span>{t("注册令牌")}</span>
+            <Tooltip title={t("吊销注册令牌后，该令牌不能再用于新的 Agent 注册；已经注册成功的 Agent 使用独立 agent_secret，仍可继续心跳、上传快照和提交任务结果。")}>
               <CircleAlert size={15} className="inline-help-icon" />
             </Tooltip>
           </Space>
@@ -1323,15 +1317,13 @@ export default function AgentListPage() {
         extra={
           <Space wrap>
             <Button icon={<Plus size={16} />} type="primary" onClick={openTokenModal}>
-              创建令牌
-            </Button>
+              {t("创建令牌")}</Button>
             <Button
               icon={<RefreshCw size={16} />}
               onClick={() => enrollmentTokensQuery.refetch()}
               loading={enrollmentTokensQuery.isFetching}
             >
-              刷新
-            </Button>
+              {t("刷新")}</Button>
           </Space>
         }
       >
@@ -1347,30 +1339,30 @@ export default function AgentListPage() {
           pagination={{
             pageSize: 5,
             showSizeChanger: true,
-            showTotal: (total) => `共 ${total} 条`
+            showTotal: (total) => t("共 {{v0}} 条", { v0: total })
           }}
           locale={{
-            emptyText: <EmptyState title="暂无注册令牌" />
+            emptyText: <EmptyState title={t("暂无注册令牌")} />
           }}
           scroll={{ x: 1180 }}
         />
       </Card>
 
-      <Card className="content-card" title="Agent 列表">
+      <Card className="content-card" title={t("Agent 列表")}>
         {agentsQuery.isError ? <ErrorState error={agentsQuery.error} /> : null}
         <div className="table-toolbar">
           <Input
             allowClear
             className="agent-search"
             prefix={<Search size={16} />}
-            placeholder="搜索 Agent ID、主机名、IP、资产、平台、版本"
+            placeholder={t("搜索 Agent ID、主机名、IP、资产、平台、版本")}
             value={searchText}
             onChange={(event) => setSearchText(event.target.value)}
           />
           <Typography.Text type="secondary">
             {hasAgentFilter
-              ? `匹配 ${agents.length} / ${allAgents.length} 条`
-              : `共 ${allAgents.length} 条`}
+              ? t("匹配 {{v0}} / {{v1}} 条", { v0: agents.length, v1: allAgents.length })
+              : t("共 {{v0}} 条", { v0: allAgents.length })}
           </Typography.Text>
         </div>
         <ResizableTable<AgentSummary>
@@ -1382,11 +1374,11 @@ export default function AgentListPage() {
           pagination={{
             pageSize: 10,
             showSizeChanger: true,
-            showTotal: (total) => `共 ${total} 条`
+            showTotal: (total) => t("共 {{v0}} 条", { v0: total })
           }}
           locale={{
             emptyText: (
-              <EmptyState title={hasAgentFilter ? "没有匹配的 Agent" : "暂无 Agent"} />
+              <EmptyState title={hasAgentFilter ? t("没有匹配的 Agent") : t("暂无 Agent")} />
             )
           }}
           scroll={{ x: 1690 }}
@@ -1394,11 +1386,11 @@ export default function AgentListPage() {
       </Card>
 
       <Modal
-        title="创建注册令牌"
+        title={t("创建注册令牌")}
         open={tokenModalOpen}
         width={640}
-        okText="创建令牌"
-        cancelText="关闭"
+        okText={t("创建令牌")}
+        cancelText={t("关闭")}
         confirmLoading={createTokenMutation.isPending}
         onOk={() => void handleCreateToken()}
         onCancel={() => setTokenModalOpen(false)}
@@ -1407,11 +1399,9 @@ export default function AgentListPage() {
           createdEnrollmentToken
             ? [
                 <Button key="close" onClick={() => setTokenModalOpen(false)}>
-                  关闭
-                </Button>,
+                  {t("关闭")}</Button>,
                 <Button key="script" type="primary" onClick={useCreatedTokenInScript}>
-                  填入安装脚本
-                </Button>
+                  {t("填入安装脚本")}</Button>
               ]
             : undefined
         }
@@ -1421,12 +1411,11 @@ export default function AgentListPage() {
             <Alert
               type="success"
               showIcon
-              message="注册令牌已创建"
+              message={t("注册令牌已创建")}
               description={
                 <Space direction="vertical" size={8} style={{ width: "100%" }}>
                   <Typography.Text type="secondary">
-                    明文 token 只在本次创建后显示一次，关闭后无法再次查看。
-                  </Typography.Text>
+                    {t("明文 token 只在本次创建后显示一次，关闭后无法再次查看。")}</Typography.Text>
                   <Input.TextArea
                     className="parameter-textarea"
                     value={createdEnrollmentToken.enrollment_token}
@@ -1434,8 +1423,7 @@ export default function AgentListPage() {
                     readOnly
                   />
                   <Typography.Text copyable={{ text: createdEnrollmentToken.enrollment_token }}>
-                    复制注册令牌
-                  </Typography.Text>
+                    {t("复制注册令牌")}</Typography.Text>
                 </Space>
               }
             />
@@ -1448,20 +1436,20 @@ export default function AgentListPage() {
             disabled={Boolean(createdEnrollmentToken)}
           >
             <Form.Item
-              label="令牌名称"
+              label={t("令牌名称")}
               name="name"
-              rules={[{ required: true, message: "请输入令牌名称" }]}
+              rules={[{ required: true, message: t("请输入令牌名称") }]}
             >
               <Input placeholder="prod-linux-agents-2026-05" />
             </Form.Item>
             <Row gutter={16}>
               <Col xs={24} md={12}>
-                <Form.Item label="过期时间" name="expiresAt">
+                <Form.Item label={t("过期时间")} name="expiresAt">
                   <Input type="datetime-local" />
                 </Form.Item>
               </Col>
               <Col xs={24} md={12}>
-                <Form.Item label="最大使用次数" name="maxUses">
+                <Form.Item label={t("最大使用次数")} name="maxUses">
                   <InputNumber min={1} precision={0} style={{ width: "100%" }} />
                 </Form.Item>
               </Col>
@@ -1471,11 +1459,11 @@ export default function AgentListPage() {
       </Modal>
 
       <Modal
-        title="下载 Agent 脚本"
+        title={t("下载 Agent 脚本")}
         open={scriptModalOpen}
         width={920}
-        okText="下载脚本"
-        cancelText="取消"
+        okText={t("下载脚本")}
+        cancelText={t("取消")}
         onOk={() => void handleScriptDownload()}
         onCancel={() => setScriptModalOpen(false)}
         destroyOnHidden
@@ -1503,106 +1491,106 @@ export default function AgentListPage() {
           <Row gutter={16}>
             <Col xs={24} md={12}>
               <Form.Item
-                label="Agent 上报地址"
+                label={t("Agent 上报地址")}
                 name="agentIngressUrl"
-                rules={[{ required: true, message: "请输入 Agent 上报地址" }]}
+                rules={[{ required: true, message: t("请输入 Agent 上报地址") }]}
               >
                 <Input placeholder="http://127.0.0.1:8001" />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label="平台二进制地址前缀" name="binaryBaseUrl">
+              <Form.Item label={t("平台二进制地址前缀")} name="binaryBaseUrl">
                 <Input placeholder="http://127.0.0.1:8001/agent/v1/downloads/vulnflanker-agent-linux" />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
               <Form.Item
-                label="注册令牌"
+                label={t("注册令牌")}
                 name="enrollmentToken"
-                rules={[{ required: true, message: "请输入 Agent 注册令牌" }]}
+                rules={[{ required: true, message: t("请输入 Agent 注册令牌") }]}
               >
                 <Input.Password placeholder="vflet_xxx" />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
               <Form.Item
-                label="源码包地址"
+                label={t("源码包地址")}
                 name="sourceArchiveUrl"
-                rules={[{ required: true, message: "请输入源码包地址" }]}
+                rules={[{ required: true, message: t("请输入源码包地址") }]}
               >
                 <Input placeholder="http://127.0.0.1:8001/agent/v1/downloads/source.tar.gz" />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label="本地源码目录" name="agentSourceDir">
+              <Form.Item label={t("本地源码目录")} name="agentSourceDir">
                 <Input placeholder="/path/to/VulnFlanker/agent" />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
               <Form.Item
-                label="安装目录"
+                label={t("安装目录")}
                 name="installDir"
-                rules={[{ required: true, message: "请输入安装目录" }]}
+                rules={[{ required: true, message: t("请输入安装目录") }]}
               >
                 <Input />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
               <Form.Item
-                label="状态目录"
+                label={t("状态目录")}
                 name="stateDir"
-                rules={[{ required: true, message: "请输入状态目录" }]}
+                rules={[{ required: true, message: t("请输入状态目录") }]}
               >
                 <Input />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
               <Form.Item
-                label="日志目录"
+                label={t("日志目录")}
                 name="logDir"
-                rules={[{ required: true, message: "请输入日志目录" }]}
+                rules={[{ required: true, message: t("请输入日志目录") }]}
               >
                 <Input />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
               <Form.Item
-                label="服务名称"
+                label={t("服务名称")}
                 name="serviceName"
-                rules={[{ required: true, message: "请输入服务名称" }]}
+                rules={[{ required: true, message: t("请输入服务名称") }]}
               >
                 <Input />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label="安装 systemd 服务" name="installService" valuePropName="checked">
+              <Form.Item label={t("安装 systemd 服务")} name="installService" valuePropName="checked">
                 <Switch />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="运行环境" name="environmentType">
+              <Form.Item label={t("运行环境")} name="environmentType">
                 <Select options={environmentOptions} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="暴露面" name="exposureType">
+              <Form.Item label={t("暴露面")} name="exposureType">
                 <Select options={exposureOptions} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="重要性" name="criticality">
+              <Form.Item label={t("重要性")} name="criticality">
                 <Select options={criticalityOptions} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="业务系统" name="businessSystem">
+              <Form.Item label={t("业务系统")} name="businessSystem">
                 <Select
                   allowClear
                   showSearch
                   filterOption={false}
                   options={visibleBusinessSystemOptions}
                   loading={businessSystemsQuery.isLoading}
-                  placeholder="选择业务系统"
+                  placeholder={t("选择业务系统")}
                   onSearch={setBusinessSystemSearchText}
                   onDropdownVisibleChange={(open) => {
                     if (!open) {
@@ -1613,20 +1601,20 @@ export default function AgentListPage() {
                     handleScriptSelectChange("businessSystem", "businessSystem", value)
                   }
                   notFoundContent={
-                    businessSystemsQuery.isError ? "业务系统加载失败" : undefined
+                    businessSystemsQuery.isError ? t("业务系统加载失败") : undefined
                   }
                 />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="负责团队" name="ownerTeam">
+              <Form.Item label={t("负责团队")} name="ownerTeam">
                 <Select
                   allowClear
                   showSearch
                   filterOption={false}
                   options={visibleResponsibilityTeamOptions}
                   loading={responsibilityTeamsQuery.isLoading}
-                  placeholder="选择负责团队"
+                  placeholder={t("选择负责团队")}
                   onSearch={setResponsibilityTeamSearchText}
                   onDropdownVisibleChange={(open) => {
                     if (!open) {
@@ -1637,20 +1625,20 @@ export default function AgentListPage() {
                     handleScriptSelectChange("ownerTeam", "ownerTeam", value)
                   }
                   notFoundContent={
-                    responsibilityTeamsQuery.isError ? "负责团队加载失败" : undefined
+                    responsibilityTeamsQuery.isError ? t("负责团队加载失败") : undefined
                   }
                 />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="负责人" name="ownerPerson">
+              <Form.Item label={t("负责人")} name="ownerPerson">
                 <Select
                   allowClear
                   showSearch
                   filterOption={false}
                   options={visiblePersonOptions}
                   loading={peopleQuery.isLoading}
-                  placeholder="选择负责人"
+                  placeholder={t("选择负责人")}
                   onSearch={setPersonSearchText}
                   onDropdownVisibleChange={(open) => {
                     if (!open) {
@@ -1660,42 +1648,42 @@ export default function AgentListPage() {
                   onChange={(value) =>
                     handleScriptSelectChange("ownerPerson", "ownerPerson", value)
                   }
-                  notFoundContent={peopleQuery.isError ? "负责人加载失败" : undefined}
+                  notFoundContent={peopleQuery.isError ? t("负责人加载失败") : undefined}
                 />
               </Form.Item>
             </Col>
             <Col xs={24} md={6}>
-              <Form.Item label="自动验证" name="allowAutoVerify" valuePropName="checked">
+              <Form.Item label={t("自动验证")} name="allowAutoVerify" valuePropName="checked">
                 <Switch />
               </Form.Item>
             </Col>
             <Col xs={24} md={6}>
-              <Form.Item label="自动修复" name="allowAutoRemediate" valuePropName="checked">
+              <Form.Item label={t("自动修复")} name="allowAutoRemediate" valuePropName="checked">
                 <Switch />
               </Form.Item>
             </Col>
             <Col xs={24} md={4}>
-              <Form.Item label="心跳秒" name="heartbeatSeconds">
+              <Form.Item label={t("心跳秒")} name="heartbeatSeconds">
                 <InputNumber min={5} precision={0} style={{ width: "100%" }} />
               </Form.Item>
             </Col>
             <Col xs={24} md={4}>
-              <Form.Item label="快照秒" name="snapshotSeconds">
+              <Form.Item label={t("快照秒")} name="snapshotSeconds">
                 <InputNumber min={30} precision={0} style={{ width: "100%" }} />
               </Form.Item>
             </Col>
             <Col xs={24} md={4}>
-              <Form.Item label="任务秒" name="taskPollSeconds">
+              <Form.Item label={t("任务秒")} name="taskPollSeconds">
                 <InputNumber min={5} precision={0} style={{ width: "100%" }} />
               </Form.Item>
             </Col>
             <Col xs={24} md={4}>
-              <Form.Item label="超时秒" name="requestTimeoutSeconds">
+              <Form.Item label={t("超时秒")} name="requestTimeoutSeconds">
                 <InputNumber min={1} precision={0} style={{ width: "100%" }} />
               </Form.Item>
             </Col>
           </Row>
-          <Form.Item label="脚本预览">
+          <Form.Item label={t("脚本预览")}>
             <Input.TextArea
               className="parameter-textarea"
               value={scriptPreview}
@@ -1707,11 +1695,11 @@ export default function AgentListPage() {
       </Modal>
 
       <Modal
-        title="直接新增归属数据"
+        title={t("直接新增归属数据")}
         open={ownershipQuickCreateOpen}
         width={720}
-        okText="创建并填入"
-        cancelText="取消"
+        okText={t("创建并填入")}
+        cancelText={t("取消")}
         confirmLoading={quickCreateOwnershipMutation.isPending}
         onOk={() =>
           void ownershipQuickCreateForm
@@ -1729,8 +1717,8 @@ export default function AgentListPage() {
           <Alert
             type="info"
             showIcon
-            message="在这里填完整归属关系"
-            description="业务系统、负责人、负责团队三项都需要在这里选择已有或直接新增；保存后会自动创建缺失数据并绑定关系。"
+            message={t("在这里填完整归属关系")}
+            description={t("业务系统、负责人、负责团队三项都需要在这里选择已有或直接新增；保存后会自动创建缺失数据并绑定关系。")}
           />
           <Form
             form={ownershipQuickCreateForm}
@@ -1744,9 +1732,9 @@ export default function AgentListPage() {
           >
             <div className="ownership-quick-create-section">
               <div className="ownership-quick-create-heading">
-                <Typography.Text strong>业务系统</Typography.Text>
+                <Typography.Text strong>{t("业务系统")}</Typography.Text>
                 <Form.Item name="createBusinessSystem" valuePropName="checked" noStyle>
-                  <Switch checkedChildren="新增" unCheckedChildren="选择已有" />
+                  <Switch checkedChildren={t("新增")} unCheckedChildren={t("选择已有")} />
                 </Form.Item>
               </div>
               <Form.Item
@@ -1760,35 +1748,35 @@ export default function AgentListPage() {
                     <Row gutter={16}>
                       <Col xs={24} md={12}>
                         <Form.Item
-                          label="系统编码"
+                          label={t("系统编码")}
                           name="businessSystemCode"
-                          rules={[{ required: true, message: "请输入系统编码" }]}
+                          rules={[{ required: true, message: t("请输入系统编码") }]}
                         >
                           <Input placeholder="PAYMENT" />
                         </Form.Item>
                       </Col>
                       <Col xs={24} md={12}>
                         <Form.Item
-                          label="系统名称"
+                          label={t("系统名称")}
                           name="businessSystemName"
-                          rules={[{ required: true, message: "请输入系统名称" }]}
+                          rules={[{ required: true, message: t("请输入系统名称") }]}
                         >
-                          <Input placeholder="支付系统" />
+                          <Input placeholder={t("支付系统")} />
                         </Form.Item>
                       </Col>
                     </Row>
                   ) : (
                     <Form.Item
-                      label="已有业务系统"
+                      label={t("已有业务系统")}
                       name="existingBusinessSystemId"
-                      rules={[{ required: true, message: "请选择已有业务系统" }]}
+                      rules={[{ required: true, message: t("请选择已有业务系统") }]}
                     >
                       <Select
                         showSearch
                         optionFilterProp="label"
                         options={existingBusinessSystemOptions}
                         loading={businessSystemsQuery.isLoading}
-                        placeholder="选择已有业务系统"
+                        placeholder={t("选择已有业务系统")}
                       />
                     </Form.Item>
                   )
@@ -1798,9 +1786,9 @@ export default function AgentListPage() {
 
             <div className="ownership-quick-create-section">
               <div className="ownership-quick-create-heading">
-                <Typography.Text strong>负责人</Typography.Text>
+                <Typography.Text strong>{t("负责人")}</Typography.Text>
                 <Form.Item name="createPerson" valuePropName="checked" noStyle>
-                  <Switch checkedChildren="新增" unCheckedChildren="选择已有" />
+                  <Switch checkedChildren={t("新增")} unCheckedChildren={t("选择已有")} />
                 </Form.Item>
               </div>
               <Form.Item
@@ -1812,40 +1800,40 @@ export default function AgentListPage() {
                     <Row gutter={16}>
                       <Col xs={24} md={12}>
                         <Form.Item
-                          label="负责人姓名"
+                          label={t("负责人姓名")}
                           name="personName"
-                          rules={[{ required: true, message: "请输入负责人姓名" }]}
+                          rules={[{ required: true, message: t("请输入负责人姓名") }]}
                         >
-                          <Input placeholder="张三" />
+                          <Input placeholder={t("张三")} />
                         </Form.Item>
                       </Col>
                       <Col xs={24} md={12}>
-                        <Form.Item label="工号" name="employeeNo">
-                          <Input placeholder="可选" />
+                        <Form.Item label={t("工号")} name="employeeNo">
+                          <Input placeholder={t("可选")} />
                         </Form.Item>
                       </Col>
                       <Col xs={24}>
                         <Form.Item
-                          label="邮箱"
+                          label={t("邮箱")}
                           name="personEmail"
-                          rules={[{ type: "email", message: "请输入有效邮箱" }]}
+                          rules={[{ type: "email", message: t("请输入有效邮箱") }]}
                         >
-                          <Input placeholder="可选" />
+                          <Input placeholder={t("可选")} />
                         </Form.Item>
                       </Col>
                     </Row>
                   ) : (
                     <Form.Item
-                      label="已有负责人"
+                      label={t("已有负责人")}
                       name="existingPersonId"
-                      rules={[{ required: true, message: "请选择已有负责人" }]}
+                      rules={[{ required: true, message: t("请选择已有负责人") }]}
                     >
                       <Select
                         showSearch
                         optionFilterProp="label"
                         options={existingPersonOptions}
                         loading={peopleQuery.isLoading}
-                        placeholder="选择已有负责人"
+                        placeholder={t("选择已有负责人")}
                       />
                     </Form.Item>
                   )
@@ -1855,9 +1843,9 @@ export default function AgentListPage() {
 
             <div className="ownership-quick-create-section">
               <div className="ownership-quick-create-heading">
-                <Typography.Text strong>负责团队</Typography.Text>
+                <Typography.Text strong>{t("负责团队")}</Typography.Text>
                 <Form.Item name="createTeam" valuePropName="checked" noStyle>
-                  <Switch checkedChildren="新增" unCheckedChildren="选择已有" />
+                  <Switch checkedChildren={t("新增")} unCheckedChildren={t("选择已有")} />
                 </Form.Item>
               </div>
               <Form.Item
@@ -1869,35 +1857,35 @@ export default function AgentListPage() {
                     <Row gutter={16}>
                       <Col xs={24} md={12}>
                         <Form.Item
-                          label="团队编码"
+                          label={t("团队编码")}
                           name="teamCode"
-                          rules={[{ required: true, message: "请输入团队编码" }]}
+                          rules={[{ required: true, message: t("请输入团队编码") }]}
                         >
                           <Input placeholder="TEAM-SRE" />
                         </Form.Item>
                       </Col>
                       <Col xs={24} md={12}>
                         <Form.Item
-                          label="团队名称"
+                          label={t("团队名称")}
                           name="teamName"
-                          rules={[{ required: true, message: "请输入团队名称" }]}
+                          rules={[{ required: true, message: t("请输入团队名称") }]}
                         >
-                          <Input placeholder="支付 SRE" />
+                          <Input placeholder={t("支付 SRE")} />
                         </Form.Item>
                       </Col>
                     </Row>
                   ) : (
                     <Form.Item
-                      label="已有团队"
+                      label={t("已有团队")}
                       name="existingTeamId"
-                      rules={[{ required: true, message: "请选择已有团队" }]}
+                      rules={[{ required: true, message: t("请选择已有团队") }]}
                     >
                       <Select
                         showSearch
                         optionFilterProp="label"
                         options={existingResponsibilityTeamOptions}
                         loading={responsibilityTeamsQuery.isLoading}
-                        placeholder="选择已有团队"
+                        placeholder={t("选择已有团队")}
                       />
                     </Form.Item>
                   )

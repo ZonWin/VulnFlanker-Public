@@ -7,6 +7,12 @@ from app.services.cisa_kev_monitor import (
 from app.services.intel_ingestion import collect_aliyun_avd, collect_cisa_kev
 from app.services.intel_normalization import normalize_raw_event
 from app.services.intel_tracking import complete_collection_run, fail_collection_run
+from app.services.email_alerts import (
+    due_email_delivery_ids,
+    recover_stale_email_deliveries,
+    send_email_delivery,
+)
+from app.services.notifications import cleanup_expired_notifications
 from app.services.vulnerability_ai_enrichment import (
     BASIC_EXTRACTION_PROFILE_KEY,
     EXISTING_DATA_LAYER,
@@ -25,6 +31,44 @@ from app.services.watchvuln_monitor import (
     should_run_watchvuln_monitor,
 )
 from app.workers.celery_app import celery_app
+
+
+@celery_app.task(name="vulnflanker.send_email_delivery")
+def send_email_delivery_task(delivery_id: str) -> dict[str, str | int | None]:
+    with SessionLocal() as db:
+        delivery = send_email_delivery(db, delivery_id)
+        if delivery is None:
+            return {"status": "not_found", "delivery_id": delivery_id}
+        return {
+            "status": delivery.status,
+            "delivery_id": delivery.id,
+            "attempt_count": delivery.attempt_count,
+            "next_attempt_at": (
+                delivery.next_attempt_at.isoformat() if delivery.next_attempt_at else None
+            ),
+        }
+
+
+@celery_app.task(name="vulnflanker.dispatch_due_email_deliveries")
+def dispatch_due_email_deliveries() -> dict[str, int]:
+    with SessionLocal() as db:
+        recovered_count = recover_stale_email_deliveries(db)
+        delivery_ids = due_email_delivery_ids(db, limit=100)
+        processed_count = 0
+        for delivery_id in delivery_ids:
+            if send_email_delivery(db, delivery_id) is not None:
+                processed_count += 1
+        return {
+            "queued_count": len(delivery_ids),
+            "processed_count": processed_count,
+            "recovered_count": recovered_count,
+        }
+
+
+@celery_app.task(name="vulnflanker.cleanup_expired_notifications")
+def cleanup_expired_notifications_task() -> dict[str, int]:
+    with SessionLocal() as db:
+        return {"deleted_count": cleanup_expired_notifications(db)}
 
 
 @celery_app.task(name="vulnflanker.collect_vulnerability_source")

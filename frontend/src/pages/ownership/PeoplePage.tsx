@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Button,
   Card,
@@ -118,7 +119,7 @@ export default function PeoplePage() {
       return createPerson(payload);
     },
     onSuccess: () => {
-      messageApi.success(editingPerson ? "人员信息已更新" : "人员已创建");
+      messageApi.success(editingPerson ? t("人员信息已更新") : t("人员已创建"));
       setIsPersonModalOpen(false);
       setEditingPerson(null);
       personForm.resetFields();
@@ -130,7 +131,7 @@ export default function PeoplePage() {
   const activateMutation = useMutation({
     mutationFn: (person: Person) => activatePerson(person.id, person.version),
     onSuccess: () => {
-      messageApi.success("人员已启用");
+      messageApi.success(t("人员已启用"));
       refreshOwnership();
     },
     onError: (error) => messageApi.error(error.message)
@@ -139,7 +140,7 @@ export default function PeoplePage() {
   const deactivateMutation = useMutation({
     mutationFn: (values: DeactivateFormValues) => {
       if (!deactivatingPerson) {
-        throw new Error("未选择要停用的人员");
+        throw new Error(t("未选择要停用的人员"));
       }
       return deactivatePerson(
         deactivatingPerson.id,
@@ -148,7 +149,7 @@ export default function PeoplePage() {
       );
     },
     onSuccess: () => {
-      messageApi.success("人员已停用，负责的业务系统已按选择完成转移");
+      messageApi.success(t("人员已停用，负责的业务系统已按选择完成转移"));
       setDeactivatingPerson(null);
       deactivateForm.resetFields();
       refreshOwnership();
@@ -179,18 +180,18 @@ export default function PeoplePage() {
 
   const columns: ColumnsType<Person> = [
     {
-      title: "人员",
+      title: t("人员"),
       key: "person",
       minWidth: 220,
       render: (_, person) => (
         <Space orientation="vertical" size={0}>
           <Typography.Text strong>{person.name}</Typography.Text>
-          <Typography.Text className="table-subtitle">{person.employee_no || "未设置工号"}</Typography.Text>
+          <Typography.Text className="table-subtitle">{person.employee_no || t("未设置工号")}</Typography.Text>
         </Space>
       )
     },
     {
-      title: "联系方式",
+      title: t("联系方式"),
       key: "contact",
       minWidth: 230,
       render: (_, person) => (
@@ -201,7 +202,7 @@ export default function PeoplePage() {
       )
     },
     {
-      title: "所属团队",
+      title: t("所属团队"),
       key: "team",
       width: 190,
       render: (_, person) => (
@@ -211,10 +212,10 @@ export default function PeoplePage() {
         </Space>
       )
     },
-    { title: "状态", dataIndex: "status", width: 90, render: (value: PersonStatus) => <LifecycleTag status={value} /> },
-    { title: "负责系统", dataIndex: "business_system_count", width: 100 },
+    { title: t("状态"), dataIndex: "status", width: 90, render: (value: PersonStatus) => <LifecycleTag status={value} /> },
+    { title: t("负责系统"), dataIndex: "business_system_count", width: 100 },
     {
-      title: "下游资产",
+      title: t("下游资产"),
       dataIndex: "asset_count",
       width: 100,
       render: (count: number, person) => (
@@ -223,16 +224,16 @@ export default function PeoplePage() {
         </Typography.Link>
       )
     },
-    { title: "更新时间", dataIndex: "updated_at", width: 185, render: formatDateTime },
+    { title: t("更新时间"), dataIndex: "updated_at", width: 185, render: formatDateTime },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       fixed: "right",
       width: 170,
       render: (_, person) => (
         <Space size={2}>
-          <Tooltip title={!isAdmin ? "需要超级管理员权限" : undefined}>
-            <Button type="link" disabled={!isAdmin} icon={<Pencil size={15} />} onClick={() => openEdit(person)}>编辑</Button>
+          <Tooltip title={!isAdmin ? t("需要超级管理员权限") : undefined}>
+            <Button type="link" disabled={!isAdmin} icon={<Pencil size={15} />} onClick={() => openEdit(person)}>{t("编辑")}</Button>
           </Tooltip>
           {person.status === "active" ? (
             <Button
@@ -245,8 +246,7 @@ export default function PeoplePage() {
                 deactivateForm.resetFields();
               }}
             >
-              停用
-            </Button>
+              {t("停用")}</Button>
           ) : (
             <Button
               type="link"
@@ -255,8 +255,7 @@ export default function PeoplePage() {
               loading={activateMutation.isPending}
               onClick={() => activateMutation.mutate(person)}
             >
-              启用
-            </Button>
+              {t("启用")}</Button>
           )}
         </Space>
       )
@@ -264,7 +263,7 @@ export default function PeoplePage() {
   ];
 
   const teamOptions = (teamsQuery.data?.items ?? []).map((team) => ({
-    label: `${team.name} · ${team.code}${team.status === "inactive" ? "（已停用）" : ""}`,
+    label: t("{{v0}} · {{v1}}{{v2}}", { v0: team.name, v1: team.code, v2: team.status === "inactive" ? t("（已停用）") : "" }),
     value: team.id,
     disabled: team.status !== "active"
   }));
@@ -273,23 +272,23 @@ export default function PeoplePage() {
     <Space className="page-stack" orientation="vertical" size={16}>
       {contextHolder}
       <PageHeader
-        title="人员管理"
-        subtitle="维护专门责任人及其团队；人员负责业务系统，资产归属沿该链路自动解析。"
+        title={t("人员管理")}
+        subtitle={t("维护专门责任人及其团队；人员负责业务系统，资产归属沿该链路自动解析。")}
         extra={
           <Space>
-            <Button icon={<RefreshCw size={16} />} loading={peopleQuery.isFetching} onClick={refreshOwnership}>刷新</Button>
-            <Button type="primary" icon={<Plus size={16} />} disabled={!isAdmin} onClick={openCreate}>新建人员</Button>
+            <Button icon={<RefreshCw size={16} />} loading={peopleQuery.isFetching} onClick={refreshOwnership}>{t("刷新")}</Button>
+            <Button type="primary" icon={<Plus size={16} />} disabled={!isAdmin} onClick={openCreate}>{t("新建人员")}</Button>
           </Space>
         }
       />
       <ReadOnlyNotice isAdmin={isAdmin} />
       <OwnershipMetrics summary={summaryQuery.data} />
-      <Card className="content-card" title="人员列表">
+      <Card className="content-card" title={t("人员列表")}>
         <div className="table-toolbar ownership-toolbar">
           <Input
             allowClear
             prefix={<Search size={16} />}
-            placeholder="搜索姓名、工号、邮箱或电话"
+            placeholder={t("搜索姓名、工号、邮箱或电话")}
             value={keyword}
             onChange={(event) => {
               setKeyword(event.target.value);
@@ -300,7 +299,7 @@ export default function PeoplePage() {
             allowClear
             showSearch
             optionFilterProp="label"
-            placeholder="全部团队"
+            placeholder={t("全部团队")}
             loading={teamsQuery.isLoading}
             options={(teamsQuery.data?.items ?? []).map((team) => ({ label: team.name, value: team.id }))}
             value={teamId}
@@ -311,10 +310,10 @@ export default function PeoplePage() {
           />
           <Select
             allowClear
-            placeholder="邮箱情况"
+            placeholder={t("邮箱情况")}
             options={[
-              { label: "有邮箱", value: true },
-              { label: "无邮箱", value: false }
+              { label: t("有邮箱"), value: true },
+              { label: t("无邮箱"), value: false }
             ]}
             value={hasEmail}
             onChange={(value) => {
@@ -324,10 +323,10 @@ export default function PeoplePage() {
           />
           <Select
             allowClear
-            placeholder="负责系统"
+            placeholder={t("负责系统")}
             options={[
-              { label: "负责系统", value: true },
-              { label: "未负责系统", value: false }
+              { label: t("负责系统"), value: true },
+              { label: t("未负责系统"), value: false }
             ]}
             value={hasSystems}
             onChange={(value) => {
@@ -337,7 +336,7 @@ export default function PeoplePage() {
           />
           <Select
             allowClear
-            placeholder="全部状态"
+            placeholder={t("全部状态")}
             options={lifecycleOptions}
             value={status}
             onChange={(value) => {
@@ -353,13 +352,13 @@ export default function PeoplePage() {
           columns={columns}
           dataSource={peopleQuery.data?.items ?? []}
           loading={peopleQuery.isLoading}
-          locale={{ emptyText: <EmptyState title="暂无人员，请先创建并绑定团队" /> }}
+          locale={{ emptyText: <EmptyState title={t("暂无人员，请先创建并绑定团队")} /> }}
           pagination={{
             current: page,
             pageSize,
             total: peopleQuery.data?.total ?? 0,
             showSizeChanger: true,
-            showTotal: (total) => `共 ${total} 名人员`,
+            showTotal: (total) => t("共 {{v0}} 名人员", { v0: total }),
             onChange: (nextPage, nextPageSize) => {
               setPage(nextPageSize === pageSize ? nextPage : 1);
               setPageSize(nextPageSize);
@@ -370,53 +369,52 @@ export default function PeoplePage() {
       </Card>
 
       <Modal
-        title={editingPerson ? "编辑人员" : "新建人员"}
+        title={editingPerson ? t("编辑人员") : t("新建人员")}
         open={isPersonModalOpen}
         width={620}
-        okText={editingPerson ? "保存" : "创建"}
+        okText={editingPerson ? t("保存") : t("创建")}
         confirmLoading={saveMutation.isPending}
         onCancel={() => setIsPersonModalOpen(false)}
         onOk={() => personForm.submit()}
       >
         <Form form={personForm} layout="vertical" onFinish={(values) => saveMutation.mutate(values)}>
           <div className="ownership-form-grid">
-            <Form.Item label="姓名" name="name" rules={[{ required: true, message: "请输入姓名" }]}>
+            <Form.Item label={t("姓名")} name="name" rules={[{ required: true, message: t("请输入姓名") }]}>
               <Input maxLength={255} />
             </Form.Item>
-            <Form.Item label="工号" name="employee_no"><Input maxLength={64} /></Form.Item>
-            <Form.Item label="所属团队" name="team_id" rules={[{ required: true, message: "请选择启用团队" }]}>
+            <Form.Item label={t("工号")} name="employee_no"><Input maxLength={64} /></Form.Item>
+            <Form.Item label={t("所属团队")} name="team_id" rules={[{ required: true, message: t("请选择启用团队") }]}>
               <Select showSearch optionFilterProp="label" loading={teamsQuery.isLoading} options={teamOptions} />
             </Form.Item>
             {!editingPerson ? (
-              <Form.Item label="初始状态" name="status"><Select options={lifecycleOptions} /></Form.Item>
+              <Form.Item label={t("初始状态")} name="status"><Select options={lifecycleOptions} /></Form.Item>
             ) : null}
-            <Form.Item label="邮箱" name="email" rules={[{ type: "email", message: "请输入有效邮箱" }]}>
+            <Form.Item label={t("邮箱")} name="email" rules={[{ type: "email", message: t("请输入有效邮箱") }]}>
               <Input maxLength={320} />
             </Form.Item>
-            <Form.Item label="电话" name="phone"><Input maxLength={64} /></Form.Item>
+            <Form.Item label={t("电话")} name="phone"><Input maxLength={64} /></Form.Item>
           </div>
-          <Form.Item label="备注" name="notes"><Input.TextArea maxLength={4000} rows={3} showCount /></Form.Item>
+          <Form.Item label={t("备注")} name="notes"><Input.TextArea maxLength={4000} rows={3} showCount /></Form.Item>
         </Form>
       </Modal>
 
       <Modal
-        title={`停用人员${deactivatingPerson ? ` · ${deactivatingPerson.name}` : ""}`}
+        title={t("停用人员{{v0}}", { v0: deactivatingPerson ? ` · ${deactivatingPerson.name}` : "" })}
         open={Boolean(deactivatingPerson)}
-        okText="确认停用"
+        okText={t("确认停用")}
         okButtonProps={{ danger: true }}
         confirmLoading={deactivateMutation.isPending}
         onCancel={() => setDeactivatingPerson(null)}
         onOk={() => deactivateForm.submit()}
       >
         <Typography.Paragraph>
-          该人员当前负责 {deactivatingPerson?.business_system_count ?? 0} 个业务系统，覆盖 {deactivatingPerson?.asset_count ?? 0} 个资产。
-        </Typography.Paragraph>
+          {t("该人员当前负责")}{deactivatingPerson?.business_system_count ?? 0} {t("个业务系统，覆盖")}{deactivatingPerson?.asset_count ?? 0} {t("个资产。")}</Typography.Paragraph>
         <Form form={deactivateForm} layout="vertical" onFinish={(values) => deactivateMutation.mutate(values)}>
           <Form.Item
-            label="业务系统接替人"
+            label={t("业务系统接替人")}
             name="replacement_person_id"
-            rules={deactivatingPerson?.business_system_count ? [{ required: true, message: "存在负责系统时必须选择接替人" }] : []}
-            extra="转移与人员停用将在同一事务完成。"
+            rules={deactivatingPerson?.business_system_count ? [{ required: true, message: t("存在负责系统时必须选择接替人") }] : []}
+            extra={t("转移与人员停用将在同一事务完成。")}
           >
             <Select
               allowClear
@@ -426,7 +424,7 @@ export default function PeoplePage() {
               options={(replacementPeopleQuery.data?.items ?? [])
                 .filter((person) => person.id !== deactivatingPerson?.id)
                 .map((person) => ({ value: person.id, label: `${person.name} · ${person.team.name}` }))}
-              placeholder={deactivatingPerson?.business_system_count ? "请选择接替人" : "无负责系统，可不选择"}
+              placeholder={deactivatingPerson?.business_system_count ? t("请选择接替人") : t("无负责系统，可不选择")}
             />
           </Form.Item>
         </Form>

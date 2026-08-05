@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Button,
   Card,
@@ -57,35 +58,35 @@ const defaultFilters: TaskCenterItemsQuery = {
 };
 
 const itemTypeOptions: Array<{ label: string; value: TaskCenterItemType }> = [
-  { label: "验证任务", value: "verification" },
-  { label: "情报采集", value: "intel_collection" },
-  { label: "风险待处理项", value: "risk_queue_item" },
-  { label: "AI 补全", value: "ai_enrichment" }
+  { label: t("验证任务"), value: "verification" },
+  { label: t("情报采集"), value: "intel_collection" },
+  { label: t("风险待处理项"), value: "risk_queue_item" },
+  { label: t("AI 补全"), value: "ai_enrichment" }
 ];
 
 const statusGroupOptions: Array<{ label: string; value: TaskCenterStatusGroup }> = [
-  { label: "待处理", value: "pending" },
-  { label: "运行中", value: "running" },
-  { label: "已完成", value: "success" },
-  { label: "失败", value: "failed" },
-  { label: "已取消", value: "cancelled" },
-  { label: "需关注", value: "attention" }
+  { label: t("待处理"), value: "pending" },
+  { label: t("运行中"), value: "running" },
+  { label: t("已完成"), value: "success" },
+  { label: t("失败"), value: "failed" },
+  { label: t("已取消"), value: "cancelled" },
+  { label: t("需关注"), value: "attention" }
 ];
 
 const sourceOptions = [
-  { label: "验证任务", value: "verification" },
-  { label: "风险队列", value: "risk-queue" },
-  { label: "AI 补全", value: "ai-enrichment" },
+  { label: t("验证任务"), value: "verification" },
+  { label: t("风险队列"), value: "risk-queue" },
+  { label: t("AI 补全"), value: "ai-enrichment" },
   { label: "CISA KEV", value: "cisa-kev" },
-  { label: "阿里云漏洞库", value: "aliyun-avd" },
+  { label: t("阿里云漏洞库"), value: "aliyun-avd" },
   { label: "WatchVuln", value: "watchvuln" }
 ];
 
 const triggerOptions = [
-  { label: "手动", value: "manual" },
-  { label: "定时", value: "scheduled" },
+  { label: t("手动"), value: "manual" },
+  { label: t("定时"), value: "scheduled" },
   { label: "Webhook", value: "webhook" },
-  { label: "系统", value: "system" }
+  { label: t("系统"), value: "system" }
 ];
 
 const manualIntelSources: IntelManualSourceName[] = [
@@ -108,10 +109,10 @@ function normalizeFilters(values: TaskCenterItemsQuery): TaskCenterItemsQuery {
 
 function itemTypeLabel(value: TaskCenterItemType) {
   const labels: Record<TaskCenterItemType, string> = {
-    verification: "验证任务",
-    intel_collection: "情报采集",
-    risk_queue_item: "风险项",
-    ai_enrichment: "AI 补全"
+    verification: t("验证任务"),
+    intel_collection: t("情报采集"),
+    risk_queue_item: t("风险项"),
+    ai_enrichment: t("AI 补全")
   };
   return labels[value];
 }
@@ -130,12 +131,12 @@ function statusGroupColor(value: TaskCenterStatusGroup) {
 
 function statusGroupLabel(value: TaskCenterStatusGroup) {
   const labels: Record<TaskCenterStatusGroup, string> = {
-    pending: "待处理",
-    running: "运行中",
-    success: "已完成",
-    failed: "失败",
-    cancelled: "已取消",
-    attention: "需关注"
+    pending: t("待处理"),
+    running: t("运行中"),
+    success: t("已完成"),
+    failed: t("失败"),
+    cancelled: t("已取消"),
+    attention: t("需关注")
   };
   return labels[value];
 }
@@ -153,6 +154,39 @@ function riskPriorityValue(value?: string | null): RiskPriority {
 
 function metricValue(item: TaskCenterItem, key: string) {
   return item.metrics[key] ?? 0;
+}
+
+function taskTitle(item: TaskCenterItem) {
+  const title = item.title;
+
+  if (item.item_type === "verification") {
+    if (title === "验证任务") {
+      return t("验证任务");
+    }
+    if (title.startsWith("验证 ")) {
+      return `${t("验证")} ${title.slice("验证 ".length)}`;
+    }
+  }
+
+  if (item.item_type === "intel_collection" && title.endsWith(" 情报采集")) {
+    const sourceLabel = title.slice(0, -" 情报采集".length);
+    return `${sourceLabel === "阿里云漏洞库" ? t("阿里云漏洞库") : sourceLabel} ${t("情报采集")}`;
+  }
+
+  if (item.item_type === "risk_queue_item" && title.startsWith("风险待处理 ")) {
+    return `${t("风险待处理")} ${title.slice("风险待处理 ".length)}`;
+  }
+
+  if (item.item_type === "ai_enrichment") {
+    if (title === "AI 漏洞补全") {
+      return t("AI 漏洞补全");
+    }
+    if (title.startsWith("AI 漏洞补全 ") && title.endsWith(" 条")) {
+      return `${t("AI 漏洞补全")} ${title.slice("AI 漏洞补全 ".length, -" 条".length)} ${t("条")}`;
+    }
+  }
+
+  return title;
 }
 
 export default function TaskCenterPage() {
@@ -182,23 +216,23 @@ export default function TaskCenterPage() {
   const cancelMutation = useMutation({
     mutationFn: (taskId: string) => cancelVerificationTask(taskId),
     onSuccess: () => {
-      messageApi.success("验证任务已更新");
+      messageApi.success(t("验证任务已更新"));
       invalidateTaskData();
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "取消任务失败");
+      messageApi.error(error instanceof Error ? error.message : t("取消任务失败"));
     }
   });
 
   const retryMutation = useMutation({
     mutationFn: (taskId: string) => retryVerificationTask(taskId),
     onSuccess: (task) => {
-      messageApi.success("重试任务已创建");
+      messageApi.success(t("重试任务已创建"));
       invalidateTaskData();
       navigate(`/verification-tasks/${task.id}`);
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "重试任务失败");
+      messageApi.error(error instanceof Error ? error.message : t("重试任务失败"));
     }
   });
 
@@ -210,11 +244,11 @@ export default function TaskCenterPage() {
         min_score: sourceName === "aliyun-avd" ? 7 : null
       }),
     onSuccess: (result) => {
-      messageApi.success(result.message ?? "情报采集任务已提交");
+      messageApi.success(result.message ?? t("情报采集任务已提交"));
       invalidateTaskData();
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "情报采集失败");
+      messageApi.error(error instanceof Error ? error.message : t("情报采集失败"));
     }
   });
 
@@ -226,23 +260,23 @@ export default function TaskCenterPage() {
         requested_by: null
       }),
     onSuccess: (task) => {
-      messageApi.success("验证任务已创建");
+      messageApi.success(t("验证任务已创建"));
       invalidateTaskData();
       navigate(`/verification-tasks/${task.id}`);
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "验证任务创建失败");
+      messageApi.error(error instanceof Error ? error.message : t("验证任务创建失败"));
     }
   });
 
   const reevaluateMutation = useMutation({
     mutationFn: (matchResultId: string) => reevaluateMatchResult(matchResultId),
     onSuccess: () => {
-      messageApi.success("匹配结果已重评估");
+      messageApi.success(t("匹配结果已重评估"));
       invalidateTaskData();
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "重评估失败");
+      messageApi.error(error instanceof Error ? error.message : t("重评估失败"));
     }
   });
 
@@ -261,19 +295,19 @@ export default function TaskCenterPage() {
 
   const columns: ColumnsType<TaskCenterItem> = [
     {
-      title: "类型",
+      title: t("类型"),
       dataIndex: "item_type",
       width: 120,
       render: (value: TaskCenterItemType) => <Tag>{itemTypeLabel(value)}</Tag>
     },
     {
-      title: "任务",
+      title: t("任务"),
       dataIndex: "title",
       minWidth: 280,
       render: (_: string, record) => (
         <Space orientation="vertical" size={0}>
           <Typography.Link onClick={() => navigate(record.detail_path)}>
-            {record.title}
+            {taskTitle(record)}
           </Typography.Link>
           <Typography.Text className="table-subtitle" copyable>
             {record.raw_id}
@@ -282,7 +316,7 @@ export default function TaskCenterPage() {
       )
     },
     {
-      title: "状态",
+      title: t("状态"),
       key: "status",
       width: 150,
       render: (_, record) => (
@@ -295,7 +329,7 @@ export default function TaskCenterPage() {
       )
     },
     {
-      title: "来源/触发",
+      title: t("来源/触发"),
       key: "source",
       width: 160,
       render: (_, record) => (
@@ -308,7 +342,7 @@ export default function TaskCenterPage() {
       )
     },
     {
-      title: "资产",
+      title: t("资产"),
       key: "asset",
       width: 210,
       render: (_, record) =>
@@ -326,7 +360,7 @@ export default function TaskCenterPage() {
         )
     },
     {
-      title: "漏洞",
+      title: t("漏洞"),
       key: "vulnerability",
       minWidth: 240,
       render: (_, record) =>
@@ -346,7 +380,7 @@ export default function TaskCenterPage() {
         )
     },
     {
-      title: "风险",
+      title: t("风险"),
       key: "risk",
       width: 140,
       render: (_, record) =>
@@ -362,42 +396,42 @@ export default function TaskCenterPage() {
         )
     },
     {
-      title: "计数",
+      title: t("计数"),
       key: "metrics",
       width: 170,
       render: (_, record) => {
         if (record.item_type === "verification") {
-          return `${metricValue(record, "evidence_count")} 证据 / ${metricValue(
+          return t("{{v0}} 证据 / {{v1}} 重试", { v0: metricValue(record, "evidence_count"), v1: metricValue(
             record,
             "retry_count"
-          )} 重试`;
+          ) });
         }
         if (record.item_type === "intel_collection") {
-          return `${metricValue(record, "processed_count")} 处理 / ${metricValue(
+          return t("{{v0}} 处理 / {{v1}} 失败", { v0: metricValue(record, "processed_count"), v1: metricValue(
             record,
             "failed_count"
-          )} 失败`;
+          ) });
         }
         if (record.item_type === "ai_enrichment") {
-          return `${metricValue(record, "processed_count")} 处理 / ${metricValue(
+          return t("{{v0}} 处理 / {{v1}} 待审 / {{v2}} 失败", { v0: metricValue(record, "processed_count"), v1: metricValue(
             record,
             "pending_review_count"
-          )} 待审 / ${metricValue(record, "failed_count")} 失败`;
+          ), v2: metricValue(record, "failed_count") });
         }
-        return `${metricValue(record, "verification_task_count")} 验证 / ${metricValue(
+        return t("{{v0}} 验证 / {{v1}} 证据", { v0: metricValue(record, "verification_task_count"), v1: metricValue(
           record,
           "verification_evidence_count"
-        )} 证据`;
+        ) });
       }
     },
     {
-      title: "更新时间",
+      title: t("更新时间"),
       dataIndex: "updated_at",
       width: 190,
       render: (value: string) => formatDateTime(value)
     },
     {
-      title: "错误",
+      title: t("错误"),
       dataIndex: "error_message",
       minWidth: 220,
       render: (value: string | null) => (
@@ -407,7 +441,7 @@ export default function TaskCenterPage() {
       )
     },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       fixed: "right",
       width: 300,
@@ -418,12 +452,11 @@ export default function TaskCenterPage() {
             icon={<Eye size={15} />}
             onClick={() => navigate(record.detail_path)}
           >
-            详情
-          </Button>
+            {t("详情")}</Button>
           {record.item_type === "verification" ? (
             <>
               <Popconfirm
-                title="取消验证任务"
+                title={t("取消验证任务")}
                 onConfirm={() => cancelMutation.mutate(record.raw_id)}
                 disabled={!record.available_actions.includes("cancel")}
               >
@@ -434,8 +467,7 @@ export default function TaskCenterPage() {
                   disabled={!record.available_actions.includes("cancel")}
                   loading={cancelMutation.isPending}
                 >
-                  取消
-                </Button>
+                  {t("取消")}</Button>
               </Popconfirm>
               <Button
                 type="link"
@@ -444,8 +476,7 @@ export default function TaskCenterPage() {
                 loading={retryMutation.isPending}
                 onClick={() => retryMutation.mutate(record.raw_id)}
               >
-                重试
-              </Button>
+                {t("重试")}</Button>
             </>
           ) : null}
           {record.item_type === "risk_queue_item" ? (
@@ -456,16 +487,14 @@ export default function TaskCenterPage() {
                 loading={createVerificationMutation.isPending}
                 onClick={() => createVerificationMutation.mutate(record.raw_id)}
               >
-                验证
-              </Button>
+                {t("验证")}</Button>
               <Button
                 type="link"
                 icon={<SearchCheck size={15} />}
                 loading={reevaluateMutation.isPending}
                 onClick={() => reevaluateMutation.mutate(record.raw_id)}
               >
-                重评估
-              </Button>
+                {t("重评估")}</Button>
             </>
           ) : null}
           {record.item_type === "intel_collection" && canCollectSource(record.source) ? (
@@ -479,8 +508,7 @@ export default function TaskCenterPage() {
                 }
               }}
             >
-              重采集
-            </Button>
+              {t("重采集")}</Button>
           ) : null}
         </Space>
       )
@@ -491,7 +519,7 @@ export default function TaskCenterPage() {
     <Space className="page-stack" orientation="vertical" size={16}>
       {contextHolder}
       <PageHeader
-        title="任务中心"
+        title={t("任务中心")}
         extra={
           <Space wrap>
             <Button
@@ -499,8 +527,7 @@ export default function TaskCenterPage() {
               onClick={() => collectMutation.mutate("watchvuln")}
               loading={collectMutation.isPending}
             >
-              采集 WatchVuln
-            </Button>
+              {t("采集 WatchVuln")}</Button>
             <Button
               icon={<RefreshCw size={16} />}
               onClick={() => {
@@ -509,8 +536,7 @@ export default function TaskCenterPage() {
               }}
               loading={summaryQuery.isFetching || itemsQuery.isFetching}
             >
-              刷新
-            </Button>
+              {t("刷新")}</Button>
           </Space>
         }
       />
@@ -519,7 +545,7 @@ export default function TaskCenterPage() {
         <Col xs={24} lg={6}>
           <Card className="metric-card">
             <Statistic
-              title="任务条目"
+              title={t("任务条目")}
               value={summary?.total ?? localMetrics.total}
               prefix={<ListChecks size={28} />}
             />
@@ -528,7 +554,7 @@ export default function TaskCenterPage() {
         <Col xs={24} lg={6}>
           <Card className="metric-card">
             <Statistic
-              title="待处理"
+              title={t("待处理")}
               value={summary?.pending ?? localMetrics.pending}
               prefix={<PlayCircle size={28} />}
             />
@@ -537,7 +563,7 @@ export default function TaskCenterPage() {
         <Col xs={24} lg={6}>
           <Card className="metric-card metric-card-green">
             <Statistic
-              title="运行中"
+              title={t("运行中")}
               value={summary?.running ?? localMetrics.running}
               prefix={<RefreshCw size={28} />}
             />
@@ -546,7 +572,7 @@ export default function TaskCenterPage() {
         <Col xs={24} lg={6}>
           <Card className="metric-card metric-card-red">
             <Statistic
-              title="失败/需关注"
+              title={t("失败/需关注")}
               value={(summary?.failed ?? localMetrics.failed) + (summary?.attention ?? localMetrics.attention)}
               prefix={<ShieldAlert size={28} />}
             />
@@ -561,25 +587,25 @@ export default function TaskCenterPage() {
           initialValues={defaultFilters}
           onFinish={(values) => setFilters(normalizeFilters(values))}
         >
-          <Form.Item label="类型" name="item_type">
-            <Select allowClear options={itemTypeOptions} placeholder="全部类型" />
+          <Form.Item label={t("类型")} name="item_type">
+            <Select allowClear options={itemTypeOptions} placeholder={t("全部类型")} />
           </Form.Item>
-          <Form.Item label="状态组" name="status_group">
-            <Select allowClear options={statusGroupOptions} placeholder="全部状态组" />
+          <Form.Item label={t("状态组")} name="status_group">
+            <Select allowClear options={statusGroupOptions} placeholder={t("全部状态组")} />
           </Form.Item>
-          <Form.Item label="原始状态" name="status">
+          <Form.Item label={t("原始状态")} name="status">
             <Input placeholder="queued / affected" />
           </Form.Item>
-          <Form.Item label="来源" name="source">
-            <Select allowClear options={sourceOptions} placeholder="全部来源" />
+          <Form.Item label={t("来源")} name="source">
+            <Select allowClear options={sourceOptions} placeholder={t("全部来源")} />
           </Form.Item>
-          <Form.Item label="触发" name="trigger_type">
-            <Select allowClear options={triggerOptions} placeholder="全部触发" />
+          <Form.Item label={t("触发")} name="trigger_type">
+            <Select allowClear options={triggerOptions} placeholder={t("全部触发")} />
           </Form.Item>
-          <Form.Item label="关键字" name="keyword">
-            <Input placeholder="任务、资产、漏洞、Agent" />
+          <Form.Item label={t("关键字")} name="keyword">
+            <Input placeholder={t("任务、资产、漏洞、Agent")} />
           </Form.Item>
-          <Form.Item label="返回数量" name="limit">
+          <Form.Item label={t("返回数量")} name="limit">
             <InputNumber min={1} max={500} />
           </Form.Item>
           <Form.Item>
@@ -590,18 +616,16 @@ export default function TaskCenterPage() {
                   setFilters(defaultFilters);
                 }}
               >
-                重置
-              </Button>
+                {t("重置")}</Button>
               <Button type="primary" htmlType="submit">
-                查询
-              </Button>
+                {t("查询")}</Button>
             </Space>
           </Form.Item>
         </Form>
       </Card>
 
-      <Card className="content-card" title="任务条目">
-        {summaryQuery.isError ? <ErrorState title="任务统计加载失败" error={summaryQuery.error} /> : null}
+      <Card className="content-card" title={t("任务条目")}>
+        {summaryQuery.isError ? <ErrorState title={t("任务统计加载失败")} error={summaryQuery.error} /> : null}
         {itemsQuery.isError ? <ErrorState error={itemsQuery.error} /> : null}
         <ResizableTable<TaskCenterItem>
           storageKey="task-center-items"
@@ -618,10 +642,9 @@ export default function TaskCenterPage() {
           pagination={{ pageSize: 10, showSizeChanger: true }}
           locale={{
             emptyText: (
-              <EmptyState title="暂无任务条目">
+              <EmptyState title={t("暂无任务条目")}>
                 <Button type="primary" onClick={() => navigate("/risk-queue")}>
-                  去风险队列
-                </Button>
+                  {t("去风险队列")}</Button>
               </EmptyState>
             )
           }}

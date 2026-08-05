@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import { Button, Form, Input, Modal, Select, Space, Typography } from "antd";
 import { RotateCcw, Save } from "lucide-react";
 import { useEffect } from "react";
@@ -48,7 +49,7 @@ export default function MatchResultHandlingModal({
   return (
     <Modal
       open={open}
-      title="人工处置"
+      title={t("人工处置")}
       onCancel={onCancel}
       destroyOnHidden
       footer={
@@ -60,12 +61,10 @@ export default function MatchResultHandlingModal({
               disabled={saving}
               onClick={() => onReopen(form.getFieldValue("note")?.trim() || null)}
             >
-              重新打开
-            </Button>
+              {t("重新打开")}</Button>
           ) : null}
           <Button onClick={onCancel} disabled={saving || reopening}>
-            取消
-          </Button>
+            {t("取消")}</Button>
           <Button
             type="primary"
             icon={<Save size={15} />}
@@ -73,8 +72,7 @@ export default function MatchResultHandlingModal({
             disabled={!result || reopening}
             onClick={() => form.submit()}
           >
-            保存处置
-          </Button>
+            {t("保存处置")}</Button>
         </Space>
       }
     >
@@ -85,9 +83,9 @@ export default function MatchResultHandlingModal({
             <Typography.Text type="secondary">{result.asset_hostname}</Typography.Text>
           </Space>
           <Space wrap>
-            <Typography.Text type="secondary">匹配状态</Typography.Text>
+            <Typography.Text type="secondary">{t("匹配状态")}</Typography.Text>
             <StatusTag value={result.status} />
-            <Typography.Text type="secondary">当前处置</Typography.Text>
+            <Typography.Text type="secondary">{t("当前处置")}</Typography.Text>
             <HandlingStatusTag value={result.handling_status} />
           </Space>
         </Space>
@@ -104,18 +102,18 @@ export default function MatchResultHandlingModal({
         }
       >
         <Form.Item
-          label="处置状态"
+          label={t("处置状态")}
           name="handling_status"
-          rules={[{ required: true, message: "请选择处置状态" }]}
+          rules={[{ required: true, message: t("请选择处置状态") }]}
         >
           <Select options={handlingStatusOptions} />
         </Form.Item>
-        <Form.Item label="本次说明" name="note">
+        <Form.Item label={t("本次说明")} name="note">
           <Input.TextArea
             rows={4}
             maxLength={4000}
             showCount
-            placeholder="记录通知、整改、复核或闭环依据"
+            placeholder={t("记录通知、整改、复核或闭环依据")}
           />
         </Form.Item>
       </Form>

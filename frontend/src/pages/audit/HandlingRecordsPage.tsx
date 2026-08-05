@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Button,
   Card,
@@ -31,8 +32,8 @@ import ResizableTable from "@/components/ResizableTable";
 import { formatDateTime } from "@/utils/format";
 
 const actionOptions = [
-  { label: "状态变更", value: "status_changed" },
-  { label: "重新打开", value: "reopened" }
+  { label: t("状态变更"), value: "status_changed" },
+  { label: t("重新打开"), value: "reopened" }
 ];
 
 function actionLabel(value: string) {
@@ -124,13 +125,13 @@ export default function HandlingRecordsPage() {
 
   const columns: ColumnsType<HandlingAuditRecord> = [
     {
-      title: "时间",
+      title: t("时间"),
       dataIndex: "created_at",
       width: 190,
       render: (value: string) => formatDateTime(value)
     },
     {
-      title: "风险项",
+      title: t("风险项"),
       key: "risk",
       minWidth: 300,
       render: (_, record) => (
@@ -145,7 +146,7 @@ export default function HandlingRecordsPage() {
       )
     },
     {
-      title: "资产",
+      title: t("资产"),
       key: "asset",
       width: 220,
       render: (_, record) => (
@@ -160,7 +161,7 @@ export default function HandlingRecordsPage() {
       )
     },
     {
-      title: "处置动作",
+      title: t("处置动作"),
       key: "status",
       width: 250,
       render: (_, record) => (
@@ -170,22 +171,22 @@ export default function HandlingRecordsPage() {
             {record.from_status ? (
               <HandlingStatusTag value={record.from_status} />
             ) : (
-              <Tag>起始</Tag>
+              <Tag>{t("起始")}</Tag>
             )}
-            <Typography.Text type="secondary">到</Typography.Text>
+            <Typography.Text type="secondary">{t("到")}</Typography.Text>
             <HandlingStatusTag value={record.to_status} />
           </Space>
         </Space>
       )
     },
     {
-      title: "操作者",
+      title: t("操作者"),
       key: "actor",
       width: 180,
       render: (_, record) => actorName(record)
     },
     {
-      title: "说明",
+      title: t("说明"),
       dataIndex: "note",
       minWidth: 280,
       render: (value: string | null) => (
@@ -195,7 +196,7 @@ export default function HandlingRecordsPage() {
       )
     },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       fixed: "right",
       width: 120,
@@ -206,8 +207,7 @@ export default function HandlingRecordsPage() {
           icon={<ExternalLink size={15} />}
           onClick={() => navigate(`/matching/${record.match_result_id}`)}
         >
-          查看风险
-        </Button>
+          {t("查看风险")}</Button>
       )
     }
   ];
@@ -215,16 +215,15 @@ export default function HandlingRecordsPage() {
   return (
     <Space className="page-stack" orientation="vertical" size={16}>
       <PageHeader
-        title="处置记录"
-        subtitle="记录各风险项的人工处置状态变更和重新打开操作"
+        title={t("处置记录")}
+        subtitle={t("记录各风险项的人工处置状态变更和重新打开操作")}
         extra={
           <Button
             icon={<RefreshCw size={16} />}
             onClick={() => recordsQuery.refetch()}
             loading={recordsQuery.isFetching}
           >
-            刷新
-          </Button>
+            {t("刷新")}</Button>
         }
       />
 
@@ -235,37 +234,36 @@ export default function HandlingRecordsPage() {
           initialValues={initialFilters}
           onFinish={applyFilters}
         >
-          <Form.Item label="动作" name="action">
-            <Select allowClear options={actionOptions} placeholder="全部动作" />
+          <Form.Item label={t("动作")} name="action">
+            <Select allowClear options={actionOptions} placeholder={t("全部动作")} />
           </Form.Item>
-          <Form.Item label="处置状态" name="to_status">
+          <Form.Item label={t("处置状态")} name="to_status">
             <Select
               allowClear
               options={handlingStatusOptions}
-              placeholder="全部状态"
+              placeholder={t("全部状态")}
             />
           </Form.Item>
-          <Form.Item label="风险项 ID" name="match_result_id">
+          <Form.Item label={t("风险项 ID")} name="match_result_id">
             <Input allowClear placeholder="match result id" />
           </Form.Item>
-          <Form.Item label="操作者" name="actor_id">
+          <Form.Item label={t("操作者")} name="actor_id">
             <Input allowClear placeholder="actor id" />
           </Form.Item>
-          <Form.Item label="数量" name="limit">
+          <Form.Item label={t("数量")} name="limit">
             <InputNumber min={1} max={500} />
           </Form.Item>
           <Form.Item>
             <Space>
-              <Button onClick={resetFilters}>重置</Button>
+              <Button onClick={resetFilters}>{t("重置")}</Button>
               <Button type="primary" htmlType="submit">
-                查询
-              </Button>
+                {t("查询")}</Button>
             </Space>
           </Form.Item>
         </Form>
       </Card>
 
-      <Card className="content-card" title="处置记录">
+      <Card className="content-card" title={t("处置记录")}>
         {recordsQuery.isError ? <ErrorState error={recordsQuery.error} /> : null}
         <ResizableTable<HandlingAuditRecord>
           storageKey="handling-audit-records"
@@ -274,7 +272,7 @@ export default function HandlingRecordsPage() {
           dataSource={recordsQuery.data ?? []}
           loading={recordsQuery.isFetching}
           pagination={{ pageSize: 10, showSizeChanger: true }}
-          locale={{ emptyText: <EmptyState title="暂无处置记录" /> }}
+          locale={{ emptyText: <EmptyState title={t("暂无处置记录")} /> }}
           scroll={{ x: 1540 }}
         />
       </Card>

@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Button,
   Card,
@@ -52,24 +53,24 @@ export default function VerificationTaskDetailPage() {
   const cancelMutation = useMutation({
     mutationFn: () => cancelVerificationTask(taskId ?? ""),
     onSuccess: () => {
-      messageApi.success("验证任务已更新");
+      messageApi.success(t("验证任务已更新"));
       void queryClient.invalidateQueries({ queryKey: ["verification-tasks"] });
       void queryClient.invalidateQueries({ queryKey: ["match-results"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "取消任务失败");
+      messageApi.error(error instanceof Error ? error.message : t("取消任务失败"));
     }
   });
 
   const retryMutation = useMutation({
     mutationFn: () => retryVerificationTask(taskId ?? ""),
     onSuccess: (task) => {
-      messageApi.success("重试任务已创建");
+      messageApi.success(t("重试任务已创建"));
       void queryClient.invalidateQueries({ queryKey: ["verification-tasks"] });
       navigate(`/verification-tasks/${task.id}`);
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "重试任务失败");
+      messageApi.error(error instanceof Error ? error.message : t("重试任务失败"));
     }
   });
 
@@ -79,12 +80,11 @@ export default function VerificationTaskDetailPage() {
     <Space className="page-stack" orientation="vertical" size={16}>
       {contextHolder}
       <PageHeader
-        title="验证任务详情"
+        title={t("验证任务详情")}
         extra={
           <Space>
             <Button icon={<ArrowLeft size={16} />} onClick={() => navigate(-1)}>
-              返回
-            </Button>
+              {t("返回")}</Button>
             <Button
               icon={<FileClock size={16} />}
               onClick={() =>
@@ -96,17 +96,15 @@ export default function VerificationTaskDetailPage() {
               }
               disabled={!taskId}
             >
-              相关审计
-            </Button>
+              {t("相关审计")}</Button>
             <Button
               icon={<RefreshCw size={16} />}
               onClick={() => taskQuery.refetch()}
               loading={taskQuery.isFetching}
             >
-              刷新
-            </Button>
+              {t("刷新")}</Button>
             <Popconfirm
-              title="取消验证任务"
+              title={t("取消验证任务")}
               onConfirm={() => cancelMutation.mutate()}
               disabled={!canCancel(task)}
             >
@@ -116,8 +114,7 @@ export default function VerificationTaskDetailPage() {
                 disabled={!canCancel(task)}
                 loading={cancelMutation.isPending}
               >
-                取消
-              </Button>
+                {t("取消")}</Button>
             </Popconfirm>
             <Button
               icon={<RotateCcw size={16} />}
@@ -125,8 +122,7 @@ export default function VerificationTaskDetailPage() {
               loading={retryMutation.isPending}
               onClick={() => retryMutation.mutate()}
             >
-              重试
-            </Button>
+              {t("重试")}</Button>
           </Space>
         }
       />
@@ -140,41 +136,41 @@ export default function VerificationTaskDetailPage() {
             <Col xs={24} lg={6}>
               <Card className="metric-card">
                 <Statistic
-                  title="当前状态"
+                  title={t("当前状态")}
                   valueRender={() => <VerificationTaskStatusTag value={task.status} />}
                 />
               </Card>
             </Col>
             <Col xs={24} lg={6}>
               <Card className="metric-card metric-card-green">
-                <Statistic title="证据数" value={task.evidence_count} />
+                <Statistic title={t("证据数")} value={task.evidence_count} />
               </Card>
             </Col>
             <Col xs={24} lg={6}>
               <Card className="metric-card">
-                <Statistic title="重试次数" value={task.retry_count} />
+                <Statistic title={t("重试次数")} value={task.retry_count} />
               </Card>
             </Col>
             <Col xs={24} lg={6}>
               <Card className="metric-card metric-card-red">
-                <Statistic title="错误码" value={task.error_code ?? "-"} />
+                <Statistic title={t("错误码")} value={task.error_code ?? "-"} />
               </Card>
             </Col>
           </Row>
 
           <Row gutter={[16, 16]}>
             <Col xs={24} xl={14}>
-              <Card className="content-card" title="任务上下文">
+              <Card className="content-card" title={t("任务上下文")}>
                 <Descriptions
                   bordered
                   size="small"
                   column={{ xs: 1, md: 2 }}
                   items={[
-                    { key: "id", label: "任务 ID", children: task.id },
-                    { key: "type", label: "任务类型", children: task.task_type },
+                    { key: "id", label: t("任务 ID"), children: task.id },
+                    { key: "type", label: t("任务类型"), children: task.task_type },
                     {
                       key: "match",
-                      label: "匹配结果",
+                      label: t("匹配结果"),
                       children: (
                         <Typography.Link
                           onClick={() => navigate(`/matching/${task.match_result_id}`)}
@@ -185,7 +181,7 @@ export default function VerificationTaskDetailPage() {
                     },
                     {
                       key: "previous",
-                      label: "前序任务",
+                      label: t("前序任务"),
                       children: task.previous_task_id ? (
                         <Typography.Link
                           onClick={() =>
@@ -200,7 +196,7 @@ export default function VerificationTaskDetailPage() {
                     },
                     {
                       key: "vuln",
-                      label: "漏洞",
+                      label: t("漏洞"),
                       children: (
                         <Space orientation="vertical" size={0}>
                           <Typography.Link
@@ -222,7 +218,7 @@ export default function VerificationTaskDetailPage() {
                     },
                     {
                       key: "asset",
-                      label: "资产",
+                      label: t("资产"),
                       children: (
                         <Space orientation="vertical" size={0}>
                           <Typography.Link
@@ -236,22 +232,22 @@ export default function VerificationTaskDetailPage() {
                         </Space>
                       )
                     },
-                    { key: "requested", label: "请求人", children: task.requested_by ?? "-" },
-                    { key: "created", label: "创建时间", children: formatDateTime(task.created_at) },
-                    { key: "assigned", label: "分配时间", children: formatDateTime(task.assigned_at) },
+                    { key: "requested", label: t("请求人"), children: task.requested_by ?? "-" },
+                    { key: "created", label: t("创建时间"), children: formatDateTime(task.created_at) },
+                    { key: "assigned", label: t("分配时间"), children: formatDateTime(task.assigned_at) },
                     {
                       key: "cancel",
-                      label: "取消请求",
+                      label: t("取消请求"),
                       children: formatDateTime(task.cancel_requested_at)
                     },
-                    { key: "completed", label: "完成时间", children: formatDateTime(task.completed_at) },
-                    { key: "updated", label: "更新时间", children: formatDateTime(task.updated_at) }
+                    { key: "completed", label: t("完成时间"), children: formatDateTime(task.completed_at) },
+                    { key: "updated", label: t("更新时间"), children: formatDateTime(task.updated_at) }
                   ]}
                 />
               </Card>
             </Col>
             <Col xs={24} xl={10}>
-              <Card className="content-card" title="状态时间线">
+              <Card className="content-card" title={t("状态时间线")}>
                 <Timeline
                   items={task.timeline.map((event) => ({
                     children: (
@@ -273,12 +269,12 @@ export default function VerificationTaskDetailPage() {
 
           <Row gutter={[16, 16]}>
             <Col xs={24} xl={12}>
-              <Card className="content-card" title="任务参数">
+              <Card className="content-card" title={t("任务参数")}>
                 <JsonDetails value={task.parameters} />
               </Card>
             </Col>
             <Col xs={24} xl={12}>
-              <Card className="content-card" title="错误信息">
+              <Card className="content-card" title={t("错误信息")}>
                 <Space orientation="vertical" size={8}>
                   <Typography.Text>{task.error_code ?? "-"}</Typography.Text>
                   <Typography.Text className="table-subtitle">
@@ -289,10 +285,10 @@ export default function VerificationTaskDetailPage() {
             </Col>
           </Row>
 
-          <Card className="content-card" title="验证发现">
+          <Card className="content-card" title={t("验证发现")}>
             <EvidenceList
               items={task.evidence}
-              emptyText="暂无验证证据"
+              emptyText={t("暂无验证证据")}
               mode="verification"
             />
           </Card>

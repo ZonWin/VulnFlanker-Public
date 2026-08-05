@@ -13,6 +13,7 @@ from app.db.models import IntelCollectionRun, IntelRawEvent, Vulnerability, Vuln
 from app.services.severity import normalize_severity_label
 from app.services.vulnerability_product_identity import product_values_conflict
 from app.services.vulnerability_review import is_reason_confirmed
+from app.services.notifications import create_system_event
 from app.schemas.intel import (
     IntelCollectionRunOut,
     IntelNormalizationQualityOut,
@@ -61,6 +62,8 @@ def create_collection_run(
     )
     db.add(run)
     db.flush()
+    if run.status not in {"queued", "running"}:
+        _record_collection_event(db, run)
     return run
 
 
@@ -89,6 +92,8 @@ def complete_collection_run(
         run.task_id = task_id
     db.add(run)
     db.flush()
+    if run.status not in {"queued", "running"}:
+        _record_collection_event(db, run)
     return run
 
 
@@ -103,6 +108,45 @@ def fail_collection_run(
         failed_count=1,
         status="failed",
         error_message=str(error),
+    )
+
+
+def _record_collection_event(db: Session, run: IntelCollectionRun) -> None:
+    failed = run.status == "failed"
+    source_label = SOURCE_LABELS.get(run.source_name, run.source_name)
+    status_label = "失败" if failed else "完成"
+    create_system_event(
+        db,
+        event_key=f"intel.collection:{run.id}",
+        category="intel",
+        event_type=(
+            "intel_collection_failed" if failed else "intel_collection_completed"
+        ),
+        level="error" if failed else "success",
+        title=f"{source_label} 情报采集{status_label}",
+        summary=(
+            f"获取 {run.fetched_count} 条，存储 {run.stored_count} 条，"
+            f"处理 {run.processed_count} 条，跳过 {run.skipped_count} 条，"
+            f"失败 {run.failed_count} 条。"
+        ),
+        details={
+            "run_id": run.id,
+            "source_name": run.source_name,
+            "source_label": source_label,
+            "trigger_type": run.trigger_type,
+            "status": run.status,
+            "fetched_count": run.fetched_count,
+            "stored_count": run.stored_count,
+            "processed_count": run.processed_count,
+            "skipped_count": run.skipped_count,
+            "failed_count": run.failed_count,
+            "error_message": run.error_message,
+            "task_id": run.task_id,
+        },
+        target_type="intel_run",
+        target_id=run.id,
+        target_query={"run_id": run.id},
+        occurred_at=run.finished_at,
     )
 
 

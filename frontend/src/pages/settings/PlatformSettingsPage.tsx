@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import { useEffect, useState } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -44,10 +45,10 @@ function fileToDataUrl(file: File) {
       if (typeof reader.result === "string") {
         resolve(reader.result);
       } else {
-        reject(new Error("读取图片失败"));
+        reject(new Error(t("读取图片失败")));
       }
     };
-    reader.onerror = () => reject(new Error("读取图片失败"));
+    reader.onerror = () => reject(new Error(t("读取图片失败")));
     reader.readAsDataURL(file);
   });
 }
@@ -81,10 +82,10 @@ export default function PlatformSettingsPage() {
     mutationFn: updatePlatformSettings,
     onSuccess: (data) => {
       queryClient.setQueryData(platformSettingsQueryKey, data);
-      messageApi.success("平台设置已保存");
+      messageApi.success(t("平台设置已保存"));
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "保存平台设置失败");
+      messageApi.error(error instanceof Error ? error.message : t("保存平台设置失败"));
     }
   });
 
@@ -98,20 +99,20 @@ export default function PlatformSettingsPage() {
         logo_data_url: data.logo_data_url
       });
       setLogoPreview(platformLogoSrc(data));
-      messageApi.success("平台设置已恢复默认");
+      messageApi.success(t("平台设置已恢复默认"));
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "恢复默认失败");
+      messageApi.error(error instanceof Error ? error.message : t("恢复默认失败"));
     }
   });
 
   async function selectLogo(file: File) {
     if (!acceptedLogoTypes.has(file.type)) {
-      messageApi.error("请选择 PNG、JPG、WebP、GIF 或 SVG 图片");
+      messageApi.error(t("请选择 PNG、JPG、WebP、GIF 或 SVG 图片"));
       return false;
     }
     if (file.size > maxLogoBytes) {
-      messageApi.error("LOGO 图片不能超过 300 KB");
+      messageApi.error(t("LOGO 图片不能超过 300 KB"));
       return false;
     }
 
@@ -129,7 +130,7 @@ export default function PlatformSettingsPage() {
   return (
     <Space className="page-stack platform-settings-page" orientation="vertical" size={16}>
       {contextHolder}
-      <PageHeader title="平台设置" />
+      <PageHeader title={t("平台设置")} />
 
       <Card className="content-card">
         <Form<PlatformSettingsUpdate>
@@ -141,7 +142,7 @@ export default function PlatformSettingsPage() {
           <div className="platform-settings-grid">
             <div className="logo-preview-panel">
               <div className="platform-logo-preview">
-                <Image src={logoPreview} alt="平台 LOGO" preview={false} />
+                <Image src={logoPreview} alt={t("平台 LOGO")} preview={false} />
               </div>
               <Space className="logo-upload-controls" wrap>
                 <Upload
@@ -149,38 +150,36 @@ export default function PlatformSettingsPage() {
                   beforeUpload={selectLogo}
                   showUploadList={false}
                 >
-                  <Button icon={<ImageUp size={16} />}>上传图片</Button>
+                  <Button icon={<ImageUp size={16} />}>{t("上传图片")}</Button>
                 </Upload>
                 <Button icon={<Trash2 size={16} />} onClick={removeLogo}>
-                  移除图片
-                </Button>
+                  {t("移除图片")}</Button>
               </Space>
               <Typography.Text type="secondary">
-                PNG/JPG/WebP/GIF/SVG，最大 300 KB。
-              </Typography.Text>
+                {t("PNG/JPG/WebP/GIF/SVG，最大 300 KB。")}</Typography.Text>
             </div>
 
             <div className="platform-settings-form">
               <Form.Item
-                label="平台名称"
+                label={t("平台名称")}
                 name="platform_name"
                 rules={[
-                  { required: true, message: "请输入平台名称" },
-                  { whitespace: true, message: "平台名称不能只包含空格" }
+                  { required: true, message: t("请输入平台名称") },
+                  { whitespace: true, message: t("平台名称不能只包含空格") }
                 ]}
               >
                 <Input maxLength={80} placeholder="VulnFlanker" />
               </Form.Item>
 
               <Form.Item
-                label="平台副标题"
+                label={t("平台副标题")}
                 name="platform_subtitle"
                 rules={[
-                  { required: true, message: "请输入平台副标题" },
-                  { whitespace: true, message: "平台副标题不能只包含空格" }
+                  { required: true, message: t("请输入平台副标题") },
+                  { whitespace: true, message: t("平台副标题不能只包含空格") }
                 ]}
               >
-                <Input maxLength={120} placeholder="漏洞监测平台" />
+                <Input maxLength={120} placeholder={t("漏洞监测平台")} />
               </Form.Item>
 
               <Form.Item name="logo_data_url" hidden>
@@ -193,7 +192,7 @@ export default function PlatformSettingsPage() {
                 </span>
                 <div className="brand-copy">
                   <span>{watchedPlatformName || "VulnFlanker"}</span>
-                  <strong>{watchedPlatformSubtitle || "漏洞监测平台"}</strong>
+                  <strong>{watchedPlatformSubtitle || t("漏洞监测平台")}</strong>
                 </div>
               </div>
             </div>
@@ -208,12 +207,11 @@ export default function PlatformSettingsPage() {
                 loading={saveMutation.isPending}
                 disabled={settingsQuery.isLoading}
               >
-                保存设置
-              </Button>
+                {t("保存设置")}</Button>
               <Popconfirm
-                title="恢复默认平台设置？"
-                okText="恢复默认"
-                cancelText="取消"
+                title={t("恢复默认平台设置？")}
+                okText={t("恢复默认")}
+                cancelText={t("取消")}
                 onConfirm={() => resetMutation.mutate()}
               >
                 <Button
@@ -221,8 +219,7 @@ export default function PlatformSettingsPage() {
                   loading={resetMutation.isPending}
                   disabled={settingsQuery.isLoading}
                 >
-                  恢复默认
-                </Button>
+                  {t("恢复默认")}</Button>
               </Popconfirm>
             </Space>
           </div>
