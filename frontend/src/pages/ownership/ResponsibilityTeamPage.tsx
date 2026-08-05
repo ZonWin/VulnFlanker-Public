@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Button,
   Card,
@@ -108,7 +109,7 @@ export default function ResponsibilityTeamPage() {
       return createResponsibilityTeam(payload);
     },
     onSuccess: () => {
-      messageApi.success(editingTeam ? "责任团队已更新" : "责任团队已创建");
+      messageApi.success(editingTeam ? t("责任团队已更新") : t("责任团队已创建"));
       setIsTeamModalOpen(false);
       setEditingTeam(null);
       teamForm.resetFields();
@@ -121,7 +122,7 @@ export default function ResponsibilityTeamPage() {
     mutationFn: ({ team, action }: { team: ResponsibilityTeam; action: "activate" | "deactivate" }) =>
       setResponsibilityTeamStatus(team.id, action, team.version),
     onSuccess: (_, variables) => {
-      messageApi.success(variables.action === "activate" ? "责任团队已启用" : "责任团队已停用");
+      messageApi.success(variables.action === "activate" ? t("责任团队已启用") : t("责任团队已停用"));
       refreshOwnership();
     },
     onError: (error) => messageApi.error(error.message)
@@ -130,12 +131,12 @@ export default function ResponsibilityTeamPage() {
   const transferMutation = useMutation({
     mutationFn: (values: TransferFormValues) => {
       if (!transferTarget) {
-        throw new Error("未选择目标团队");
+        throw new Error(t("未选择目标团队"));
       }
       return transferTeamMembers(transferTarget.id, values.person_ids);
     },
     onSuccess: () => {
-      messageApi.success("成员已转入目标团队，下游归属已同步更新");
+      messageApi.success(t("成员已转入目标团队，下游归属已同步更新"));
       setTransferTarget(null);
       transferForm.resetFields();
       refreshOwnership();
@@ -162,12 +163,12 @@ export default function ResponsibilityTeamPage() {
   function confirmStatus(team: ResponsibilityTeam) {
     const action = team.status === "active" ? "deactivate" : "activate";
     Modal.confirm({
-      title: action === "activate" ? "启用责任团队" : "停用责任团队",
+      title: action === "activate" ? t("启用责任团队") : t("停用责任团队"),
       content:
         action === "deactivate"
-          ? `团队当前关联 ${team.person_count} 名人员、${team.business_system_count} 个业务系统和 ${team.asset_count} 个资产；存在人员时需先完成成员转移。`
-          : "启用后可继续作为人员归属团队使用。",
-      okText: action === "activate" ? "确认启用" : "确认停用",
+          ? t("团队当前关联 {{v0}} 名人员、{{v1}} 个业务系统和 {{v2}} 个资产；存在人员时需先完成成员转移。", { v0: team.person_count, v1: team.business_system_count, v2: team.asset_count })
+          : t("启用后可继续作为人员归属团队使用。"),
+      okText: action === "activate" ? t("确认启用") : t("确认停用"),
       okButtonProps: { danger: action === "deactivate" },
       onOk: () => statusMutation.mutateAsync({ team, action })
     });
@@ -175,7 +176,7 @@ export default function ResponsibilityTeamPage() {
 
   const columns: ColumnsType<ResponsibilityTeam> = [
     {
-      title: "团队",
+      title: t("团队"),
       key: "team",
       minWidth: 250,
       render: (_, team) => (
@@ -186,17 +187,17 @@ export default function ResponsibilityTeamPage() {
       )
     },
     {
-      title: "说明",
+      title: t("说明"),
       dataIndex: "description",
       minWidth: 240,
       ellipsis: true,
       render: (value: string | null) => value || "-"
     },
-    { title: "状态", dataIndex: "status", width: 100, render: (value: TeamStatus) => <LifecycleTag status={value} /> },
-    { title: "人员", dataIndex: "person_count", width: 90 },
-    { title: "业务系统", dataIndex: "business_system_count", width: 100 },
+    { title: t("状态"), dataIndex: "status", width: 100, render: (value: TeamStatus) => <LifecycleTag status={value} /> },
+    { title: t("人员"), dataIndex: "person_count", width: 90 },
+    { title: t("业务系统"), dataIndex: "business_system_count", width: 100 },
     {
-      title: "关联资产",
+      title: t("关联资产"),
       dataIndex: "asset_count",
       width: 100,
       render: (count: number, team) => (
@@ -205,18 +206,18 @@ export default function ResponsibilityTeamPage() {
         </Typography.Link>
       )
     },
-    { title: "更新时间", dataIndex: "updated_at", width: 185, render: formatDateTime },
+    { title: t("更新时间"), dataIndex: "updated_at", width: 185, render: formatDateTime },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       fixed: "right",
       width: 250,
       render: (_, team) => (
         <Space size={2}>
-          <Tooltip title={!isAdmin ? "需要超级管理员权限" : undefined}>
-            <Button type="link" disabled={!isAdmin} icon={<Pencil size={15} />} onClick={() => openEdit(team)}>编辑</Button>
+          <Tooltip title={!isAdmin ? t("需要超级管理员权限") : undefined}>
+            <Button type="link" disabled={!isAdmin} icon={<Pencil size={15} />} onClick={() => openEdit(team)}>{t("编辑")}</Button>
           </Tooltip>
-          <Tooltip title={!isAdmin ? "需要超级管理员权限" : "将选中人员转入该团队"}>
+          <Tooltip title={!isAdmin ? t("需要超级管理员权限") : t("将选中人员转入该团队")}>
             <Button
               type="link"
               disabled={!isAdmin || team.status !== "active"}
@@ -226,8 +227,7 @@ export default function ResponsibilityTeamPage() {
                 transferForm.resetFields();
               }}
             >
-              转入成员
-            </Button>
+              {t("转入成员")}</Button>
           </Tooltip>
           <Button
             type="link"
@@ -236,7 +236,7 @@ export default function ResponsibilityTeamPage() {
             icon={<Power size={15} />}
             onClick={() => confirmStatus(team)}
           >
-            {team.status === "active" ? "停用" : "启用"}
+            {team.status === "active" ? t("停用") : t("启用")}
           </Button>
         </Space>
       )
@@ -247,23 +247,23 @@ export default function ResponsibilityTeamPage() {
     <Space className="page-stack" orientation="vertical" size={16}>
       {contextHolder}
       <PageHeader
-        title="责任团队"
-        subtitle="维护人员的组织归属；团队调整会沿业务系统链路投影到资产。"
+        title={t("责任团队")}
+        subtitle={t("维护人员的组织归属；团队调整会沿业务系统链路投影到资产。")}
         extra={
           <Space>
-            <Button icon={<RefreshCw size={16} />} loading={teamsQuery.isFetching} onClick={() => refreshOwnership()}>刷新</Button>
-            <Button type="primary" icon={<Plus size={16} />} disabled={!isAdmin} onClick={openCreate}>新建团队</Button>
+            <Button icon={<RefreshCw size={16} />} loading={teamsQuery.isFetching} onClick={() => refreshOwnership()}>{t("刷新")}</Button>
+            <Button type="primary" icon={<Plus size={16} />} disabled={!isAdmin} onClick={openCreate}>{t("新建团队")}</Button>
           </Space>
         }
       />
       <ReadOnlyNotice isAdmin={isAdmin} />
       <OwnershipMetrics summary={summaryQuery.data} />
-      <Card className="content-card" title="团队列表">
+      <Card className="content-card" title={t("团队列表")}>
         <div className="table-toolbar ownership-toolbar">
           <Input
             allowClear
             prefix={<Search size={16} />}
-            placeholder="搜索团队编码或名称"
+            placeholder={t("搜索团队编码或名称")}
             value={keyword}
             onChange={(event) => {
               setKeyword(event.target.value);
@@ -272,7 +272,7 @@ export default function ResponsibilityTeamPage() {
           />
           <Select
             allowClear
-            placeholder="全部状态"
+            placeholder={t("全部状态")}
             options={lifecycleOptions}
             value={status}
             onChange={(value) => {
@@ -282,10 +282,10 @@ export default function ResponsibilityTeamPage() {
           />
           <Select
             allowClear
-            placeholder="成员情况"
+            placeholder={t("成员情况")}
             options={[
-              { label: "有成员", value: true },
-              { label: "无成员", value: false }
+              { label: t("有成员"), value: true },
+              { label: t("无成员"), value: false }
             ]}
             value={hasMembers}
             onChange={(value) => {
@@ -301,13 +301,13 @@ export default function ResponsibilityTeamPage() {
           columns={columns}
           dataSource={teamsQuery.data?.items ?? []}
           loading={teamsQuery.isLoading}
-          locale={{ emptyText: <EmptyState title="暂无责任团队，请先新建团队" /> }}
+          locale={{ emptyText: <EmptyState title={t("暂无责任团队，请先新建团队")} /> }}
           pagination={{
             current: page,
             pageSize,
             total: teamsQuery.data?.total ?? 0,
             showSizeChanger: true,
-            showTotal: (total) => `共 ${total} 个团队`,
+            showTotal: (total) => t("共 {{v0}} 个团队", { v0: total }),
             onChange: (nextPage, nextPageSize) => {
               setPage(nextPageSize === pageSize ? nextPage : 1);
               setPageSize(nextPageSize);
@@ -318,39 +318,38 @@ export default function ResponsibilityTeamPage() {
       </Card>
 
       <Modal
-        title={editingTeam ? "编辑责任团队" : "新建责任团队"}
+        title={editingTeam ? t("编辑责任团队") : t("新建责任团队")}
         open={isTeamModalOpen}
-        okText={editingTeam ? "保存" : "创建"}
+        okText={editingTeam ? t("保存") : t("创建")}
         confirmLoading={saveMutation.isPending}
         onCancel={() => setIsTeamModalOpen(false)}
         onOk={() => teamForm.submit()}
       >
         <Form form={teamForm} layout="vertical" onFinish={(values) => saveMutation.mutate(values)}>
-          <Form.Item label="团队编码" name="code" rules={[{ required: true, message: "请输入团队编码" }]}>
-            <Input disabled={Boolean(editingTeam)} maxLength={64} placeholder="例如 SEC-OPS" />
+          <Form.Item label={t("团队编码")} name="code" rules={[{ required: true, message: t("请输入团队编码") }]}>
+            <Input disabled={Boolean(editingTeam)} maxLength={64} placeholder={t("例如 SEC-OPS")} />
           </Form.Item>
-          <Form.Item label="团队名称" name="name" rules={[{ required: true, message: "请输入团队名称" }]}>
+          <Form.Item label={t("团队名称")} name="name" rules={[{ required: true, message: t("请输入团队名称") }]}>
             <Input maxLength={255} />
           </Form.Item>
-          <Form.Item label="说明" name="description">
+          <Form.Item label={t("说明")} name="description">
             <Input.TextArea maxLength={4000} rows={4} showCount />
           </Form.Item>
         </Form>
       </Modal>
 
       <Modal
-        title={`转入成员${transferTarget ? ` · ${transferTarget.name}` : ""}`}
+        title={t("转入成员{{v0}}", { v0: transferTarget ? ` · ${transferTarget.name}` : "" })}
         open={Boolean(transferTarget)}
-        okText="确认转入"
+        okText={t("确认转入")}
         confirmLoading={transferMutation.isPending}
         onCancel={() => setTransferTarget(null)}
         onOk={() => transferForm.submit()}
       >
         <Typography.Paragraph type="secondary">
-          人员所属团队改变后，其负责的业务系统及资产会自动显示新的责任团队。
-        </Typography.Paragraph>
+          {t("人员所属团队改变后，其负责的业务系统及资产会自动显示新的责任团队。")}</Typography.Paragraph>
         <Form form={transferForm} layout="vertical" onFinish={(values) => transferMutation.mutate(values)}>
-          <Form.Item label="选择人员" name="person_ids" rules={[{ required: true, message: "请选择至少一名人员" }]}>
+          <Form.Item label={t("选择人员")} name="person_ids" rules={[{ required: true, message: t("请选择至少一名人员") }]}>
             <Select
               mode="multiple"
               showSearch
@@ -360,9 +359,9 @@ export default function ResponsibilityTeamPage() {
                 .filter((person) => person.team.id !== transferTarget?.id)
                 .map((person) => ({
                   value: person.id,
-                  label: `${person.name} · ${person.team.name}${person.status === "inactive" ? "（已停用）" : ""}`
+                  label: t("{{v0}} · {{v1}}{{v2}}", { v0: person.name, v1: person.team.name, v2: person.status === "inactive" ? t("（已停用）") : "" })
                 }))}
-              placeholder="搜索并选择要转入的人员"
+              placeholder={t("搜索并选择要转入的人员")}
             />
           </Form.Item>
         </Form>

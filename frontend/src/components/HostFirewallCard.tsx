@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Alert,
   Button,
@@ -56,26 +57,26 @@ const engineLabels: Record<FirewallEngine, string> = {
 };
 
 const roleLabels: Record<AssetFirewall["role"], string> = {
-  manager: "策略管理器",
-  backend: "底层引擎",
-  compatibility: "兼容层",
-  standalone: "独立引擎"
+  manager: t("策略管理器"),
+  backend: t("底层引擎"),
+  compatibility: t("兼容层"),
+  standalone: t("独立引擎")
 };
 
 const stateLabels: Record<AssetFirewall["runtime_state"], string> = {
-  active: "运行中",
-  inactive: "未运行",
-  configured: "已配置",
-  unknown: "未知"
+  active: t("运行中"),
+  inactive: t("未运行"),
+  configured: t("已配置"),
+  unknown: t("未知")
 };
 
 const collectionLabels: Record<AssetFirewall["collection_status"], string> = {
-  success: "采集成功",
-  partial: "部分成功",
-  unsupported: "不支持",
-  permission_denied: "权限不足",
-  timeout: "采集超时",
-  error: "采集失败"
+  success: t("采集成功"),
+  partial: t("部分成功"),
+  unsupported: t("不支持"),
+  permission_denied: t("权限不足"),
+  timeout: t("采集超时"),
+  error: t("采集失败")
 };
 
 function collectionColor(status: AssetFirewall["collection_status"]) {
@@ -103,15 +104,15 @@ function actionColor(action?: string | null) {
 
 function relationshipText(firewall: AssetFirewall) {
   if (firewall.role === "manager") {
-    return `策略管理器 → ${firewall.backend || "后端未知"}`;
+    return t("策略管理器 → {{v0}}", { v0: firewall.backend || t("后端未知") });
   }
   if (firewall.role === "compatibility") {
-    return `命令兼容层 → ${firewall.backend || "底层未知"}`;
+    return t("命令兼容层 → {{v0}}", { v0: firewall.backend || t("底层未知") });
   }
   if (firewall.managed_by) {
-    return `${firewall.managed_by} 管理的底层规则集`;
+    return t("{{v0}} 管理的底层规则集", { v0: firewall.managed_by });
   }
-  return firewall.role === "backend" ? "直接生效的底层规则集" : "独立策略来源";
+  return firewall.role === "backend" ? t("直接生效的底层规则集") : t("独立策略来源");
 }
 
 function rulePosition(rule: AssetFirewallRule) {
@@ -123,8 +124,8 @@ function ruleMatch(rule: AssetFirewallRule) {
     .filter(Boolean)
     .join(" → ");
   const ports = [
-    rule.source_port ? `源端口 ${rule.source_port}` : null,
-    rule.destination_port ? `目标端口 ${rule.destination_port}` : null
+    rule.source_port ? t("源端口 {{v0}}", { v0: rule.source_port }) : null,
+    rule.destination_port ? t("目标端口 {{v0}}", { v0: rule.destination_port }) : null
   ]
     .filter(Boolean)
     .join(" · ");
@@ -133,7 +134,7 @@ function ruleMatch(rule: AssetFirewallRule) {
     .join(" → ");
   return [network, ports, interfaces, rule.state_match]
     .filter(Boolean)
-    .join(" · ") || "任意";
+    .join(" · ") || t("任意");
 }
 
 export interface HostFirewallCardProps {
@@ -210,14 +211,14 @@ export default function HostFirewallCard({ assetId }: HostFirewallCardProps) {
     () => [
       {
         key: "order",
-        title: "序号",
+        title: t("序号"),
         dataIndex: "order",
         width: 82,
         render: (value: number) => value + 1
       },
       {
         key: "kind",
-        title: "类型",
+        title: t("类型"),
         dataIndex: "rule_kind",
         width: 130,
         render: (value: string, record) => (
@@ -229,7 +230,7 @@ export default function HostFirewallCard({ assetId }: HostFirewallCardProps) {
       },
       {
         key: "position",
-        title: "位置",
+        title: t("位置"),
         width: 220,
         render: (_, record) => (
           <Typography.Text ellipsis={{ tooltip: rulePosition(record) }}>
@@ -239,14 +240,14 @@ export default function HostFirewallCard({ assetId }: HostFirewallCardProps) {
       },
       {
         key: "protocol",
-        title: "协议",
+        title: t("协议"),
         dataIndex: "protocol",
         width: 100,
         render: (value: string | null) => value || "-"
       },
       {
         key: "match",
-        title: "匹配条件",
+        title: t("匹配条件"),
         width: 330,
         render: (_, record) => (
           <Typography.Text ellipsis={{ tooltip: ruleMatch(record) }}>
@@ -256,7 +257,7 @@ export default function HostFirewallCard({ assetId }: HostFirewallCardProps) {
       },
       {
         key: "action",
-        title: "动作",
+        title: t("动作"),
         dataIndex: "action",
         width: 120,
         render: (value: string | null) =>
@@ -264,14 +265,14 @@ export default function HostFirewallCard({ assetId }: HostFirewallCardProps) {
       },
       {
         key: "comment",
-        title: "备注",
+        title: t("备注"),
         dataIndex: "comment",
         width: 190,
         render: (value: string | null) => value || "-"
       },
       {
         key: "raw",
-        title: "原始规则",
+        title: t("原始规则"),
         dataIndex: "raw_rule",
         width: 360,
         render: (value: string) => (
@@ -289,7 +290,7 @@ export default function HostFirewallCard({ assetId }: HostFirewallCardProps) {
   );
 
   const viewOptions: Array<{ label: string; value: FirewallView }> = [
-    { label: "总览", value: "overview" },
+    { label: t("总览"), value: "overview" },
     ...firewalls.map((firewall) => ({
       label: engineLabels[firewall.engine],
       value: firewall.engine
@@ -311,29 +312,28 @@ export default function HostFirewallCard({ assetId }: HostFirewallCardProps) {
   function renderOverview() {
     if (firewalls.length === 0) {
       return (
-        <EmptyState title="未检测到支持的主机防火墙">
-          当前 Agent 未发现 firewalld、UFW、iptables 或 nftables。
-        </EmptyState>
+        <EmptyState title={t("未检测到支持的主机防火墙")}>
+          {t("当前 Agent 未发现 firewalld、UFW、iptables 或 nftables。")}</EmptyState>
       );
     }
     return (
       <Space orientation="vertical" size={16} className="firewall-section-stack">
         <Row gutter={[12, 12]}>
           <Col xs={12} md={6}>
-            <Statistic title="检测到的引擎" value={firewalls.length} />
+            <Statistic title={t("检测到的引擎")} value={firewalls.length} />
           </Col>
           <Col xs={12} md={6}>
-            <Statistic title="标记为实际生效" value={effectiveCount} />
+            <Statistic title={t("标记为实际生效")} value={effectiveCount} />
           </Col>
           <Col xs={12} md={6}>
             <Statistic
-              title={<Tooltip title="包含各引擎上报条目，兼容层与底层可能描述同一策略">采集规则条目</Tooltip>}
+              title={<Tooltip title={t("包含各引擎上报条目，兼容层与底层可能描述同一策略")}>{t("采集规则条目")}</Tooltip>}
               value={totalRuleCount}
             />
           </Col>
           <Col xs={12} md={6}>
             <Statistic
-              title="采集异常"
+              title={t("采集异常")}
               value={firewalls.filter((item) => item.collection_status !== "success").length}
             />
           </Col>
@@ -349,12 +349,11 @@ export default function HostFirewallCard({ assetId }: HostFirewallCardProps) {
                     {engineLabels[firewall.engine]}
                   </Typography.Text>
                   <Tag color={firewall.effective ? "success" : "default"}>
-                    {firewall.effective ? "实际生效" : "非独立生效"}
+                    {firewall.effective ? t("实际生效") : t("非独立生效")}
                   </Tag>
                 </Space>
                 <Button type="link" onClick={() => setView(firewall.engine)}>
-                  查看策略
-                </Button>
+                  {t("查看策略")}</Button>
               </div>
               <Typography.Text className="firewall-relationship">
                 {relationshipText(firewall)}
@@ -369,8 +368,8 @@ export default function HostFirewallCard({ assetId }: HostFirewallCardProps) {
                 </Tag>
               </Space>
               <div className="firewall-rule-counts">
-                <span>运行时 {firewall.runtime_rule_count}</span>
-                <span>永久配置 {firewall.permanent_rule_count}</span>
+                <span>{t("运行时")}{firewall.runtime_rule_count}</span>
+                <span>{t("永久配置")}{firewall.permanent_rule_count}</span>
               </div>
             </div>
           ))}
@@ -388,11 +387,11 @@ export default function HostFirewallCard({ assetId }: HostFirewallCardProps) {
           <Alert
             showIcon
             type={selectedFirewall.collection_status === "partial" ? "warning" : "error"}
-            title={`${collectionLabels[selectedFirewall.collection_status]}：${selectedFirewall.error_message || selectedFirewall.error_code || "未获得完整策略"}`}
+            title={t("{{v0}}：{{v1}}", { v0: collectionLabels[selectedFirewall.collection_status], v1: selectedFirewall.error_message || selectedFirewall.error_code || t("未获得完整策略") })}
             description={
               selectedFirewall.last_success_at
-                ? `页面保留并展示 ${formatDateTime(selectedFirewall.last_success_at)} 的最后成功策略。`
-                : "该引擎还没有完整成功的策略快照。"
+                ? t("页面保留并展示 {{v0}} 的最后成功策略。", { v0: formatDateTime(selectedFirewall.last_success_at) })
+                : t("该引擎还没有完整成功的策略快照。")
             }
           />
         ) : null}
@@ -402,38 +401,38 @@ export default function HostFirewallCard({ assetId }: HostFirewallCardProps) {
           size="small"
           column={{ xs: 1, sm: 2, lg: 4 }}
           items={[
-            { key: "role", label: "角色", children: roleLabels[selectedFirewall.role] },
-            { key: "backend", label: "后端", children: selectedFirewall.backend || "-" },
-            { key: "managedBy", label: "管理来源", children: selectedFirewall.managed_by || "-" },
+            { key: "role", label: t("角色"), children: roleLabels[selectedFirewall.role] },
+            { key: "backend", label: t("后端"), children: selectedFirewall.backend || "-" },
+            { key: "managedBy", label: t("管理来源"), children: selectedFirewall.managed_by || "-" },
             {
               key: "effective",
-              label: "实际生效",
-              children: <Tag color={selectedFirewall.effective ? "success" : "default"}>{selectedFirewall.effective ? "是" : "否"}</Tag>
+              label: t("实际生效"),
+              children: <Tag color={selectedFirewall.effective ? "success" : "default"}>{selectedFirewall.effective ? t("是") : t("否")}</Tag>
             },
-            { key: "state", label: "运行状态", children: stateLabels[selectedFirewall.runtime_state] },
+            { key: "state", label: t("运行状态"), children: stateLabels[selectedFirewall.runtime_state] },
             {
               key: "enabled",
-              label: "开机启用",
-              children: selectedFirewall.service_enabled === null ? "-" : selectedFirewall.service_enabled ? "是" : "否"
+              label: t("开机启用"),
+              children: selectedFirewall.service_enabled === null ? "-" : selectedFirewall.service_enabled ? t("是") : t("否")
             },
-            { key: "attempt", label: "最近尝试", children: formatDateTime(selectedFirewall.last_attempt_at) },
-            { key: "success", label: "最后成功", children: formatDateTime(selectedFirewall.last_success_at) }
+            { key: "attempt", label: t("最近尝试"), children: formatDateTime(selectedFirewall.last_attempt_at) },
+            { key: "success", label: t("最后成功"), children: formatDateTime(selectedFirewall.last_success_at) }
           ]}
         />
 
         <div className="firewall-rule-toolbar">
           <Segmented<FirewallScope>
             options={[
-              { label: `运行时 (${selectedFirewall.runtime_rule_count})`, value: "runtime" },
-              { label: `永久配置 (${selectedFirewall.permanent_rule_count})`, value: "permanent" }
+              { label: t("运行时 ({{v0}})", { v0: selectedFirewall.runtime_rule_count }), value: "runtime" },
+              { label: t("永久配置 ({{v0}})", { v0: selectedFirewall.permanent_rule_count }), value: "permanent" }
             ]}
             value={scope}
             onChange={setScope}
           />
           <Input.Search
             allowClear
-            aria-label="搜索防火墙策略"
-            placeholder="搜索链、地址、端口或原始规则"
+            aria-label={t("搜索防火墙策略")}
+            placeholder={t("搜索链、地址、端口或原始规则")}
             value={search}
             onChange={(event) => {
               setSearch(event.target.value);
@@ -445,19 +444,19 @@ export default function HostFirewallCard({ assetId }: HostFirewallCardProps) {
             aria-expanded={rawOpen}
             onClick={() => setRawOpen((current) => !current)}
           >
-            {rawOpen ? "收起原始策略" : "查看原始策略"}
+            {rawOpen ? t("收起原始策略") : t("查看原始策略")}
           </Button>
         </div>
 
         {rawOpen ? (
-          <div className="firewall-raw-panel" role="region" aria-label={`${engineLabels[selectedFirewall.engine]} 原始策略`}>
+          <div className="firewall-raw-panel" role="region" aria-label={t("{{v0}} 原始策略", { v0: engineLabels[selectedFirewall.engine] })}>
             {rawQuery.isError ? <ErrorState error={rawQuery.error} /> : null}
             {rawQuery.isLoading ? <LoadingBlock /> : null}
             {!rawQuery.isLoading && !rawQuery.isError ? (
               rawQuery.data?.content ? (
                 <pre>{rawQuery.data.content}</pre>
               ) : (
-                <EmptyState title={`暂无${scope === "runtime" ? "运行时" : "永久配置"}原始策略`} />
+                <EmptyState title={t("暂无{{v0}}原始策略", { v0: scope === "runtime" ? t("运行时") : t("永久配置") })} />
               )
             ) : null}
           </div>
@@ -475,13 +474,13 @@ export default function HostFirewallCard({ assetId }: HostFirewallCardProps) {
             current: page,
             pageSize: FIREWALL_RULE_PAGE_SIZE,
             showSizeChanger: false,
-            showTotal: (total) => `共 ${total} 条`,
+            showTotal: (total) => t("共 {{v0}} 条", { v0: total }),
             onChange: setPage
           }}
           locale={{
             emptyText: (
               <EmptyState
-                title={deferredSearch ? "未找到匹配策略" : `暂无${scope === "runtime" ? "运行时" : "永久配置"}策略`}
+                title={deferredSearch ? t("未找到匹配策略") : t("暂无{{v0}}策略", { v0: scope === "runtime" ? t("运行时") : t("永久配置") })}
               />
             )
           }}
@@ -497,25 +496,24 @@ export default function HostFirewallCard({ assetId }: HostFirewallCardProps) {
       title={
         <Space size={8}>
           <ShieldCheck size={18} aria-hidden="true" />
-          <span>主机防火墙</span>
-          <Tooltip title="同一主机可同时出现管理器、底层引擎和兼容层；“实际生效”依据 Agent 识别的管理关系标记，兼容层规则可能与底层规则重复，不应简单相加理解为多套防护。">
+          <span>{t("主机防火墙")}</span>
+          <Tooltip title={t("同一主机可同时出现管理器、底层引擎和兼容层；“实际生效”依据 Agent 识别的管理关系标记，兼容层规则可能与底层规则重复，不应简单相加理解为多套防护。")}>
             <CircleHelp
               className="inline-help-icon"
               size={15}
-              aria-label="主机防火墙说明"
+              aria-label={t("主机防火墙说明")}
             />
           </Tooltip>
         </Space>
       }
       extra={
         <Button
-          aria-label="刷新主机防火墙"
+          aria-label={t("刷新主机防火墙")}
           icon={<RefreshCw size={16} />}
           loading={summaryQuery.isFetching}
           onClick={refresh}
         >
-          刷新
-        </Button>
+          {t("刷新")}</Button>
       }
     >
       {summaryQuery.isError ? <ErrorState error={summaryQuery.error} /> : null}
@@ -525,11 +523,11 @@ export default function HostFirewallCard({ assetId }: HostFirewallCardProps) {
           <div className="firewall-view-switcher">
             <Space size={8}>
               <Shield size={16} aria-hidden="true" />
-              <Typography.Text strong>策略视图</Typography.Text>
+              <Typography.Text strong>{t("策略视图")}</Typography.Text>
             </Space>
             {compact ? (
               <Select<FirewallView>
-                aria-label="选择防火墙策略视图"
+                aria-label={t("选择防火墙策略视图")}
                 options={viewOptions}
                 value={view}
                 onChange={setView}

@@ -24,5 +24,13 @@ celery_app.conf.beat_schedule = {
     "vulnflanker-watchvuln-monitor": {
         "task": "vulnflanker.collect_watchvuln_monitor",
         "schedule": settings.watchvuln_monitor_tick_seconds,
-    }
+    },
+    "vulnflanker-email-delivery-dispatcher": {
+        "task": "vulnflanker.dispatch_due_email_deliveries",
+        "schedule": 60.0,
+    },
+    "vulnflanker-notification-cleanup": {
+        "task": "vulnflanker.cleanup_expired_notifications",
+        "schedule": 3600.0,
+    },
 }

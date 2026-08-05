@@ -7,7 +7,7 @@ $venvPython = Join-Path $root ".venv\Scripts\python.exe"
 $hostAddress = if ($env:HOST) { $env:HOST } else { "0.0.0.0" }
 $port = if ($env:PORT) { $env:PORT } else { "8000" }
 if (Test-Path $venvPython) {
-  & $venvPython -m uvicorn app.main:app --reload --host $hostAddress --port $port
+  & $venvPython -m uvicorn app.main_console:app --reload --host $hostAddress --port $port
 } else {
-  python -m uvicorn app.main:app --reload --host $hostAddress --port $port
+  python -m uvicorn app.main_console:app --reload --host $hostAddress --port $port
 }

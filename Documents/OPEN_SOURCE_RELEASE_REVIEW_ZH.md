@@ -70,6 +70,7 @@
 - 对共享部署或类生产部署使用 HTTPS 并设置安全 Cookie。
 - 替换所有示例密码、Webhook 令牌、Redis 密码和引导管理员凭据。
 - 系统已支持 Agent Bearer Secret 身份认证，但 HMAC 重放保护和密钥轮换仍是后续安全加固事项。
+- 旧版 `/api/v1/agents` Agent API 默认关闭；启动脚本统一使用控制台应用，新增 Agent 应使用带 Bearer Secret 认证的 `/agent/v1` 接口。只有迁移旧 Agent 时才应临时启用兼容开关。
 - 当前版本不包含自动修复或侵入式概念验证执行。
 
 ## 验证快照

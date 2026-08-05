@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Alert,
   Button,
@@ -83,55 +84,55 @@ const defaultWatchVulnMonitorDraft: MonitorDraft = {
 
 const sourceOptions: Array<{ label: string; value: IntelManualSourceName }> = [
   { label: "CISA KEV", value: "cisa-kev" },
-  { label: "阿里云漏洞库", value: "aliyun-avd" },
+  { label: t("阿里云漏洞库"), value: "aliyun-avd" },
   { label: "WatchVuln", value: "watchvuln" }
 ];
 
 const watchVulnScopeRows = [
   {
-    source: "阿里云漏洞库",
-    level: "高危、严重",
-    rule: "WatchVuln 有价值记录"
+    source: t("阿里云漏洞库"),
+    level: t("高危、严重"),
+    rule: t("WatchVuln 有价值记录")
   },
   {
-    source: "长亭漏洞库",
-    level: "高危、严重",
-    rule: "中文漏洞通告"
+    source: t("长亭漏洞库"),
+    level: t("高危、严重"),
+    rule: t("中文漏洞通告")
   },
   {
     source: "OSCS",
-    level: "高危、严重",
-    rule: "发布预警"
+    level: t("高危、严重"),
+    rule: t("发布预警")
   },
   {
-    source: "奇安信威胁情报",
-    level: "高危、严重",
-    rule: "CERT 验证、POC/EXP 或技术细节公开"
+    source: t("奇安信威胁情报"),
+    level: t("高危、严重"),
+    rule: t("CERT 验证、POC/EXP 或技术细节公开")
   },
   {
-    source: "微步在线",
-    level: "严重",
-    rule: "近期披露，且有 POC 与漏洞分析"
+    source: t("微步在线"),
+    level: t("严重"),
+    rule: t("近期披露，且有 POC 与漏洞分析")
   },
   {
     source: "Seebug",
-    level: "高危、严重",
-    rule: "WatchVuln 有价值记录"
+    level: t("高危、严重"),
+    rule: t("WatchVuln 有价值记录")
   },
   {
-    source: "Struts2 公告",
+    source: t("Struts2 公告"),
     level: "Important、Critical",
-    rule: "官方安全公告"
+    rule: t("官方安全公告")
   },
   {
     source: "CISA KEV",
-    level: "严重",
-    rule: "已知在野利用"
+    level: t("严重"),
+    rule: t("已知在野利用")
   },
   {
-    source: "启明星辰",
-    level: "高危、严重",
-    rule: "WatchVuln 有价值记录"
+    source: t("启明星辰"),
+    level: t("高危、严重"),
+    rule: t("WatchVuln 有价值记录")
   }
 ];
 
@@ -164,9 +165,9 @@ function intervalHoursToSeconds(value: number) {
 
 function singleCollectLimitTooltip(sourceName: IntelManualSourceName) {
   if (sourceName === "cisa-kev") {
-    return "CISA KEV 手动采集默认仅采集本地最新 dateAdded 水位之后的新增漏洞；本地无水位时按此数量采集最新窗口。填 0 表示全量采集历史目录。";
+    return t("CISA KEV 手动采集默认仅采集本地最新 dateAdded 水位之后的新增漏洞；本地无水位时按此数量采集最新窗口。填 0 表示全量采集历史目录。");
   }
-  return "填 0 表示不限制数量，采集器会尽可能拉取当前来源可返回的记录。";
+  return t("填 0 表示不限制数量，采集器会尽可能拉取当前来源可返回的记录。");
 }
 
 function qualityTags(record: IntelRawEvent) {
@@ -175,10 +176,10 @@ function qualityTags(record: IntelRawEvent) {
   }
   const items = [
     ["CVE", record.quality.has_canonical_id],
-    ["产品", record.quality.has_product],
-    ["版本", record.quality.has_fixed_version],
-    ["严重度", record.quality.has_severity],
-    ["利用信号", record.quality.has_exploitation_signal]
+    [t("产品"), record.quality.has_product],
+    [t("版本"), record.quality.has_fixed_version],
+    [t("严重度"), record.quality.has_severity],
+    [t("利用信号"), record.quality.has_exploitation_signal]
   ] as const;
   return (
     <Space size={[4, 4]} wrap>
@@ -249,7 +250,7 @@ function MonitorSettingsPanel({
       <Row className="monitor-settings-row" gutter={[12, 12]} align="bottom">
         <Col xs={24} sm={12} md={settingsColMd}>
           <Space direction="vertical" size={4}>
-            <Typography.Text type="secondary">自动采集</Typography.Text>
+            <Typography.Text type="secondary">{t("自动采集")}</Typography.Text>
             <Switch
               checked={draft.enabled}
               loading={isFetching}
@@ -290,12 +291,12 @@ function MonitorSettingsPanel({
         ) : null}
         <Col xs={24} sm={12} md={settingsColMd}>
           <Space className="page-stack" direction="vertical" size={4}>
-            <Typography.Text type="secondary">自动采集间隔</Typography.Text>
+            <Typography.Text type="secondary">{t("自动采集间隔")}</Typography.Text>
             <InputNumber
               min={minIntervalHours}
               max={maxIntervalHours}
               step={0.5}
-              addonAfter="小时"
+              addonAfter={t("小时")}
               value={intervalSecondsToHours(draft.interval_seconds)}
               disabled={isSaving}
               style={{ width: "100%" }}
@@ -313,7 +314,7 @@ function MonitorSettingsPanel({
         <Col xs={24} sm={12} md={settingsColMd}>
           <Space className="page-stack" direction="vertical" size={4}>
             <Space className="monitor-field-label" size={4}>
-              <Typography.Text type="secondary">定时采集数量</Typography.Text>
+              <Typography.Text type="secondary">{t("定时采集数量")}</Typography.Text>
               {hint ? (
                 <Tooltip title={hint}>
                   <CircleAlert size={14} />
@@ -323,7 +324,7 @@ function MonitorSettingsPanel({
             <InputNumber
               min={1}
               max={5000}
-              placeholder="不限制"
+              placeholder={t("不限制")}
               value={draft.limit ?? undefined}
               disabled={isSaving}
               style={{ width: "100%" }}
@@ -339,36 +340,34 @@ function MonitorSettingsPanel({
       </Row>
       <div className="monitor-summary-grid">
         <div className="monitor-summary-item">
-          <Typography.Text type="secondary">上次运行时间</Typography.Text>
+          <Typography.Text type="secondary">{t("上次运行时间")}</Typography.Text>
           <Typography.Text>{formatDateTime(data?.last_started_at)}</Typography.Text>
         </div>
         <div className="monitor-summary-item">
-          <Typography.Text type="secondary">上次采集结果</Typography.Text>
+          <Typography.Text type="secondary">{t("上次采集结果")}</Typography.Text>
           <Tag color={statusColor(data?.last_status)}>{data?.last_status ?? "-"}</Tag>
         </div>
         <div className="monitor-summary-item">
-          <Typography.Text type="secondary">下次预计运行时间</Typography.Text>
+          <Typography.Text type="secondary">{t("下次预计运行时间")}</Typography.Text>
           <Typography.Text>{formatDateTime(data?.next_run_at)}</Typography.Text>
         </div>
       </div>
       {data?.last_error ? (
-        <Alert type="warning" showIcon message="最近自动采集错误" description={data.last_error} />
+        <Alert type="warning" showIcon message={t("最近自动采集错误")} description={data.last_error} />
       ) : null}
       {extra}
       <div className="monitor-action-bar">
         <Space className="form-actions" size={8} wrap>
           {actions}
           <Button htmlType="button" onClick={onSave} loading={isSaving}>
-            保存定时设置
-          </Button>
+            {t("保存定时设置")}</Button>
           <Button
             htmlType="button"
             icon={<RefreshCw size={16} />}
             onClick={onRefresh}
             loading={isFetching}
           >
-            刷新状态
-          </Button>
+            {t("刷新状态")}</Button>
         </Space>
       </div>
     </Space>
@@ -446,15 +445,15 @@ export default function IntelCollectionPage() {
     },
     onSuccess: (result) => {
       if (result.status === "failed") {
-        messageApi.error(result.error_message ?? result.message ?? "情报采集失败");
+        messageApi.error(result.error_message ?? result.message ?? t("情报采集失败"));
       } else {
-        messageApi.success(result.message ?? "情报采集请求已完成");
+        messageApi.success(result.message ?? t("情报采集请求已完成"));
       }
       void queryClient.invalidateQueries({ queryKey: ["vulnerabilities"] });
       void queryClient.invalidateQueries({ queryKey: ["intel"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "情报采集失败");
+      messageApi.error(error instanceof Error ? error.message : t("情报采集失败"));
     }
   });
 
@@ -462,7 +461,7 @@ export default function IntelCollectionPage() {
     mutationFn: (values: CisaKevMonitorConfigUpdate) =>
       updateCisaKevMonitorConfig(values),
     onSuccess: (result) => {
-      messageApi.success("CISA KEV 定时采集设置已更新");
+      messageApi.success(t("CISA KEV 定时采集设置已更新"));
       setCisaMonitorDraft({
         enabled: result.enabled,
         interval_seconds: result.interval_seconds,
@@ -474,7 +473,7 @@ export default function IntelCollectionPage() {
       void queryClient.invalidateQueries({ queryKey: ["intel", "runs"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "定时采集设置更新失败");
+      messageApi.error(error instanceof Error ? error.message : t("定时采集设置更新失败"));
     }
   });
 
@@ -482,7 +481,7 @@ export default function IntelCollectionPage() {
     mutationFn: (values: WatchVulnMonitorConfigUpdate) =>
       updateWatchVulnMonitorConfig(values),
     onSuccess: (result) => {
-      messageApi.success("WatchVuln 自动监测设置已更新");
+      messageApi.success(t("WatchVuln 自动监测设置已更新"));
       setWatchVulnMonitorDraft({
         enabled: result.enabled,
         interval_seconds: result.interval_seconds,
@@ -493,19 +492,19 @@ export default function IntelCollectionPage() {
       void queryClient.invalidateQueries({ queryKey: ["intel", "runs"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "自动监测设置更新失败");
+      messageApi.error(error instanceof Error ? error.message : t("自动监测设置更新失败"));
     }
   });
 
   const normalizeMutation = useMutation({
     mutationFn: normalizeIntelRawEvent,
     onSuccess: (result) => {
-      messageApi.success(`归一化完成：${result.status}`);
+      messageApi.success(t("归一化完成：{{v0}}", { v0: result.status }));
       void queryClient.invalidateQueries({ queryKey: ["intel"] });
       void queryClient.invalidateQueries({ queryKey: ["vulnerabilities"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "归一化重试失败");
+      messageApi.error(error instanceof Error ? error.message : t("归一化重试失败"));
     }
   });
 
@@ -513,7 +512,7 @@ export default function IntelCollectionPage() {
     mutationFn: clearIntelSourceVulnerabilities,
     onSuccess: (result: IntelSourceVulnerabilityCleanupResult) => {
       messageApi.success(
-        `已清除 ${result.source_label ?? result.source_name}：删除 ${result.vulnerabilities_deleted} 条漏洞，保留 ${result.shared_vulnerabilities_retained} 条共享漏洞。`
+        t("已清除 {{v0}}：删除 {{v1}} 条漏洞，保留 {{v2}} 条共享漏洞。", { v0: result.source_label ?? result.source_name, v1: result.vulnerabilities_deleted, v2: result.shared_vulnerabilities_retained })
       );
       void queryClient.invalidateQueries({ queryKey: ["intel"] });
       void queryClient.invalidateQueries({ queryKey: ["vulnerabilities"] });
@@ -521,30 +520,27 @@ export default function IntelCollectionPage() {
       void queryClient.invalidateQueries({ queryKey: ["verification"] });
     },
     onError: (error) => {
-      messageApi.error(error instanceof Error ? error.message : "清除采集漏洞失败");
+      messageApi.error(error instanceof Error ? error.message : t("清除采集漏洞失败"));
     }
   });
 
   function confirmClearSource(record: IntelSourceStatus) {
     const sourceLabel = record.source_label ?? record.source_name;
     Modal.confirm({
-      title: `确认清除“${sourceLabel}”采集的漏洞？`,
+      title: t("确认清除“{{v0}}”采集的漏洞？", { v0: sourceLabel }),
       content: (
         <Space direction="vertical" size={4}>
           <Typography.Text>
-            将删除该引擎的来源链接、原始情报和采集记录。
-          </Typography.Text>
+            {t("将删除该引擎的来源链接、原始情报和采集记录。")}</Typography.Text>
           <Typography.Text type="danger">
-            最多 {record.vulnerability_count} 条没有其他来源的漏洞及其匹配、验证、AI 补全信息也会被删除，操作不可恢复。
-          </Typography.Text>
+            {t("最多")}{record.vulnerability_count} {t("条没有其他来源的漏洞及其匹配、验证、AI 补全信息也会被删除，操作不可恢复。")}</Typography.Text>
           <Typography.Text type="secondary">
-            有其他来源的同一漏洞会被保留。
-          </Typography.Text>
+            {t("有其他来源的同一漏洞会被保留。")}</Typography.Text>
         </Space>
       ),
-      okText: "确认清除",
+      okText: t("确认清除"),
       okButtonProps: { danger: true },
-      cancelText: "取消",
+      cancelText: t("取消"),
       onOk: () =>
         new Promise<void>((resolve, reject) => {
           clearSourceMutation.mutate(record.source_name, {
@@ -564,22 +560,20 @@ export default function IntelCollectionPage() {
         }}
         disabled={collectMutation.isPending}
       >
-        重置
-      </Button>
+        {t("重置")}</Button>
       <Button
         type="primary"
         htmlType="submit"
         icon={<DownloadCloud size={16} />}
         loading={collectMutation.isPending}
       >
-        单次采集
-      </Button>
+        {t("单次采集")}</Button>
     </>
   );
 
   const sourceColumns: ColumnsType<IntelSourceStatus> = [
     {
-      title: "来源",
+      title: t("来源"),
       dataIndex: "source_name",
       width: 190,
       render: (value: string, record) => (
@@ -587,28 +581,28 @@ export default function IntelCollectionPage() {
       )
     },
     {
-      title: "最近状态",
+      title: t("最近状态"),
       dataIndex: "last_status",
       width: 120,
       render: (value: string | null) => <Tag color={statusColor(value)}>{value ?? "-"}</Tag>
     },
     {
-      title: "最近采集",
+      title: t("最近采集"),
       dataIndex: "last_started_at",
       width: 190,
       render: (value: string | null) => formatDateTime(value)
     },
-    { title: "原始事件", dataIndex: "raw_event_count", width: 100 },
-    { title: "已处理", dataIndex: "processed_event_count", width: 100 },
-    { title: "失败", dataIndex: "failed_event_count", width: 90 },
-    { title: "漏洞数", dataIndex: "vulnerability_count", width: 100 },
+    { title: t("原始事件"), dataIndex: "raw_event_count", width: 100 },
+    { title: t("已处理"), dataIndex: "processed_event_count", width: 100 },
+    { title: t("失败"), dataIndex: "failed_event_count", width: 90 },
+    { title: t("漏洞数"), dataIndex: "vulnerability_count", width: 100 },
     {
-      title: "最近错误",
+      title: t("最近错误"),
       dataIndex: "last_error",
       render: (value: string | null) => value || "-"
     },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       fixed: "right",
       width: 140,
@@ -621,42 +615,41 @@ export default function IntelCollectionPage() {
           onClick={() => confirmClearSource(record)}
           loading={clearSourceMutation.isPending}
         >
-          清除漏洞
-        </Button>
+          {t("清除漏洞")}</Button>
       )
     }
   ];
 
   const runColumns: ColumnsType<IntelCollectionRun> = [
     {
-      title: "来源",
+      title: t("来源"),
       dataIndex: "source_name",
       width: 120
     },
     {
-      title: "触发",
+      title: t("触发"),
       dataIndex: "trigger_type",
       width: 100
     },
     {
-      title: "状态",
+      title: t("状态"),
       dataIndex: "status",
       width: 110,
       render: (value: string) => <Tag color={statusColor(value)}>{value}</Tag>
     },
     {
-      title: "开始时间",
+      title: t("开始时间"),
       dataIndex: "started_at",
       width: 190,
       render: (value: string) => formatDateTime(value)
     },
-    { title: "获取", dataIndex: "fetched_count", width: 80 },
-    { title: "入库", dataIndex: "stored_count", width: 80 },
-    { title: "处理", dataIndex: "processed_count", width: 80 },
-    { title: "跳过", dataIndex: "skipped_count", width: 80 },
-    { title: "失败", dataIndex: "failed_count", width: 80 },
+    { title: t("获取"), dataIndex: "fetched_count", width: 80 },
+    { title: t("入库"), dataIndex: "stored_count", width: 80 },
+    { title: t("处理"), dataIndex: "processed_count", width: 80 },
+    { title: t("跳过"), dataIndex: "skipped_count", width: 80 },
+    { title: t("失败"), dataIndex: "failed_count", width: 80 },
     {
-      title: "错误",
+      title: t("错误"),
       dataIndex: "error_message",
       render: (value: string | null) => value || "-"
     }
@@ -664,24 +657,24 @@ export default function IntelCollectionPage() {
 
   const rawEventColumns: ColumnsType<IntelRawEvent> = [
     {
-      title: "来源",
+      title: t("来源"),
       dataIndex: "provider",
       width: 120
     },
     {
-      title: "状态",
+      title: t("状态"),
       dataIndex: "processing_status",
       width: 110,
       render: (value: string) => <Tag color={statusColor(value)}>{value}</Tag>
     },
     {
-      title: "外部键",
+      title: t("外部键"),
       dataIndex: "external_key",
       minWidth: 180,
       render: (value: string) => <Typography.Text copyable>{value}</Typography.Text>
     },
     {
-      title: "漏洞",
+      title: t("漏洞"),
       dataIndex: "vulnerability_canonical_id",
       width: 160,
       render: (value: string | null) =>
@@ -694,24 +687,24 @@ export default function IntelCollectionPage() {
         )
     },
     {
-      title: "质量",
+      title: t("质量"),
       key: "quality",
       width: 280,
       render: (_, record) => qualityTags(record)
     },
     {
-      title: "接收时间",
+      title: t("接收时间"),
       dataIndex: "received_at",
       width: 190,
       render: (value: string) => formatDateTime(value)
     },
     {
-      title: "错误",
+      title: t("错误"),
       dataIndex: "last_error",
       render: (value: string | null) => value || "-"
     },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       fixed: "right",
       width: 120,
@@ -723,8 +716,7 @@ export default function IntelCollectionPage() {
           onClick={() => normalizeMutation.mutate(record.id)}
           loading={normalizeMutation.isPending}
         >
-          重跑
-        </Button>
+          {t("重跑")}</Button>
       )
     }
   ];
@@ -732,9 +724,9 @@ export default function IntelCollectionPage() {
   return (
     <Space className="page-stack" orientation="vertical" size={16}>
       {contextHolder}
-      <PageHeader title="情报采集" />
+      <PageHeader title={t("情报采集")} />
 
-      <Card className="content-card" title="情报采集">
+      <Card className="content-card" title={t("情报采集")}>
         <Form
           form={form}
           layout="vertical"
@@ -743,14 +735,14 @@ export default function IntelCollectionPage() {
         >
           <Row gutter={[16, 12]} align="bottom">
             <Col xs={24} md={8} xl={6}>
-              <Form.Item label="情报来源" name="source_name">
+              <Form.Item label={t("情报来源")} name="source_name">
                 <Select options={sourceOptions} />
               </Form.Item>
             </Col>
             {selectedSource !== "watchvuln" ? (
               <Col xs={24} sm={12} md={8} xl={5}>
                 <Form.Item
-                  label="单次采集数量"
+                  label={t("单次采集数量")}
                   name="limit"
                   tooltip={singleCollectLimitTooltip(selectedSource)}
                   rules={[
@@ -758,7 +750,7 @@ export default function IntelCollectionPage() {
                       type: "number",
                       min: 0,
                       max: 5000,
-                      message: "单次采集数量必须在 0 到 5000 之间"
+                      message: t("单次采集数量必须在 0 到 5000 之间")
                     }
                   ]}
                 >
@@ -769,14 +761,14 @@ export default function IntelCollectionPage() {
             {selectedSource === "aliyun-avd" ? (
               <Col xs={24} sm={12} md={8} xl={5}>
                 <Form.Item
-                  label="最低评分"
+                  label={t("最低评分")}
                   name="min_score"
                   rules={[
                     {
                       type: "number",
                       min: 0,
                       max: 10,
-                      message: "评分必须在 0 到 10 之间"
+                      message: t("评分必须在 0 到 10 之间")
                     }
                   ]}
                 >
@@ -787,7 +779,7 @@ export default function IntelCollectionPage() {
           </Row>
           {selectedSource === "cisa-kev" ? (
             <MonitorSettingsPanel
-              hint="CISA KEV 定时采集默认全量拉取 CISA KEV 官方目录，并按 CVE 与已有漏洞库比对；已存在条目会更新同一来源记录，新条目会补入。"
+              hint={t("CISA KEV 定时采集默认全量拉取 CISA KEV 官方目录，并按 CVE 与已有漏洞库比对；已存在条目会更新同一来源记录，新条目会补入。")}
               data={cisaMonitorQuery.data}
               isError={cisaMonitorQuery.isError}
               error={cisaMonitorQuery.error}
@@ -796,8 +788,8 @@ export default function IntelCollectionPage() {
               draft={cisaMonitorDraft}
               minInterval={300}
               maxInterval={604800}
-              latestOnlyLabel="仅采集新增漏洞"
-              latestOnlyHint="打开后定时任务按本地 CISA KEV 最新 dateAdded 水位采集新增条目；首次无水位时只采集当前数量窗口。"
+              latestOnlyLabel={t("仅采集新增漏洞")}
+              latestOnlyHint={t("打开后定时任务按本地 CISA KEV 最新 dateAdded 水位采集新增条目；首次无水位时只采集当前数量窗口。")}
               onDraftChange={setCisaMonitorDraft}
               actions={collectActions}
               onSave={() =>
@@ -813,7 +805,7 @@ export default function IntelCollectionPage() {
           ) : null}
           {selectedSource === "watchvuln" ? (
             <MonitorSettingsPanel
-              hint="WatchVuln 当前只接入各子源的新漏洞告警与高价值记录，不作为历史漏洞全量拉取入口。"
+              hint={t("WatchVuln 当前只接入各子源的新漏洞告警与高价值记录，不作为历史漏洞全量拉取入口。")}
               data={watchVulnMonitorQuery.data}
               isError={watchVulnMonitorQuery.isError}
               error={watchVulnMonitorQuery.error}
@@ -838,17 +830,17 @@ export default function IntelCollectionPage() {
                   size="small"
                   columns={[
                     {
-                      title: "子源",
+                      title: t("子源"),
                       dataIndex: "source",
                       width: 130
                     },
                     {
-                      title: "告警级别",
+                      title: t("告警级别"),
                       dataIndex: "level",
                       width: 120
                     },
                     {
-                      title: "进入条件",
+                      title: t("进入条件"),
                       dataIndex: "rule"
                     }
                   ]}
@@ -869,7 +861,7 @@ export default function IntelCollectionPage() {
         </Form>
       </Card>
 
-      <Card className="content-card" title="情报来源状态">
+      <Card className="content-card" title={t("情报来源状态")}>
         {sourcesQuery.isError ? <ErrorState error={sourcesQuery.error} /> : null}
         <ResizableTable<IntelSourceStatus>
           storageKey="intel-sources"
@@ -882,7 +874,7 @@ export default function IntelCollectionPage() {
         />
       </Card>
 
-      <Card className="content-card" title="采集历史">
+      <Card className="content-card" title={t("采集历史")}>
         {runsQuery.isError ? <ErrorState error={runsQuery.error} /> : null}
         <ResizableTable<IntelCollectionRun>
           storageKey="intel-runs"
@@ -895,7 +887,7 @@ export default function IntelCollectionPage() {
         />
       </Card>
 
-      <Card className="content-card" title="原始情报事件">
+      <Card className="content-card" title={t("原始情报事件")}>
         {rawEventsQuery.isError ? <ErrorState error={rawEventsQuery.error} /> : null}
         <ResizableTable<IntelRawEvent>
           storageKey="intel-raw-events"

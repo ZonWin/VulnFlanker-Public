@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 export class ApiError extends Error {
   status: number;
   detail: unknown;
@@ -56,7 +57,7 @@ function errorMessage(status: number, detail: unknown) {
     }
   }
 
-  return `请求失败，HTTP ${status}`;
+  return t("请求失败，HTTP {{v0}}", { v0: status });
 }
 
 export function getApiErrorCode(error: unknown) {

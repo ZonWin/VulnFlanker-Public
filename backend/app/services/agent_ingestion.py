@@ -32,6 +32,7 @@ from app.schemas.agent import (
 from app.services.agent_status import record_agent_heartbeat, record_agent_snapshot
 from app.services.audit import create_audit_log
 from app.services.auto_matching import maybe_auto_match_new_asset
+from app.services.notifications import create_system_event
 
 
 def register_heartbeat(db: Session, payload: AgentHeartbeatIn) -> AgentHeartbeatOut:
@@ -123,6 +124,33 @@ def ingest_asset_snapshot(
         snapshot.received_at = received_at
 
     record_agent_snapshot(db, payload, received_at=received_at)
+
+    if asset_action == "created":
+        create_system_event(
+            db,
+            event_key=f"asset.created:{asset.id}",
+            category="asset",
+            event_type="asset_created",
+            level="success",
+            title="新增资产",
+            summary=f"本次资产同步新增 1 台资产：{asset.hostname}。",
+            details={
+                "created_count": 1,
+                "asset_ids": [asset.id],
+                "assets": [
+                    {
+                        "asset_id": asset.id,
+                        "agent_id": asset.agent_id,
+                        "hostname": asset.hostname,
+                        "primary_ip": asset.primary_ip,
+                    }
+                ],
+                "source": "agent_snapshot",
+            },
+            target_type="asset",
+            target_id=asset.id,
+            occurred_at=received_at,
+        )
 
     db.commit()
     if asset_action == "created":

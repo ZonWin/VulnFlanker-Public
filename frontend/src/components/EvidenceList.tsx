@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import { Empty, Space, Table, Tag, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
@@ -23,15 +24,15 @@ function EvidenceExpandedDetail({ item }: { item: Evidence }) {
     <div className="evidence-expanded-detail">
       <div className="evidence-expanded-meta">
         {item.raw_ref ? (
-          <Typography.Text type="secondary">原始来源：{item.raw_ref}</Typography.Text>
+          <Typography.Text type="secondary">{t("原始来源：")}{item.raw_ref}</Typography.Text>
         ) : null}
         {isVerificationEvidence(item) ? (
           <Typography.Text type="secondary">
-            验证时间：{formatDateTime(item.created_at)}
+            {t("验证时间：")}{formatDateTime(item.created_at)}
           </Typography.Text>
         ) : null}
       </div>
-      <Typography.Text className="evidence-expanded-title">原始详情</Typography.Text>
+      <Typography.Text className="evidence-expanded-title">{t("原始详情")}</Typography.Text>
       <JsonDetails value={item.details} />
     </div>
   );
@@ -48,7 +49,7 @@ export default function EvidenceList({
 
   const columns: ColumnsType<Evidence> = [
     {
-      title: "标题",
+      title: t("标题"),
       dataIndex: "evidence_type",
       width: 220,
       render: (evidenceType: string) => (
@@ -56,27 +57,27 @@ export default function EvidenceList({
       )
     },
     {
-      title: "标签",
+      title: t("标签"),
       key: "labels",
       width: 170,
       render: (_: unknown, item) => (
         <Space size={4} wrap>
-          {isVerificationEvidence(item) ? <Tag>只读验证</Tag> : <Tag>规则取证</Tag>}
+          {isVerificationEvidence(item) ? <Tag>{t("只读验证")}</Tag> : <Tag>{t("规则取证")}</Tag>}
           <Tag color={mode === "verification" ? "green" : "blue"}>
-            {mode === "verification" ? "验证发现" : "事实依据"}
+            {mode === "verification" ? t("验证发现") : t("事实依据")}
           </Tag>
         </Space>
       )
     },
     {
-      title: "简述",
+      title: t("简述"),
       dataIndex: "summary",
       render: (summary: string) => (
         <Typography.Text className="evidence-summary">{summary || "-"}</Typography.Text>
       )
     },
     {
-      title: "置信度",
+      title: t("置信度"),
       dataIndex: "confidence",
       width: 130,
       render: (confidence: number) => <ConfidenceBar value={confidence} />

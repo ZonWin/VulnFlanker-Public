@@ -2,6 +2,7 @@ from datetime import date, datetime
 from uuid import uuid4
 
 from sqlalchemy import (
+    CheckConstraint,
     JSON,
     Date,
     DateTime,
@@ -32,6 +33,11 @@ class MatchResult(TimestampMixin, Base):
         String(32),
         nullable=True,
         unique=True,
+        index=True,
+    )
+    risk_entered_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
         index=True,
     )
     vulnerability_id: Mapped[str] = mapped_column(ForeignKey("vulnerabilities.id"), index=True)
@@ -87,6 +93,11 @@ class MatchResult(TimestampMixin, Base):
         back_populates="match_result",
         cascade="all, delete-orphan",
     )
+    risk_queue_events: Mapped[list["RiskQueueEvent"]] = relationship(
+        back_populates="match_result",
+        cascade="all, delete-orphan",
+        order_by="RiskQueueEvent.created_at",
+    )
 
 
 class RiskCodeCounter(Base):
@@ -127,3 +138,24 @@ class MatchResultHandlingRecord(TimestampMixin, Base):
     actor_display_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
     match_result: Mapped["MatchResult"] = relationship(back_populates="handling_records")
+
+
+class RiskQueueEvent(TimestampMixin, Base):
+    __tablename__ = "risk_queue_events"
+    __table_args__ = (
+        CheckConstraint(
+            "event_type IN ('entered', 'exited')",
+            name="ck_risk_queue_events_event_type",
+        ),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    match_result_id: Mapped[str] = mapped_column(
+        ForeignKey("match_results.id", ondelete="CASCADE"),
+        index=True,
+    )
+    event_type: Mapped[str] = mapped_column(String(16), index=True)
+    from_status: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    to_status: Mapped[str | None] = mapped_column(String(32), nullable=True)
+
+    match_result: Mapped["MatchResult"] = relationship(back_populates="risk_queue_events")

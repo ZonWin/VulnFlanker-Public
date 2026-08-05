@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Button,
   Card,
@@ -28,12 +29,12 @@ import { OutcomeTag } from "@/components/ValueTags";
 import { formatDateTime } from "@/utils/format";
 
 const actionOptions = [
-  { label: "验证任务创建", value: "verification_task.created" },
-  { label: "验证任务分配", value: "verification_task.assigned" },
-  { label: "验证结果回传", value: "verification_task.result_received" },
-  { label: "验证任务拒绝", value: "verification_task.rejected" },
-  { label: "验证任务创建失败", value: "verification_task.create_failed" },
-  { label: "匹配结果回写", value: "match_result.verification_updated" }
+  { label: t("验证任务创建"), value: "verification_task.created" },
+  { label: t("验证任务分配"), value: "verification_task.assigned" },
+  { label: t("验证结果回传"), value: "verification_task.result_received" },
+  { label: t("验证任务拒绝"), value: "verification_task.rejected" },
+  { label: t("验证任务创建失败"), value: "verification_task.create_failed" },
+  { label: t("匹配结果回写"), value: "match_result.verification_updated" }
 ];
 
 const resourceTypeOptions = [
@@ -120,13 +121,13 @@ export default function AuditLogsPage() {
 
   const columns: ColumnsType<AuditLog> = [
     {
-      title: "时间",
+      title: t("时间"),
       dataIndex: "created_at",
       width: 190,
       render: (value: string) => formatDateTime(value)
     },
     {
-      title: "发起方",
+      title: t("发起方"),
       key: "actor",
       width: 200,
       render: (_, record) => (
@@ -139,13 +140,13 @@ export default function AuditLogsPage() {
       )
     },
     {
-      title: "动作",
+      title: t("动作"),
       dataIndex: "action",
       minWidth: 240,
       render: (value: string) => <Typography.Text copyable>{value}</Typography.Text>
     },
     {
-      title: "资源",
+      title: t("资源"),
       key: "resource",
       minWidth: 240,
       render: (_, record) => (
@@ -167,13 +168,13 @@ export default function AuditLogsPage() {
       )
     },
     {
-      title: "结果",
+      title: t("结果"),
       dataIndex: "outcome",
       width: 120,
       render: (value: string) => <OutcomeTag value={value} />
     },
     {
-      title: "摘要",
+      title: t("摘要"),
       dataIndex: "summary",
       minWidth: 320,
       render: (value: string) => (
@@ -183,7 +184,7 @@ export default function AuditLogsPage() {
       )
     },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       fixed: "right",
       width: 100,
@@ -194,8 +195,7 @@ export default function AuditLogsPage() {
           icon={<Eye size={15} />}
           onClick={() => setSelectedLog(record)}
         >
-          详情
-        </Button>
+          {t("详情")}</Button>
       )
     }
   ];
@@ -203,15 +203,14 @@ export default function AuditLogsPage() {
   return (
     <Space className="page-stack" orientation="vertical" size={16}>
       <PageHeader
-        title="审计日志"
+        title={t("审计日志")}
         extra={
           <Button
             icon={<RefreshCw size={16} />}
             onClick={() => auditLogsQuery.refetch()}
             loading={auditLogsQuery.isFetching}
           >
-            刷新
-          </Button>
+            {t("刷新")}</Button>
         }
       />
 
@@ -222,51 +221,50 @@ export default function AuditLogsPage() {
           initialValues={initialFilters}
           onFinish={applyFilters}
         >
-          <Form.Item label="动作" name="action">
+          <Form.Item label={t("动作")} name="action">
             <Select
               allowClear
               showSearch
               options={actionOptions}
-              placeholder="全部动作"
+              placeholder={t("全部动作")}
             />
           </Form.Item>
-          <Form.Item label="发起方" name="actor_id">
+          <Form.Item label={t("发起方")} name="actor_id">
             <Input allowClear placeholder="actor id" />
           </Form.Item>
-          <Form.Item label="资源类型" name="resource_type">
+          <Form.Item label={t("资源类型")} name="resource_type">
             <Select
               allowClear
               showSearch
               options={resourceTypeOptions}
-              placeholder="全部资源"
+              placeholder={t("全部资源")}
             />
           </Form.Item>
-          <Form.Item label="资源 ID" name="resource_id">
+          <Form.Item label={t("资源 ID")} name="resource_id">
             <Input allowClear placeholder="resource id" />
           </Form.Item>
-          <Form.Item label="结果" name="outcome">
+          <Form.Item label={t("结果")} name="outcome">
             <Select
               allowClear
               showSearch
               options={outcomeOptions}
-              placeholder="全部结果"
+              placeholder={t("全部结果")}
             />
           </Form.Item>
-          <Form.Item label="数量" name="limit">
+          <Form.Item label={t("数量")} name="limit">
             <InputNumber min={1} max={500} />
           </Form.Item>
           <Form.Item>
             <Space>
-              <Button onClick={resetFilters}>重置</Button>
+              <Button onClick={resetFilters}>{t("重置")}</Button>
               <Button type="primary" htmlType="submit">
-                查询
-              </Button>
+                {t("查询")}</Button>
             </Space>
           </Form.Item>
         </Form>
       </Card>
 
-      <Card className="content-card" title="审计记录">
+      <Card className="content-card" title={t("审计记录")}>
         {auditLogsQuery.isError ? <ErrorState error={auditLogsQuery.error} /> : null}
         <ResizableTable<AuditLog>
           storageKey="audit-logs"
@@ -275,13 +273,13 @@ export default function AuditLogsPage() {
           dataSource={auditLogsQuery.data ?? []}
           loading={auditLogsQuery.isFetching}
           pagination={{ pageSize: 10, showSizeChanger: true }}
-          locale={{ emptyText: <EmptyState title="暂无审计记录" /> }}
+          locale={{ emptyText: <EmptyState title={t("暂无审计记录")} /> }}
           scroll={{ x: 1410 }}
         />
       </Card>
 
       <Drawer
-        title="审计详情"
+        title={t("审计详情")}
         width={720}
         open={Boolean(selectedLog)}
         onClose={() => setSelectedLog(null)}
@@ -293,33 +291,33 @@ export default function AuditLogsPage() {
               size="small"
               column={1}
               items={[
-                { key: "id", label: "日志 ID", children: selectedLog.id },
+                { key: "id", label: t("日志 ID"), children: selectedLog.id },
                 {
                   key: "time",
-                  label: "时间",
+                  label: t("时间"),
                   children: formatDateTime(selectedLog.created_at)
                 },
                 {
                   key: "actor",
-                  label: "发起方",
+                  label: t("发起方"),
                   children: `${selectedLog.actor_type} / ${displayValue(
                     selectedLog.actor_id
                   )}`
                 },
-                { key: "action", label: "动作", children: selectedLog.action },
+                { key: "action", label: t("动作"), children: selectedLog.action },
                 {
                   key: "resource",
-                  label: "资源",
+                  label: t("资源"),
                   children: `${selectedLog.resource_type} / ${displayValue(
                     selectedLog.resource_id
                   )}`
                 },
                 {
                   key: "outcome",
-                  label: "结果",
+                  label: t("结果"),
                   children: <OutcomeTag value={selectedLog.outcome} />
                 },
-                { key: "summary", label: "摘要", children: selectedLog.summary }
+                { key: "summary", label: t("摘要"), children: selectedLog.summary }
               ]}
             />
             <Card className="content-card" title="Details JSON">

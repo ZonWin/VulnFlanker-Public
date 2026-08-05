@@ -40,6 +40,7 @@ from app.services.matching import (
     evaluate_matches,
     reevaluate_match_result,
 )
+from app.schemas.email_alert import EmailActionOut
 from app.services.match_result_handling import (
     HANDLING_STATUSES,
     reopen_match_result_handling,
@@ -47,6 +48,7 @@ from app.services.match_result_handling import (
 )
 from app.services.verification_tasks import create_verification_task
 from app.services.auth import user_audit_details
+from app.services.risk_notifications import create_manual_risk_email
 
 router = APIRouter()
 
@@ -308,6 +310,25 @@ async def create_verification_task_for_match_result(
     if task is None:
         raise HTTPException(status_code=404, detail="Match result not found")
     return task
+
+
+@router.post("/{match_result_id}/email-alert", response_model=EmailActionOut)
+async def send_match_result_email_alert(
+    match_result_id: str,
+    current_user: User = Depends(require_superuser),
+    db: Session = Depends(get_db),
+) -> EmailActionOut:
+    try:
+        return create_manual_risk_email(
+            db,
+            match_result_id,
+            actor_id=current_user.id,
+            actor_details=user_audit_details(current_user),
+        )
+    except LookupError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
 
 
 @router.get("/{match_result_id}", response_model=MatchResultDetail)

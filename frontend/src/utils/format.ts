@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 export function formatDateTime(value?: string | null) {
   if (!value) {
     return "-";
@@ -39,15 +40,15 @@ export function formatDurationSeconds(value?: number | null) {
     return "-";
   }
   if (value < 60) {
-    return `${value} 秒`;
+    return t("{{v0}} 秒", { v0: value });
   }
   if (value < 3600) {
-    return `${Math.floor(value / 60)} 分钟`;
+    return t("{{v0}} 分钟", { v0: Math.floor(value / 60) });
   }
   if (value < 86400) {
-    return `${Math.floor(value / 3600)} 小时`;
+    return t("{{v0}} 小时", { v0: Math.floor(value / 3600) });
   }
-  return `${Math.floor(value / 86400)} 天`;
+  return t("{{v0}} 天", { v0: Math.floor(value / 86400) });
 }
 
 export function formatJson(value: unknown) {

@@ -8,10 +8,13 @@ from app.api.routes import (
     assets,
     auth,
     audit,
+    dashboard,
+    email_alerts,
     health,
     intel,
     matching,
     match_results,
+    notifications,
     ownership,
     platform_settings,
     rule_config,
@@ -28,11 +31,18 @@ console_auth = [Depends(require_current_user)]
 api_router.include_router(auth.router, prefix="/auth", tags=["auth"])
 api_router.include_router(health.router, prefix="/health", tags=["health"])
 api_router.include_router(
+    dashboard.router,
+    prefix="/dashboard",
+    tags=["dashboard"],
+    dependencies=console_auth,
+)
+api_router.include_router(
     platform_settings.router,
     prefix="/platform-settings",
     tags=["platform-settings"],
 )
 api_router.include_router(audit.router, prefix="/audit", tags=["audit"], dependencies=console_auth)
+api_router.include_router(email_alerts.router, tags=["email-alerts"], dependencies=console_auth)
 api_router.include_router(ai.router, prefix="/ai", tags=["ai"], dependencies=console_auth)
 api_router.include_router(agents.router, prefix="/agents", tags=["agents"])
 api_router.include_router(assets.router, prefix="/assets", tags=["assets"], dependencies=console_auth)
@@ -61,6 +71,12 @@ api_router.include_router(
     match_results.router,
     prefix="/match-results",
     tags=["match-results"],
+    dependencies=console_auth,
+)
+api_router.include_router(
+    notifications.router,
+    prefix="/notifications",
+    tags=["notifications"],
     dependencies=console_auth,
 )
 api_router.include_router(

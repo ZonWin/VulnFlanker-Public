@@ -188,7 +188,8 @@ chmod +x ./vulnflanker-agent-linux-amd64
 ```
 
 New deployments should use `/agent/v1`; the legacy Agent API compatibility
-switch is kept on for v0.1 only.
+switch is disabled by default and should only be enabled temporarily while
+migrating old Agents.
 
 ## AI Enrichment
 

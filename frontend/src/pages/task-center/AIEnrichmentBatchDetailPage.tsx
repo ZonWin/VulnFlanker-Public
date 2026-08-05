@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import {
   Alert,
   Button,
@@ -41,14 +42,14 @@ import PageHeader from "@/components/PageHeader";
 import { formatDateTime } from "@/utils/format";
 
 const statusLabels: Record<VulnerabilityAIEnrichmentStatus | "not_started", string> = {
-  pending_review: "待人工核对",
-  insufficient: "建议不足",
-  failed: "补全失败",
-  accepted: "已采纳",
-  rejected: "已拒绝",
-  auto_accepted: "自动采纳",
-  already_applied: "无需变更",
-  not_started: "未开始"
+  pending_review: t("待人工核对"),
+  insufficient: t("建议不足"),
+  failed: t("补全失败"),
+  accepted: t("已采纳"),
+  rejected: t("已拒绝"),
+  auto_accepted: t("自动采纳"),
+  already_applied: t("无需变更"),
+  not_started: t("未开始")
 };
 
 const statusColors: Record<VulnerabilityAIEnrichmentStatus | "not_started", string> = {
@@ -63,10 +64,10 @@ const statusColors: Record<VulnerabilityAIEnrichmentStatus | "not_started", stri
 };
 
 const readinessLabels: Record<VulnerabilityMatchReadiness, string> = {
-  ready: "匹配就绪",
-  needs_enrichment: "仍需补全",
-  needs_review: "需人工复核",
-  not_matchable: "暂不可匹配"
+  ready: t("匹配就绪"),
+  needs_enrichment: t("仍需补全"),
+  needs_review: t("需人工复核"),
+  not_matchable: t("暂不可匹配")
 };
 
 const readinessColors: Record<VulnerabilityMatchReadiness, string> = {
@@ -77,10 +78,10 @@ const readinessColors: Record<VulnerabilityMatchReadiness, string> = {
 };
 
 const qualityGateLabels: Record<string, string> = {
-  passed: "质量通过",
-  needs_review: "需复核",
-  failed: "质量失败",
-  not_applicable: "不适用"
+  passed: t("质量通过"),
+  needs_review: t("需复核"),
+  failed: t("质量失败"),
+  not_applicable: t("不适用")
 };
 
 const qualityGateColors: Record<string, string> = {
@@ -91,18 +92,18 @@ const qualityGateColors: Record<string, string> = {
 };
 
 const riskLevelLabels: Record<string, string> = {
-  none: "低风险",
-  low: "低风险",
-  medium: "中风险",
-  high: "高风险"
+  none: t("低风险"),
+  low: t("低风险"),
+  medium: t("中风险"),
+  high: t("高风险")
 };
 
 const fieldRows = [
-  { key: "vendor", label: "厂商" },
-  { key: "product", label: "产品" },
-  { key: "affected_versions", label: "受影响版本" },
-  { key: "fixed_versions", label: "修复版本" },
-  { key: "remediation", label: "修复建议" }
+  { key: "vendor", label: t("厂商") },
+  { key: "product", label: t("产品") },
+  { key: "affected_versions", label: t("受影响版本") },
+  { key: "fixed_versions", label: t("修复版本") },
+  { key: "remediation", label: t("修复建议") }
 ] as const;
 
 function displayValue(value?: string | number | boolean | null) {
@@ -119,7 +120,7 @@ function statusTag(status: VulnerabilityAIEnrichmentStatus | "not_started") {
 
 function readinessTag(value?: VulnerabilityMatchReadiness | null) {
   if (!value) {
-    return <Tag>暂无</Tag>;
+    return <Tag>{t("暂无")}</Tag>;
   }
   return <Tag color={readinessColors[value]}>{readinessLabels[value]}</Tag>;
 }
@@ -127,7 +128,7 @@ function readinessTag(value?: VulnerabilityMatchReadiness | null) {
 function qualityGateTag(enrichment?: VulnerabilityAIEnrichment | null) {
   const status = enrichment?.quality_gate?.quality_gate_status;
   if (!status) {
-    return <Tag>暂无质量门禁</Tag>;
+    return <Tag>{t("暂无质量门禁")}</Tag>;
   }
   return <Tag color={qualityGateColors[status]}>{qualityGateLabels[status] ?? status}</Tag>;
 }
@@ -173,7 +174,7 @@ export default function AIEnrichmentBatchDetailPage() {
 
   const columns: ColumnsType<VulnerabilityAIEnrichmentBatchItem> = [
     {
-      title: "漏洞",
+      title: t("漏洞"),
       key: "vulnerability",
       minWidth: 300,
       render: (_, record) => (
@@ -194,25 +195,25 @@ export default function AIEnrichmentBatchDetailPage() {
       )
     },
     {
-      title: "补全状态",
+      title: t("补全状态"),
       dataIndex: "result_status",
       width: 150,
       render: (value: VulnerabilityAIEnrichmentStatus | "not_started") => statusTag(value)
     },
     {
-      title: "质量门禁",
+      title: t("质量门禁"),
       key: "quality",
       width: 150,
       render: (_, record) => qualityGateTag(record.enrichment)
     },
     {
-      title: "匹配就绪度",
+      title: t("匹配就绪度"),
       key: "readiness",
       width: 150,
       render: (_, record) => readinessTag(record.vulnerability.match_readiness)
     },
     {
-      title: "AI 候选",
+      title: t("AI 候选"),
       key: "candidate",
       minWidth: 260,
       render: (_, record) => (
@@ -225,13 +226,13 @@ export default function AIEnrichmentBatchDetailPage() {
       )
     },
     {
-      title: "置信度",
+      title: t("置信度"),
       key: "confidence",
       width: 110,
       render: (_, record) => confidenceValue(record.enrichment?.confidence)
     },
     {
-      title: "更新时间",
+      title: t("更新时间"),
       key: "updated",
       width: 180,
       render: (_, record) =>
@@ -240,7 +241,7 @@ export default function AIEnrichmentBatchDetailPage() {
         )
     },
     {
-      title: "操作",
+      title: t("操作"),
       key: "actions",
       fixed: "right",
       width: 130,
@@ -254,8 +255,7 @@ export default function AIEnrichmentBatchDetailPage() {
             )
           }
         >
-          处理
-        </Button>
+          {t("处理")}</Button>
       )
     }
   ];
@@ -263,25 +263,23 @@ export default function AIEnrichmentBatchDetailPage() {
   return (
     <Space className="page-stack ai-batch-detail-page" orientation="vertical" size={16}>
       <PageHeader
-        title="AI 补全详情"
+        title={t("AI 补全详情")}
         extra={
           <Space wrap>
             <Button icon={<ArrowLeft size={16} />} onClick={() => navigate(-1)}>
-              返回
-            </Button>
+              {t("返回")}</Button>
             <Button
               icon={<RefreshCw size={16} />}
               onClick={() => query.refetch()}
               loading={query.isFetching}
             >
-              刷新
-            </Button>
+              {t("刷新")}</Button>
           </Space>
         }
       />
 
       {query.isLoading ? <LoadingBlock /> : null}
-      {query.isError ? <ErrorState title="AI 补全详情加载失败" error={query.error} /> : null}
+      {query.isError ? <ErrorState title={t("AI 补全详情加载失败")} error={query.error} /> : null}
 
       {query.data ? (
         <>
@@ -293,7 +291,7 @@ export default function AIEnrichmentBatchDetailPage() {
             <Col xs={24} lg={6}>
               <Card className="metric-card">
                 <Statistic
-                  title="选中漏洞"
+                  title={t("选中漏洞")}
                   value={query.data.batch.selected_count}
                   prefix={<Bot size={28} />}
                 />
@@ -302,7 +300,7 @@ export default function AIEnrichmentBatchDetailPage() {
             <Col xs={24} lg={6}>
               <Card className="metric-card metric-card-green">
                 <Statistic
-                  title="已处理"
+                  title={t("已处理")}
                   value={query.data.batch.processed_count}
                   prefix={<RefreshCw size={28} />}
                 />
@@ -311,7 +309,7 @@ export default function AIEnrichmentBatchDetailPage() {
             <Col xs={24} lg={6}>
               <Card className="metric-card">
                 <Statistic
-                  title="待核对"
+                  title={t("待核对")}
                   value={query.data.batch.pending_review_count}
                   prefix={<ShieldAlert size={28} />}
                 />
@@ -320,7 +318,7 @@ export default function AIEnrichmentBatchDetailPage() {
             <Col xs={24} lg={6}>
               <Card className="metric-card metric-card-green">
                 <Statistic
-                  title="匹配就绪"
+                  title={t("匹配就绪")}
                   value={readyCount}
                   prefix={<CheckCircle2 size={28} />}
                 />
@@ -328,49 +326,49 @@ export default function AIEnrichmentBatchDetailPage() {
             </Col>
           </Row>
 
-          <Card className="content-card" title="批次概览">
+          <Card className="content-card" title={t("批次概览")}>
             <Descriptions
               size="small"
               bordered
               column={{ xs: 1, md: 2, xl: 4 }}
               items={[
-                { key: "status", label: "状态", children: query.data.batch.status },
-                { key: "trigger", label: "触发", children: query.data.batch.trigger_type },
+                { key: "status", label: t("状态"), children: query.data.batch.status },
+                { key: "trigger", label: t("触发"), children: query.data.batch.trigger_type },
                 {
                   key: "layer",
-                  label: "补全层",
+                  label: t("补全层"),
                   children: displayValue(query.data.batch.filters.layer as string | undefined)
                 },
                 {
                   key: "web",
-                  label: "联网补充",
-                  children: query.data.batch.allow_web_enrichment ? "允许" : "未允许"
+                  label: t("联网补充"),
+                  children: query.data.batch.allow_web_enrichment ? t("允许") : t("未允许")
                 },
                 {
                   key: "started",
-                  label: "开始时间",
+                  label: t("开始时间"),
                   children: formatDateTime(query.data.batch.started_at)
                 },
                 {
                   key: "finished",
-                  label: "结束时间",
+                  label: t("结束时间"),
                   children: formatDateTime(query.data.batch.finished_at)
                 },
                 {
                   key: "success",
-                  label: "成功/失败",
+                  label: t("成功/失败"),
                   children: `${query.data.batch.success_count} / ${query.data.batch.failed_count}`
                 },
                 {
                   key: "insufficient",
-                  label: "建议不足",
+                  label: t("建议不足"),
                   children: query.data.batch.insufficient_count
                 }
               ]}
             />
           </Card>
 
-          <Card className="content-card" title="补全成果核对">
+          <Card className="content-card" title={t("补全成果核对")}>
             <Table<VulnerabilityAIEnrichmentBatchItem>
               rowKey={(record) => record.vulnerability.id}
               columns={columns}
@@ -378,7 +376,7 @@ export default function AIEnrichmentBatchDetailPage() {
               pagination={{ pageSize: 10, showSizeChanger: true }}
               scroll={{ x: 1420 }}
               locale={{
-                emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无补全结果" />
+                emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t("暂无补全结果")} />
               }}
               expandable={{
                 expandedRowRender: renderExpandedItem,
@@ -402,7 +400,7 @@ function renderExpandedItem(record: VulnerabilityAIEnrichmentBatchItem) {
           <div className="ai-batch-field-row" key={field.key}>
             <Typography.Text strong>{field.label}</Typography.Text>
             <Typography.Text type="secondary">
-              当前：{fieldValue(record.vulnerability, enrichment, field.key, "current")}
+              {t("当前：")}{fieldValue(record.vulnerability, enrichment, field.key, "current")}
             </Typography.Text>
             <Typography.Text>
               AI：{fieldValue(record.vulnerability, enrichment, field.key, "ai")}
@@ -413,11 +411,11 @@ function renderExpandedItem(record: VulnerabilityAIEnrichmentBatchItem) {
 
       <Row gutter={[12, 12]}>
         <Col xs={24} lg={12}>
-          <Card size="small" title="源信息">
+          <Card size="small" title={t("源信息")}>
             <List
               size="small"
               dataSource={record.vulnerability.sources}
-              locale={{ emptyText: "暂无源信息" }}
+              locale={{ emptyText: t("暂无源信息") }}
               renderItem={(source) => (
                 <List.Item>
                   <Space orientation="vertical" size={2}>
@@ -440,31 +438,31 @@ function renderExpandedItem(record: VulnerabilityAIEnrichmentBatchItem) {
           </Card>
         </Col>
         <Col xs={24} lg={12}>
-          <Card size="small" title="匹配就绪度">
+          <Card size="small" title={t("匹配就绪度")}>
             <Descriptions
               size="small"
               column={1}
               items={[
                 {
                   key: "readiness",
-                  label: "状态",
+                  label: t("状态"),
                   children: readinessTag(record.vulnerability.match_readiness)
                 },
                 {
                   key: "score",
-                  label: "证据分",
+                  label: t("证据分"),
                   children: displayValue(record.vulnerability.readiness_evidence_score)
                 },
                 {
                   key: "missing",
-                  label: "缺失字段",
+                  label: t("缺失字段"),
                   children: record.vulnerability.readiness_missing_fields.length
                     ? record.vulnerability.readiness_missing_fields.join(" / ")
                     : "-"
                 },
                 {
                   key: "reasons",
-                  label: "原因",
+                  label: t("原因"),
                   children: record.vulnerability.readiness_reasons.length
                     ? record.vulnerability.readiness_reasons.join(" / ")
                     : "-"
@@ -477,11 +475,11 @@ function renderExpandedItem(record: VulnerabilityAIEnrichmentBatchItem) {
 
       <Row gutter={[12, 12]}>
         <Col xs={24} lg={12}>
-          <Card size="small" title="AI 证据">
+          <Card size="small" title={t("AI 证据")}>
             <List
               size="small"
               dataSource={enrichment?.evidence ?? []}
-              locale={{ emptyText: "暂无证据" }}
+              locale={{ emptyText: t("暂无证据") }}
               renderItem={(item) => (
                 <List.Item>
                   <Space orientation="vertical" size={3}>
@@ -501,41 +499,41 @@ function renderExpandedItem(record: VulnerabilityAIEnrichmentBatchItem) {
           </Card>
         </Col>
         <Col xs={24} lg={12}>
-          <Card size="small" title="质量门禁">
+          <Card size="small" title={t("质量门禁")}>
             <Descriptions
               size="small"
               column={1}
               items={[
                 {
                   key: "gate",
-                  label: "状态",
+                  label: t("状态"),
                   children: qualityGateTag(enrichment)
                 },
                 {
                   key: "risk",
-                  label: "人工采纳风险",
+                  label: t("人工采纳风险"),
                   children: riskLevelLabels[gate?.manual_accept_risk_level ?? ""] ?? "-"
                 },
                 {
                   key: "auto",
-                  label: "可自动采纳",
-                  children: gate?.auto_accept_allowed ? "是" : "否"
+                  label: t("可自动采纳"),
+                  children: gate?.auto_accept_allowed ? t("是") : t("否")
                 },
                 {
                   key: "candidate",
-                  label: "候选字段",
+                  label: t("候选字段"),
                   children: displayValue(gate?.candidate_field_count)
                 },
                 {
                   key: "reason",
-                  label: "原因",
+                  label: t("原因"),
                   children: gate?.quality_gate_reasons.length
                     ? gate.quality_gate_reasons.join(" / ")
                     : "-"
                 },
                 {
                   key: "warning",
-                  label: "提示",
+                  label: t("提示"),
                   children: gate?.quality_gate_warnings.length
                     ? gate.quality_gate_warnings.join(" / ")
                     : "-"
@@ -551,7 +549,7 @@ function renderExpandedItem(record: VulnerabilityAIEnrichmentBatchItem) {
         items={[
           {
             key: "raw",
-            label: "AI 原始输出",
+            label: t("AI 原始输出"),
             children: (
               <pre className="json-block">
                 {JSON.stringify(enrichment?.raw_output ?? {}, null, 2)}
@@ -560,12 +558,12 @@ function renderExpandedItem(record: VulnerabilityAIEnrichmentBatchItem) {
           },
           {
             key: "scopes",
-            label: "影响范围",
+            label: t("影响范围"),
             children: (
               <List
                 size="small"
                 dataSource={record.vulnerability.affected_scopes}
-                locale={{ emptyText: "暂无影响范围" }}
+                locale={{ emptyText: t("暂无影响范围") }}
                 renderItem={(scope) => (
                   <List.Item>
                     <Space orientation="vertical" size={2}>
@@ -574,10 +572,10 @@ function renderExpandedItem(record: VulnerabilityAIEnrichmentBatchItem) {
                         <Typography.Text>{displayValue(scope.product)}</Typography.Text>
                       </Space>
                       <Typography.Text type="secondary">
-                        影响：{displayValue(scope.affected_versions)}
+                        {t("影响：")}{displayValue(scope.affected_versions)}
                       </Typography.Text>
                       <Typography.Text type="secondary">
-                        修复：{displayValue(scope.fixed_versions)}
+                        {t("修复：")}{displayValue(scope.fixed_versions)}
                       </Typography.Text>
                       {sourceLink(scope.source_url, scope.source_url)}
                     </Space>

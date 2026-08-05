@@ -153,6 +153,48 @@ def reopen_match_result_handling(
     return result
 
 
+def reopen_reappeared_match_result(
+    db: Session,
+    result: MatchResult,
+) -> MatchResult:
+    previous_status = result.handling_status or DEFAULT_HANDLING_STATUS
+    if not is_closed_handling_status(previous_status):
+        return result
+    result.handling_status = DEFAULT_HANDLING_STATUS
+    result.handling_note = "风险在后续评估中重新出现，系统已自动重新打开。"
+    result.handling_updated_by = None
+    result.handling_updated_at = utcnow()
+    result.handling_closed_at = None
+    record = _append_record(
+        result,
+        action="risk_reappeared",
+        from_status=previous_status,
+        to_status=DEFAULT_HANDLING_STATUS,
+        note=result.handling_note,
+        actor_id=None,
+        actor_details=None,
+    )
+    db.add(result)
+    db.flush()
+    create_audit_log(
+        db,
+        action="match_result.risk_reappeared",
+        resource_type="match_result",
+        resource_id=result.id,
+        actor_type="system",
+        outcome="success",
+        summary="Reopened a closed match result after the risk reappeared.",
+        details={
+            "asset_id": result.asset_id,
+            "vulnerability_id": result.vulnerability_id,
+            "previous_handling_status": previous_status,
+            "new_handling_status": result.handling_status,
+            "handling_record_id": record.id,
+        },
+    )
+    return result
+
+
 def _append_record(
     result: MatchResult,
     *,
@@ -160,7 +202,7 @@ def _append_record(
     from_status: str | None,
     to_status: str,
     note: str | None,
-    actor_id: str,
+    actor_id: str | None,
     actor_details: dict[str, object | None] | None,
 ) -> MatchResultHandlingRecord:
     details = actor_details or {}

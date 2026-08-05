@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import { Alert } from "antd";
 
 interface ErrorStateProps {
@@ -5,8 +6,8 @@ interface ErrorStateProps {
   error: unknown;
 }
 
-export default function ErrorState({ title = "请求失败", error }: ErrorStateProps) {
-  const message = error instanceof Error ? error.message : "未知错误";
+export default function ErrorState({ title = t("请求失败"), error }: ErrorStateProps) {
+  const message = error instanceof Error ? error.message : t("未知错误");
 
   return <Alert type="error" showIcon title={title} description={message} />;
 }

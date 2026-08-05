@@ -1,3 +1,4 @@
+import { t } from "@/app/i18n";
 import { useQuery } from "@tanstack/react-query";
 import {
   createContext,
@@ -14,7 +15,7 @@ export const defaultLogoUrl = "/default-logo.svg";
 export const defaultPlatformSettings: PlatformSettings = {
   id: "default",
   platform_name: "VulnFlanker",
-  platform_subtitle: "漏洞监测平台",
+  platform_subtitle: t("漏洞监测平台"),
   logo_data_url: null,
   ai_enabled: true,
   ai_auto_enrich_enabled: false,

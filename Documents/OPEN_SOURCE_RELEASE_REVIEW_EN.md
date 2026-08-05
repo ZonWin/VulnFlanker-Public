@@ -103,6 +103,10 @@ history-scrubbed release process.
   admin credentials.
 - Agent Bearer Secret authentication exists, but HMAC replay protection and
   secret rotation are still future hardening items.
+- The legacy `/api/v1/agents` Agent API is disabled by default. The startup
+  scripts now use the console application, and new Agents should use the
+  Bearer-authenticated `/agent/v1` API. Enable the legacy switch only
+  temporarily while migrating old Agents.
 - No automatic remediation or intrusive proof-of-concept execution is included
   in the current release.
 
