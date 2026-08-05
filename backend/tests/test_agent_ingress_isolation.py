@@ -197,9 +197,12 @@ def test_console_app_manages_agent_enrollment_tokens(
 
 
 def test_disabled_agent_secret_cannot_upload_via_agent_ingress(
+    monkeypatch,
     db_session,
     authenticated_user,
 ) -> None:
+    monkeypatch.setenv("VULNFLANKER_LEGACY_AGENT_API_ENABLED", "false")
+    get_settings.cache_clear()
     secret = "vfsec-disabled-agent"
     db_session.add(
         AgentCredential(
@@ -253,6 +256,7 @@ def test_disabled_agent_secret_cannot_upload_via_agent_ingress(
             )
     finally:
         legacy_app.dependency_overrides.clear()
+        get_settings.cache_clear()
 
     credential = db_session.scalar(
         select(AgentCredential).where(AgentCredential.agent_id == "agent-linux-001")
@@ -268,7 +272,7 @@ def test_disabled_agent_secret_cannot_upload_via_agent_ingress(
     assert status is not None
     assert status.status == "disabled"
     assert snapshot_response.status_code == 401
-    assert legacy_snapshot_response.status_code == 403
+    assert legacy_snapshot_response.status_code == 404
 
 
 def test_agent_enrollment_token_preview_masks_legacy_preview() -> None:
@@ -308,7 +312,9 @@ def test_console_app_enrollment_token_management_requires_superuser(db_session) 
     assert create_response.status_code == 403
 
 
-def test_legacy_app_keeps_old_agent_paths(db_session) -> None:
+def test_legacy_app_keeps_old_agent_paths_when_enabled(monkeypatch, db_session) -> None:
+    monkeypatch.setenv("VULNFLANKER_LEGACY_AGENT_API_ENABLED", "true")
+    get_settings.cache_clear()
     app = create_legacy_app()
     app.dependency_overrides[get_db] = _override_db(db_session)
 
@@ -325,6 +331,7 @@ def test_legacy_app_keeps_old_agent_paths(db_session) -> None:
             )
     finally:
         app.dependency_overrides.clear()
+        get_settings.cache_clear()
 
     assert response.status_code == 202
 

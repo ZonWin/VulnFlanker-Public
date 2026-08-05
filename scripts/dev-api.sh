@@ -9,5 +9,5 @@ require_env_file
 HOST="${HOST:-0.0.0.0}"
 PORT="${PORT:-8000}"
 
-exec "${PYTHON_BIN}" -m uvicorn app.main:app --reload --host "${HOST}" --port "${PORT}"
+exec "${PYTHON_BIN}" -m uvicorn app.main_console:app --reload --host "${HOST}" --port "${PORT}"
 

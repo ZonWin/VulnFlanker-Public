@@ -151,7 +151,7 @@ chmod +x ./vulnflanker-agent-linux-amd64
   -once=true
 ```
 
-新部署应使用 `/agent/v1`；旧版 Agent API 兼容开关仅在 v0.1 中保留。
+新部署应使用 `/agent/v1`；旧版 Agent API 默认关闭，仅在迁移旧 Agent 时临时启用。
 
 ## AI 信息补充
 
