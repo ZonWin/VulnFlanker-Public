@@ -1,7 +1,8 @@
 FROM golang:1.22-bookworm AS watchvuln-collector-builder
 
 ARG GOPROXY=https://goproxy.cn,direct
-ENV GOPROXY=${GOPROXY}
+ENV GOPROXY=${GOPROXY} \
+    GOTOOLCHAIN=auto
 
 WORKDIR /src
 
