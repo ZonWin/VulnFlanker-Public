@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     )
     cisa_kev_cve_record_fetch: bool = True
     cisa_kev_cve_record_workers: int = 8
-    cisa_kev_monitor_enabled: bool = True
+    cisa_kev_monitor_enabled: bool = False
     cisa_kev_monitor_interval_seconds: int = 86_400
     cisa_kev_monitor_limit: int | None = None
     cisa_kev_monitor_tick_seconds: int = 300

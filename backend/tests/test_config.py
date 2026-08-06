@@ -1,6 +1,12 @@
 from app.core.config import Settings
 
 
+def test_cisa_kev_monitor_is_disabled_by_default() -> None:
+    settings = Settings(_env_file=None)
+
+    assert settings.cisa_kev_monitor_enabled is False
+
+
 def test_watchvuln_monitor_limit_accepts_empty_env_value(monkeypatch) -> None:
     monkeypatch.setenv("VULNFLANKER_WATCHVULN_MONITOR_LIMIT", "")
 

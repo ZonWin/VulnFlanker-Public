@@ -1096,7 +1096,7 @@ def test_cisa_kev_monitor_endpoint_updates_runtime_config(client) -> None:
     response = client.get("/api/v1/intel/cisa-kev/monitor")
     assert response.status_code == 200
     payload = response.json()
-    assert payload["enabled"] is True
+    assert payload["enabled"] is False
     assert payload["interval_seconds"] == 86400
     assert payload["limit"] is None
     assert payload["latest_only"] is False
