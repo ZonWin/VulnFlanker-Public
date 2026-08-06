@@ -1,4 +1,4 @@
-# VulnFlanker Sideguard Vulnerability Monitoring Platform
+# VulnFlanker Vulnerability Monitoring Platform
 
 Chinese version: [README.md](README.md)
 
