@@ -1,4 +1,4 @@
-<img width="2492" height="1262" alt="image" src="https://github.com/user-attachments/assets/439d23a2-490d-4e94-9de4-86cb77497972" /># VulnFlanker 侧卫-漏洞监测平台
+# VulnFlanker 侧卫-漏洞监测平台
 
 English version: [README_EN.md](README_EN.md)
 
