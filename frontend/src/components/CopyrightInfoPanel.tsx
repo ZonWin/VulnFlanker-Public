@@ -4,7 +4,7 @@ import { ExternalLink, QrCode, Scale } from "lucide-react";
 
 import { platformLogoSrc, usePlatformSettings } from "@/app/platformSettings";
 
-const projectRepositoryUrl = "https://github.com/ZonWin/VulnFlanker-Public";
+const projectRepositoryUrl = "https://github.com/ZonWin/VulnFlanker";
 
 export default function CopyrightInfoPanel() {
   const { settings } = usePlatformSettings();
