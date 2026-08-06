@@ -66,9 +66,10 @@ production deployments.
 - Supports AI-assisted vulnerability information enrichment through configurable
   AI service providers.
 
-<img width="2492" height="918" alt="image" src="https://github.com/user-attachments/assets/40974fc6-e041-486c-88bd-189bcbe11237" />
-<img width="2492" height="875" alt="image" src="https://github.com/user-attachments/assets/8a3c2ceb-b6ef-4d1f-a752-6c689e2f216c" />
-<img width="2492" height="801" alt="image" src="https://github.com/user-attachments/assets/76290b68-c981-4da9-9ba5-a26ad030608f" />
+<img width="2492" height="1262" alt="image" src="https://github.com/user-attachments/assets/10c012f7-7e66-49a0-bdea-b9e156b5144a" />
+<img width="2492" height="1262" alt="image" src="https://github.com/user-attachments/assets/6351d794-cbe9-40e6-b1da-aa4ce60d1963" />
+<img width="2492" height="1262" alt="image" src="https://github.com/user-attachments/assets/31bb0a27-cabc-4d64-b23f-cbdfddead652" />
+<img width="2492" height="1262" alt="image" src="https://github.com/user-attachments/assets/2728627d-0414-4899-9257-ecc7ebf23fee" />
 
 ## Architecture
 
