@@ -21,7 +21,6 @@ VulnFlanker 是一个面向内部安全运营的漏洞影响评估与受控验�
 | 贡献指南 | [CONTRIBUTING_ZH.md](Documents/CONTRIBUTING_ZH.md) | [CONTRIBUTING_EN.md](Documents/CONTRIBUTING_EN.md) |
 | 安全策略 | [SECURITY_ZH.md](Documents/SECURITY_ZH.md) | [SECURITY_EN.md](Documents/SECURITY_EN.md) |
 | 第三方声明 | [THIRD_PARTY_NOTICES_ZH.md](Documents/THIRD_PARTY_NOTICES_ZH.md) | [THIRD_PARTY_NOTICES_EN.md](Documents/THIRD_PARTY_NOTICES_EN.md) |
-| 开源发布审查 | [OPEN_SOURCE_RELEASE_REVIEW_ZH.md](Documents/OPEN_SOURCE_RELEASE_REVIEW_ZH.md) | [OPEN_SOURCE_RELEASE_REVIEW_EN.md](Documents/OPEN_SOURCE_RELEASE_REVIEW_EN.md) |
 
 ## 功能
 

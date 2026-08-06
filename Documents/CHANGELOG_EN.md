@@ -3,7 +3,6 @@
 ## Unreleased
 
 - Preparing the first public source release.
-- Added an open source release review checklist.
 - Replaced base64-only AI API key storage with server-side encrypted storage
   backed by `VULNFLANKER_AI_KEY_ENCRYPTION_KEY`.
 - Updated frontend routing dependency usage to remove current npm audit

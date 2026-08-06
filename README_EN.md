@@ -40,7 +40,6 @@ production deployments.
 | Contributing guide | [CONTRIBUTING_ZH.md](Documents/CONTRIBUTING_ZH.md) | [CONTRIBUTING_EN.md](Documents/CONTRIBUTING_EN.md) |
 | Security policy | [SECURITY_ZH.md](Documents/SECURITY_ZH.md) | [SECURITY_EN.md](Documents/SECURITY_EN.md) |
 | Third-party notices | [THIRD_PARTY_NOTICES_ZH.md](Documents/THIRD_PARTY_NOTICES_ZH.md) | [THIRD_PARTY_NOTICES_EN.md](Documents/THIRD_PARTY_NOTICES_EN.md) |
-| Open source release review | [OPEN_SOURCE_RELEASE_REVIEW_ZH.md](Documents/OPEN_SOURCE_RELEASE_REVIEW_ZH.md) | [OPEN_SOURCE_RELEASE_REVIEW_EN.md](Documents/OPEN_SOURCE_RELEASE_REVIEW_EN.md) |
 
 ## What It Does
 
