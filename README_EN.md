@@ -1,4 +1,4 @@
-# VulnFlanker Vulnerability Monitoring Platform
+# VulnFlanker Sideguard Vulnerability Monitoring Platform
 
 Chinese version: [README.md](README.md)
 
@@ -14,21 +14,22 @@ to better fit real enterprise management needs.
 
 Another optimization is the addition of two AI completion mechanisms. When the
 collected threat intelligence is incomplete or low quality, VulnFlanker can use
-an **AI large model to extract vulnerability information** and an **AI large
-model with web search to supplement vulnerability information**. At present,
-only the KIMI API integration has been optimized. The goal is to reduce manual
+an **AI large model to extract vulnerability information** with
+OpenAI-compatible API support, and an **AI large model with web search to
+supplement vulnerability information**. At present, only the KIMI API
+integration has been optimized for web enrichment. The goal is to reduce manual
 vulnerability database maintenance and improve vulnerability assessment
-efficiency. Standardized vulnerability data sources are still preferred where
-available. The project uses the CISA vulnerability catalog as the default threat
-intelligence source, and more collectors will be added gradually.
+efficiency. **Standardized vulnerability data sources** are still preferred
+where available. The project uses the CISA vulnerability catalog as the default
+threat intelligence source, and more collectors will be added gradually.
 
-**This project is a preview release. The mainline version is still under
-development and internal testing. If you have needs or feedback, please open an
-issue; the author will respond as soon as possible. Thank you.**
+**If you have needs or feedback, please open an issue; the author will respond
+as soon as possible. Thank you.**
 
-The first public release is a preview version. It is useful for local demos,
-internal trials, and small controlled environments, but it is not a hardened
-internet-facing production stack.
+This project is suitable for local demos, internal use, and small controlled
+environments. Because the platform collects sensitive asset information, **it is
+not recommended to expose it to the public internet**. TLS is recommended for
+production deployments.
 
 ## Documentation
 
@@ -48,7 +49,8 @@ internet-facing production stack.
   - WatchVuln high-value vulnerability collection and push:
     `https://github.com/zema1/watchvuln`
   - WatchVuln is very useful. It was initially considered as a collector, but
-    the results were not ideal for this project. Thanks to the original author.
+    standardized-format data sources work better for this project. Thanks to
+    the original author.
 - Receives Linux host snapshots from the Agent ingress API.
 - Tracks assets, components, network exposure, Agent status, and snapshot
   freshness.
@@ -57,10 +59,12 @@ internet-facing production stack.
 - Produces risk queue entries with priority, risk factors, explanations, and
   stable risk codes.
 - Creates read-only verification tasks and records Agent-returned evidence.
+- Quickly monitor newly added vulnerability intelligence and assess the impact
+  scope across internal assets.
 - Provides a React console for assets, vulnerabilities, matching results, risk
   operations, verification tasks, AI settings, platform settings, and audit logs.
 - Supports AI-assisted vulnerability information enrichment through configurable
-  providers.
+  AI service providers.
 
 <img width="2492" height="918" alt="image" src="https://github.com/user-attachments/assets/40974fc6-e041-486c-88bd-189bcbe11237" />
 <img width="2492" height="875" alt="image" src="https://github.com/user-attachments/assets/8a3c2ceb-b6ef-4d1f-a752-6c689e2f216c" />
@@ -108,9 +112,18 @@ Edit `.env` before starting:
 
 - Set `VULNFLANKER_REDIS_PASSWORD` to a non-default value.
 - Set `VULNFLANKER_INTEL_WEBHOOK_TOKEN` to a non-default value.
-- Set `VULNFLANKER_AI_KEY_ENCRYPTION_KEY` before saving AI provider API keys.
-- Leave `VULNFLANKER_BOOTSTRAP_ADMIN_PASSWORD` empty if you want to use the
-  first-run setup page.
+- `VULNFLANKER_API_BIND` controls the backend API bind address; the default
+  localhost-only value is recommended.
+- `VULNFLANKER_AGENT_INGRESS_BIND` controls the Agent asset snapshot ingress
+  bind address. If you use the asset Agent feature, set it to an address mask
+  reachable by Agent hosts, such as `0.0.0.0`.
+- `VULNFLANKER_FRONTEND_BIND` controls the frontend bind address; the default
+  value is recommended.
+- For key security, set `VULNFLANKER_AI_KEY_ENCRYPTION_KEY` before saving AI
+  provider API keys.
+- You can set the administrator password directly with
+  `VULNFLANKER_BOOTSTRAP_ADMIN_PASSWORD`. Leave it empty to enable the
+  first-run password setup page on initial startup.
 
 Start the demo stack:
 
@@ -252,18 +265,18 @@ captures are intentionally not part of the public release branch.
 
 ## Security Boundary
 
-- Do not expose the console API, Agent Ingress, PostgreSQL, or Redis directly to
-  the public internet.
+- It is not recommended to expose the console API, Agent Ingress, PostgreSQL, or
+  Redis directly to the public internet.
 - Put HTTPS, authentication boundaries, network access control, and monitoring in
   front of any shared deployment.
 - Rotate all example passwords, webhook tokens, Redis passwords, bootstrap
   passwords, Agent secrets, and AI encryption keys.
-- Set secure cookies behind HTTPS by enabling
-  `VULNFLANKER_SESSION_COOKIE_SECURE=true`.
+- **Set secure cookies behind HTTPS by enabling
+  `VULNFLANKER_SESSION_COOKIE_SECURE=true`.**
 - Agent Bearer Secret authentication exists, but HMAC replay protection and
   secret rotation are future hardening items.
 - Current verification tasks are read-only. Automatic remediation and intrusive
-  proof-of-concept execution are intentionally out of scope for v0.1.
+  proof-of-concept execution are intentionally out of scope.
 
 See [`Documents/SECURITY_EN.md`](Documents/SECURITY_EN.md) for vulnerability
 reporting guidance.
