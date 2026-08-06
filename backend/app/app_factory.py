@@ -7,6 +7,7 @@ from app.api.console_router import console_router
 from app.api.router import api_router
 from app.core.config import get_settings
 from app.core.logging import configure_logging
+from app.version import APP_VERSION
 
 
 @asynccontextmanager
@@ -19,7 +20,7 @@ def _create_app(*, title: str, description: str, router: APIRouter, prefix: str)
     settings = get_settings()
     app = FastAPI(
         title=title,
-        version="0.1.0",
+        version=APP_VERSION,
         description=description,
         lifespan=lifespan,
     )

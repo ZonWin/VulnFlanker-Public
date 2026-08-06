@@ -5,6 +5,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from app.version import APP_VERSION
+
 
 class AgentHeartbeatIn(BaseModel):
     agent_id: str = Field(..., description="Agent 唯一标识")
@@ -23,7 +25,7 @@ class AgentEnrollIn(BaseModel):
     agent_id: str | None = None
     hostname: str
     platform: str = "linux"
-    version: str = "0.1.0"
+    version: str = APP_VERSION
 
 
 class AgentEnrollOut(BaseModel):

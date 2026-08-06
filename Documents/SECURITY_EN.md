@@ -1,13 +1,13 @@
 # Security Policy
 
-VulnFlanker is currently a v0.1 project intended for local demos, internal
-testing, and small controlled environments.
+VulnFlanker is currently a v0.9.0-prep preparation release intended for local
+demos, internal testing, and small controlled environments.
 
 ## Supported Versions
 
 | Version | Supported |
 | --- | --- |
-| 0.1.x | Security fixes are accepted before the first stable release. |
+| v0.9.0-prep | Security fixes are accepted before the first stable release. |
 
 ## Reporting a Vulnerability
 

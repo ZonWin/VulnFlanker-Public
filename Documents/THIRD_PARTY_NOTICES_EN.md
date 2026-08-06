@@ -1,7 +1,7 @@
 # Third Party Notices
 
 VulnFlanker depends on third-party open source software. This file summarizes
-the direct runtime dependencies for the public `v0.1` release. Transitive
+the direct runtime dependencies for the public `v0.9.0-prep` release. Transitive
 dependencies are resolved by the package manager lockfiles and module files in
 the repository.
 

@@ -2,7 +2,11 @@
 
 ## Unreleased
 
-- Preparing the first public source release.
+- Nothing yet.
+
+## v0.9.0-prep - 2026-08-06
+
+- Released the first public source preparation build.
 - Replaced base64-only AI API key storage with server-side encrypted storage
   backed by `VULNFLANKER_AI_KEY_ENCRYPTION_KEY`.
 - Updated frontend routing dependency usage to remove current npm audit
