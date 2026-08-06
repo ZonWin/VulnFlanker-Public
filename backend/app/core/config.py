@@ -11,7 +11,6 @@ class Settings(BaseSettings):
     api_prefix: str = "/api/v1"
     agent_api_prefix: str = "/agent/v1"
     agent_ingress_port: int = 8001
-    public_agent_ingress_url: str = "http://127.0.0.1:8001"
     legacy_agent_api_enabled: bool = False
     log_level: str = "INFO"
     system_timezone: str = "Asia/Shanghai"

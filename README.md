@@ -1,4 +1,4 @@
-# VulnFlanker 漏洞监测平台
+# VulnFlanker 侧卫-漏洞监测平台
 
 English version: [README_EN.md](README_EN.md)
 
@@ -6,11 +6,11 @@ VulnFlanker 是一个面向内部安全运营的漏洞影响评估与受控验�
 
 项目旨在实现"自动采集威胁情报 —— 自动完成资产更新 —— 自动完成漏洞比对 —— 自动完成风险评估"。自建**权重可调**的风险匹配流水线，以满足企业实际管理需求。
 
-本项目另一优化点在于加入了两组AI补全机制，在获取的威胁情报质量不佳时，允许通过**AI大模型提取漏洞信息**、允许**AI大模型联网搜索补充漏洞信息**（目前仅完成KIMI API的对接优化），尽可能减少人工维护漏洞库的步骤，提高漏洞评估效率。当然，如果有标准化的漏洞数据源再好不过，项目默认使用CISA漏洞库作为威胁信息采集源，后续将逐步新增采集器。
+本项目另一优化点在于加入了两组AI补全机制，在获取的威胁情报质量不佳时，允许通过**AI大模型提取漏洞信息**（支持OpenAI格式API对接）、允许**AI大模型联网搜索补充漏洞信息**（目前仅完成KIMI API的对接优化），尽可能减少人工维护漏洞库的步骤，提高漏洞评估效率。当然，如果有**标准化的漏洞数据源**再好不过，项目默认使用CISA漏洞库作为威胁信息采集源，后续将逐步新增采集器。
 
-**【本项目为预览版，主线版本仍在开发和内部测试，如有需求或意见可提issue，作者将尽快响应，谢谢。】**
+**【如有需求或意见可提issue，作者将尽快响应，谢谢。】**
 
-首个公开版本是预览版本，适用于本地演示、内部试用和小型受控环境，但并非经过安全加固、可直接面向互联网的生产系统。
+本项目适用于本地演示、内部使用和小型受控环境，因平台会收集资产敏感信息，**不建议对互联网开放**。生产环境部署时建议开启TLS加密。
 
 ## 文档导航
 
@@ -26,15 +26,16 @@ VulnFlanker 是一个面向内部安全运营的漏洞影响评估与受控验�
 ## 功能
 
 - 从 CISA KEV、阿里云 AVD 和内置 WatchVuln 采集器收集并标准化漏洞情报。
-    - WatchVuln 高价值漏洞采集与推送 'https://github.com/zema1/watchvuln'
-    - WatchVuln 项目功能非常好用，初期考虑以此作为采集器，不过效果不佳，但还是感谢原作者。
+    - WatchVuln 高价值漏洞采集与推送 https://github.com/zema1/watchvuln
+    - WatchVuln 项目功能非常好用，初期有考虑以此作为采集器，但本项目中使用标准化格式数据源较佳，还是感谢原作者。
 - 通过 Agent 接入 API 接收 Linux 主机快照。
 - 跟踪资产、组件、网络暴露情况、Agent 状态和快照新鲜度。
 - 依据产品、版本、操作系统、功能和暴露规则，评估漏洞是否影响资产。
 - 生成包含优先级、风险因素、说明和稳定风险代码的风险队列条目。
 - 创建只读验证任务，并记录 Agent 返回的证据。
+- **快速完成新增漏洞信息监控，内部资产受影响范围评估。**
 - 提供 React 控制台，用于管理资产、漏洞、匹配结果、风险处置、验证任务、AI 设置、平台设置和审计日志。
-- 支持通过可配置的服务提供商，使用 AI 辅助补充漏洞信息。
+- 支持通过可配置的AI服务提供商，使用 AI 辅助补充漏洞信息。
 
 <img width="2492" height="918" alt="image" src="https://github.com/user-attachments/assets/40974fc6-e041-486c-88bd-189bcbe11237" />
 <img width="2492" height="875" alt="image" src="https://github.com/user-attachments/assets/8a3c2ceb-b6ef-4d1f-a752-6c689e2f216c" />
@@ -82,8 +83,11 @@ Copy-Item .env.example .env
 
 - 将 `VULNFLANKER_REDIS_PASSWORD` 设置为非默认值。
 - 将 `VULNFLANKER_INTEL_WEBHOOK_TOKEN` 设置为非默认值。
-- 在保存 AI 服务提供商 API 密钥前，设置 `VULNFLANKER_AI_KEY_ENCRYPTION_KEY`。
-- 如果要使用首次运行设置页面，请将 `VULNFLANKER_BOOTSTRAP_ADMIN_PASSWORD` 留空。
+- `VULNFLANKER_API_BIND` 为后端接口设置，建议保持默认仅本地可访问。
+- `VULNFLANKER_AGENT_INGRESS_BIND` 为Agent资产数据快照上报接口设置，如需使用资产Agent功能，则建议设置为资产可访问的地址掩码（如0.0.0.0）。
+- `VULNFLANKER_FRONTEND_BIND` 为前端访问接口设置，建议保持默认。
+- 为保证密钥安全，在保存 AI 服务提供商 API 密钥前，需设置 `VULNFLANKER_AI_KEY_ENCRYPTION_KEY`。
+- 可于 `VULNFLANKER_BOOTSTRAP_ADMIN_PASSWORD` 直接设定管理员账号密码，留空则会在初次启动时开启首次启动的密码设定页面。
 
 启动演示环境：
 
@@ -210,12 +214,12 @@ Documents/                  中英文项目说明文档
 
 ## 安全边界
 
-- 不要将控制台 API、Agent 接入服务、PostgreSQL 或 Redis 直接暴露在公网。
+- 不建议将控制台 API、Agent 接入服务、PostgreSQL 或 Redis 直接暴露在公网。
 - 任何共享部署的前端都应配置 HTTPS、身份认证边界、网络访问控制和监控。
 - 轮换所有示例密码、Webhook 令牌、Redis 密码、引导密码、Agent 密钥和 AI 加密密钥。
-- 在 HTTPS 环境下启用 `VULNFLANKER_SESSION_COOKIE_SECURE=true`，以设置安全 Cookie。
+- **在 HTTPS 环境下启用 `VULNFLANKER_SESSION_COOKIE_SECURE=true`，以设置安全 Cookie。**
 - 系统已支持 Agent Bearer Secret 身份认证，但 HMAC 重放保护和密钥轮换仍是后续安全加固事项。
-- 当前验证任务均为只读。自动修复和侵入式概念验证执行有意不纳入 v0.1 范围。
+- 当前验证任务均为只读。自动修复和侵入式概念验证执行有意不纳入范围。
 
 漏洞报告指引请参阅 [`Documents/SECURITY_ZH.md`](Documents/SECURITY_ZH.md)。
 
